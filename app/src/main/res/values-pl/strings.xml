@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Schowek</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="add">Dodaj</string>
+    <string name="auto_login">Auto logowanie</string>
+    <string name="cancel">Anuluj</string>
+    <string name="clean_all">Usuń wszystkie</string>
+    <string name="copy_from_ext_SD">Skopiuj z karty zewnętrznej do telefonu</string>
+    <string name="copy_to_ext_SD">Skopiuj z telefonu na kartę zewnętrzną</string>
+    <string name="delete">Usunąć?</string>
+    <string name="delete_confirm">Czy napewno usunąć:</string>
+    <string name="delete_failed">Usuwanie się nie powiodło.</string>
+    <string name="delete_successful">Usuwanie się powiodło.</string>
+    <string name="empty_or_cancelled">Brak treści lub wciśnięto anuluj.</string>
+    <string name="enter_password">Podaj hasło</string>
+    <string name="login">Zaloguj</string>
+    <string name="language">Język</string>
+    <string name="language_pl">Polski</string>
+    <string name="language_en">Angielski</string>
+    <string name="not_found">Element nie znaleziony</string>
+    <string name="not_logged">Nie zalogowano.</string>
+    <string name="ok">OK</string>
+    <string name="save">Zapisz</string>
+    <string name="title_activity_db_view">Widok bazy danych</string>
+    <string name="title_activity_db_view_add">Dodaj/Edytuj</string>
+    <string name="update_failed">Aktualizacja się nie powiodła.</string>
+    <string name="update_successful">Aktualizacja się powiodła.</string>
+    <string name="wrong_password">Błędne hasło.</string>
+</resources>
