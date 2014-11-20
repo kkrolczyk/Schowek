@@ -13,5 +13,6 @@ Todo: add tags
 
 Todo: different db schemas for different use cases
 
+Todo: fix crash on empty password. Actually remove that ridiculous password protection and do something sane.
 
 # Table of contents
