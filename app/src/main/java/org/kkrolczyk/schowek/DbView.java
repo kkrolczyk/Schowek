@@ -26,11 +26,33 @@ import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class DbView extends Activity
 {
     enum copy_direction { TOEXTSD, FROMEXTSD };
-    DBAdapter db = new DBAdapter(this);
+
+    private static final String DBNAME = "notki.db";
+    private static final String TBNAME = "notatki";
+    private static final HashMap<String, String> configuration;
+    static
+    {
+        configuration = new HashMap<String, String>();
+        configuration.put("_id", "INTEGER PRIMARY KEY autoincrement");
+        configuration.put("timestamp", "TIMESTAMP");
+        configuration.put("note", "TEXT");
+    }
+    private static final Bundle db_adapter_data;
+    static
+    {
+        db_adapter_data = new Bundle();
+        db_adapter_data.putString("table_name", TBNAME);
+        db_adapter_data.putString("dbase_name", DBNAME);
+        db_adapter_data.putSerializable("dbase_kv", configuration);
+    }
+
+
+    DBAdapter db = new DBAdapter(this, db_adapter_data);
     SimpleCursorAdapter dataAdapter;
 
     @Override
@@ -147,8 +169,8 @@ public class DbView extends Activity
             //File internal_sd = Environment.getExternalStorageDirectory();
 
             //if (sd.canWrite()) {
-            String currentDBPath = "//data//"+this.getPackageName()+"//databases//"+db.DATABASE_NAME;
-            String backupDBPath = db.DATABASE_NAME;
+            String currentDBPath = "//data//" + this.getPackageName() + "//databases//" + DBNAME;
+            String backupDBPath = DBNAME;
             File currentDB, backupDB;
             if (direction == copy_direction.FROMEXTSD) { // swap dirs == swap(currentDB, backupDB);
                 currentDB = new File(sd, backupDBPath);
@@ -189,8 +211,8 @@ public class DbView extends Activity
 public void showAll(){
 
     String[] columns = new String[] {  // The desired columns to be bound
-            db.KEY_TIMESTAMP,
-            db.KEY_NOTE,
+            "timestamp",
+            "note",
     };
 
     // the XML defined views which the data will be bound to
@@ -254,7 +276,11 @@ public void showAll(){
 
     public void UpdateItem(long id, String note) {
         db.open();
-        if (db.updateItem(id, timestamp(), note))
+        HashMap<String,String> hm = new HashMap<String,String>();
+        hm.put ("timestamp",timestamp());
+        hm.put ("note", note);
+
+        if (db.updateItem(id, hm))
             Toast.makeText(this, getString(R.string.update_successful),
                     Toast.LENGTH_LONG).show();
         else
@@ -265,7 +291,10 @@ public void showAll(){
     public void PutItem(String note) {
         db.open();
         //long id =
-        db.insertItem(timestamp(), note);
+        HashMap<String,String> hm = new HashMap<String,String>();
+        hm.put ("timestamp",timestamp());
+        hm.put ("note", note);
+        db.insertItem(hm);
         db.close();
     }
 
