@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -120,7 +118,7 @@ public class MainActivity extends Activity {
         }
 
         if (allow_login) {
-            Intent intent = new Intent(this, DbView.class);
+            Intent intent = new Intent(this, NoteView.class);
             startActivity(intent); //intent.putExtra(EXTRA_MESSAGE, message);
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.not_logged), Toast.LENGTH_LONG).show();

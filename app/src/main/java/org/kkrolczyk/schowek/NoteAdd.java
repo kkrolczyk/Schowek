@@ -8,14 +8,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 
-public class DbViewAdd extends Activity {
+public class NoteAdd extends Activity {
 
     EditText textField;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_db_view_add);
+        setContentView(R.layout.activity_note_add);
 
         Intent intent = getIntent();
         String message = intent.getStringExtra("content");

@@ -28,7 +28,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 
-public class DbView extends Activity
+public class NoteView extends Activity
 {
     enum copy_direction { TOEXTSD, FROMEXTSD };
 
@@ -58,12 +58,12 @@ public class DbView extends Activity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_db_view);
+        setContentView(R.layout.activity_note_view);
     }
 
     protected void onStart() {
         super.onStart();
-        //Log.i("SCHOWEK", "DbView onStart");
+        //Log.i("SCHOWEK", "NoteView onStart");
         showAll();
     }
 
@@ -116,10 +116,10 @@ public class DbView extends Activity
 ///////////////////////////////////  DELEGATE WORK   ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void add_or_update(View v){
+    public void add_or_update_note(View v){
 
         int request_code = 0;
-        Intent add_note_intent = new Intent(DbView.this, DbViewAdd.class);
+        Intent add_note_intent = new Intent(NoteView.this, NoteAdd.class);
         add_note_intent.putExtra("content", "");
         startActivityForResult(add_note_intent, request_code);
     }
@@ -242,7 +242,7 @@ public void showAll(){
 
             int request_code = 1;
             // inside inner anonymous class so "ACTIVITY.this" below.
-            Intent note_edit_intent = new Intent(DbView.this, DbViewAdd.class);
+            Intent note_edit_intent = new Intent(NoteView.this, NoteAdd.class);
             note_edit_intent.putExtra("content", GetItem(id_clicked));
             note_edit_intent.putExtra("item_id", id_clicked);
             startActivityForResult(note_edit_intent, request_code);
@@ -253,7 +253,7 @@ public void showAll(){
             @Override
             public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long  id_clicked ){
 
-                AlertDialog.Builder alert = new AlertDialog.Builder(DbView.this);
+                AlertDialog.Builder alert = new AlertDialog.Builder(NoteView.this);
                 alert.setTitle(getString(R.string.delete));
                 alert.setMessage(getString(R.string.delete_confirm) + pos);
                 alert.setNegativeButton(getString(R.string.cancel), null);

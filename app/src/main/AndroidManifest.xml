@@ -21,11 +21,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.kkrolczyk.schowek.DbView"
+            android:name=".NoteView"
             android:label="@string/title_activity_db_view" >
         </activity>
         <activity
-            android:name="org.kkrolczyk.schowek.DbViewAdd"
+            android:name=".NoteAdd"
             android:label="@string/title_activity_db_view_add" >
         </activity>
     </application>
