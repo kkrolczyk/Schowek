@@ -36,8 +36,8 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="domyslna_glowna_lista"
-            android:id="@+id/radioButton1"
+            android:text="@string/selector_note_activity"
+            android:id="@+id/radio_note_activity"
             android:layout_gravity="center_vertical"
             android:checked="true" />
 
@@ -49,8 +49,8 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="bilans"
-            android:id="@+id/radioButton2"
+            android:text="@string/selector_bilans_activity"
+            android:id="@+id/radio_bilans_activity"
             android:layout_gravity="center_vertical"
             android:checked="false" />
 
@@ -62,8 +62,8 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="male_itemy"
-            android:id="@+id/radioButton3"
+            android:text="@string/selector_smallitems_activity"
+            android:id="@+id/radio_small_items_activity"
             android:checked="false" />
 
         <Space
@@ -74,8 +74,8 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TODO"
-            android:id="@+id/radioButton4"
+            android:text="@string/selector_todo_activity"
+            android:id="@+id/radio_todo_activity"
             android:checked="false" />
     </RadioGroup>
 </RelativeLayout>

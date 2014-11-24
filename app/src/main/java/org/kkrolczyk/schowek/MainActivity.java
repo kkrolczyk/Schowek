@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.util.Locale;
@@ -118,7 +119,25 @@ public class MainActivity extends Activity {
         }
 
         if (allow_login) {
-            Intent intent = new Intent(this, NoteView.class);
+            Class activity_to_run;
+            switch(((RadioGroup)findViewById(R.id.wybor_grupy)).getCheckedRadioButtonId()) {
+                case R.id.radio_note_activity:
+                    activity_to_run = NoteView.class;
+                    break;
+                case R.id.radio_bilans_activity:
+                    activity_to_run = BilansView.class;
+                    break;
+                case R.id.radio_small_items_activity:
+                    //activity_to_run = SmallItemsView.class;
+                    break;
+                case R.id.radio_todo_activity:
+                    //activity_to_run = TodoView.class;
+                    break;
+                default:
+                    activity_to_run = null;
+
+            }
+            Intent intent = new Intent(this, activity_to_run);
             startActivity(intent); //intent.putExtra(EXTRA_MESSAGE, message);
         } else {
             Toast.makeText(getApplicationContext(), getString(R.string.not_logged), Toast.LENGTH_LONG).show();

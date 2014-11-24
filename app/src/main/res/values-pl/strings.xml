@@ -3,8 +3,13 @@
     <string name="app_name">Schowek</string>
     <string name="action_settings">Ustawienia</string>
     <string name="add">Dodaj</string>
+    <string name="atm">bankomat</string>
     <string name="auto_login">Auto logowanie</string>
     <string name="cancel">Anuluj</string>
+    <string name="card">Karta</string>
+    <string name="card2">Karta2</string>
+    <string name="cash">Gotówka</string>
+    <string name="calendar">Kalendarz</string>
     <string name="clean_all">Usuń wszystkie</string>
     <string name="copy_from_ext_SD">Skopiuj z karty zewnętrznej do telefonu</string>
     <string name="copy_to_ext_SD">Skopiuj z telefonu na kartę zewnętrzną</string>
@@ -27,4 +32,10 @@
     <string name="update_failed">Aktualizacja się nie powiodła.</string>
     <string name="update_successful">Aktualizacja się powiodła.</string>
     <string name="wrong_password">Błędne hasło.</string>
+    <string name="time">Czas</string>
+    <string name="selector_note_activity">Notatki</string>
+    <string name="selector_bilans_activity">Bilans</string>
+    <string name="selector_smallitems_activity">Krotkie teksty do zapamiętania</string>
+    <string name="selector_todo_activity">Do zrobienia (To-Do)</string>
+
 </resources>
