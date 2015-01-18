@@ -1,43 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="add">Add</string>
+    <string name="add_input">input here&#8230;</string>
+    <string name="add_category">add category</string>
+    <string name="add_item">add item</string>
     <string name="app_name">Schowek</string>
     <string name="action_settings">Settings</string>
     <string name="auto_login">Auto-login</string>
-    <string name="add">Add</string>
-    <string name="atm">ATM</string>
-    <string name="empty_or_cancelled">Empty contents or cancel has been pressed</string>
+    <string name="allow_no_pass">Allow no password</string>
+
+    <string name="backup_store">Save backup</string>
+    <string name="backup_load">Load backup</string>
+    <string name="bilans_status_account_txt_1">Account status (1)</string>
+    <string name="bilans_status_account_txt_2">Account status (2) /assets</string>
+    <string name="bilans_status_debts_minus">To return</string>
+    <string name="bilans_status_debts_plus">To collect</string>
+    <string name="bilans_status_wallet_txt">Wallet status</string>
+    <string name="bilans_view_filter_displayed_category_hint">filter for single category&#8230;</string>
+
+    <string name="bilans_paid_with_cash">Cash</string>
+    <string name="bilans_paid_with_card_1">Card 1</string>
+    <string name="bilans_paid_with_card_2">Lunchcard</string>
+    <string name="bilans_atm_withdrawal">ATM</string>
+
+    <string name="bilans_status_wallet_value">0.0</string>
+    <string name="bilans_status_value">0.0</string>
+    <string name="bilans_status_account_1_value">0.0</string>
+    <string name="bilans_info_add_new_or_select">Add new item name above OR select from drop down menu below</string>
+
     <string name="clean_all">Purge table (!)</string>
-    <string name="enter_password">Enter password</string>
-    <string name="copy_to_ext_SD">copy to external SD card</string>
-    <string name="copy_from_ext_SD">copy from external SD card</string>
-    <string name="calendar">Calendar</string>
-    <string name="cash">Cash</string>
-    <string name="card">Card</string>
-    <string name="card2">Card2</string>
     <string name="cancel">Cancel</string>
-    <string name="ok">OK</string>
-    <string name="delete">Delete?</string>
+
+    <string name="debts_button_txt">Debts:borrowed/lend</string>
+    <string name="delete_question">Delete?</string>
     <string name="delete_confirm">Are you sure you want to delete:</string>
     <string name="delete_successful">Delete successful.</string>
     <string name="delete_failed">Delete failed.</string>
-    <string name="not_found">Item not found</string>
-    <string name="not_logged">Not logged in.</string>
+    <string name="discarded_new_entry">Discarded adding new entry.</string>
+    <string name="default_backup_to_ext">Backup to ext (if not=>to internal)</string>
+
+    <string name="empty_or_cancelled">Empty contents or cancel has been pressed</string>
+    <string name="empty_input">No input!</string>
+    <string name="get_password">Enter password</string>
+
     <string name="language">Language</string>
     <string name="language_pl">Polish</string>
     <string name="language_en">English</string>
     <string name="login">Login</string>
+    <string name="not_found">Item not found</string>
+    <string name="not_logged">Not logged in.</string>
+    <string name="ok">OK</string>
+    <string name="pass_too_short">password too short, use at least 3 digits&#8230;</string>
     <string name="save">Save</string>
-    <string name="time">Time</string>
-    <string name="title_activity_db_view">Database View</string>
-    <string name="title_activity_db_view_add">Add/Edit</string>
+    <string name="set_password">Set password</string>
+    <string name="title_activity_bilans">Cash flow activity</string>
+    <string name="title_activity_bilans_view">Bilans View</string>
+    <string name="title_activity_bilans_add">Add/Edit shopping item</string>
+    <string name="title_activity_notes">Notes activity</string>
+    <string name="title_activity_notes_view">Notes View</string>
+    <string name="title_activity_notes_add">Add/Edit note</string>
+
+    <string name="title_activity_smallitems">Small items to remember</string>
+    <string name="title_activity_todo">To-Do</string>
+
     <string name="update_successful">Update successful.</string>
     <string name="update_failed">Update failed.</string>
-    <string name="wrong_password">Wrong password.</string>
-    <string name="selector_note_activity">Notes activity</string>
-    <string name="selector_bilans_activity">Cash flow activity</string>
-    <string name="selector_smallitems_activity">Small items to remember</string>
-    <string name="selector_todo_activity">To-Do</string>
-
+    <string name="wrong_password">Wrong password - or password not set.</string>
 
 </resources>

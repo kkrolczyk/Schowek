@@ -19,7 +19,9 @@ public class NoteAdd extends Activity {
 
         Intent intent = getIntent();
         String message = intent.getStringExtra("content");
+
         textField = ((EditText) findViewById(R.id.Update_or_new_view));
+        textField.setTextSize(intent.getFloatExtra("fontsize", 10));
         textField.setText(message);
         textField.setSelection(message.length());
     }
@@ -38,6 +40,7 @@ public class NoteAdd extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
+        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -53,6 +56,8 @@ public class NoteAdd extends Activity {
         this.setResult(RESULT_OK, intent);
         finish();
     }
+
+
     public void cancel_clicked(View v){
 
         Intent intent = this.getIntent();

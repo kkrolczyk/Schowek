@@ -5,23 +5,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
+    <!--android:layout_below="@+id/password"-->
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/login"
         android:id="@+id/login_button"
-        android:layout_below="@+id/password"
-        android:onClick="validateLogin"
+        android:onClick="runAfterVerification"
         android:layout_centerHorizontal="true" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="numberPassword"
-        android:ems="10"
-        android:id="@+id/password"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+    <!--<EditText-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:inputType="numberPassword"-->
+        <!--android:ems="10"-->
+        <!--android:id="@+id/password"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_centerHorizontal="true" />-->
 
     <RadioGroup
         android:layout_width="fill_parent"
@@ -30,15 +30,16 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
         android:orientation="vertical"
-        android:id="@+id/wybor_grupy"
+        android:id="@+id/activity_selection_group"
         android:weightSum="1">
 
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/selector_note_activity"
-            android:id="@+id/radio_note_activity"
+            android:text="@string/title_activity_notes"
+            android:id="@+id/activity_note_selected"
             android:layout_gravity="center_vertical"
+            android:onClick="updateSelectedActivity"
             android:checked="true" />
 
         <Space
@@ -49,11 +50,14 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/selector_bilans_activity"
-            android:id="@+id/radio_bilans_activity"
+            android:text="@string/title_activity_bilans"
+            android:id="@+id/activity_bilans_selected"
             android:layout_gravity="center_vertical"
+            android:onClick="updateSelectedActivity"
             android:checked="false" />
 
+
+        <!--
         <Space
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,7 +67,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/selector_smallitems_activity"
-            android:id="@+id/radio_small_items_activity"
+            android:id="@+id/selector_smallitems_activity" vs "@+id/activity_smallitems_selected"
+            android:onClick="updateSelectedActivity"
             android:checked="false" />
 
         <Space
@@ -75,7 +80,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/selector_todo_activity"
-            android:id="@+id/radio_todo_activity"
-            android:checked="false" />
+            android:id="@+id/selector_smallitems_activity"
+            android:onClick="updateSelectedActivity"
+            android:checked="false" /> -->
     </RadioGroup>
 </RelativeLayout>

@@ -6,27 +6,164 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="org.kkrolczyk.schowek.BilansView">
 
-    <!-- NEED DIFFERENT ID ? Probably so.
-         But will check for learning purposes.
-         also todo:cleanup -->
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/my_list_view"
-        android:layout_below="@+id/add_new_bilans"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        >
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/add"
-        android:id="@+id/add_new_bilans"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/my_list_view"
-        android:layout_alignEnd="@+id/my_list_view"
-        android:onClick="add_or_update_bilans" />
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bilans_status_wallet_txt"
+                    android:id="@+id/bilans_status_wallet_txt"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="@string/bilans_status_wallet_value"
+                    android:id="@+id/bilans_status_wallet_value"
+                    android:layout_column="1"
+                    android:layout_weight="1" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bilans_status_account_txt_1"
+                    android:id="@+id/bilans_status_header_1"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:text="@string/bilans_status_value"
+                    android:id="@+id/bilans_status_value_1"
+                    android:layout_column="1"
+                    android:layout_weight="1" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bilans_status_account_txt_2"
+                    android:id="@+id/bilans_status_header_2"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:text="@string/bilans_status_value"
+                    android:id="@+id/bilans_status_value_2"
+                    android:layout_column="1"
+                    android:layout_weight="1" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bilans_status_debts_minus"
+                    android:id="@+id/bilans_status_to_return"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:text="@string/bilans_status_account_1_value"
+                    android:id="@+id/bilans_status_to_return_value"
+                    android:layout_column="1"
+                    android:layout_weight="1" />
+            </TableRow>
+            <TableRow
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/bilans_status_debts_plus"
+                    android:id="@+id/bilans_status_to_collect"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:gravity="right"
+                    android:text="@string/bilans_status_account_1_value"
+                    android:id="@+id/bilans_status_to_collect_value"
+                    android:layout_column="1"
+                    android:layout_weight="1" />
+            </TableRow>
+        </TableLayout>
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/debts_button_txt"
+            android:id="@+id/borrow_lend_button" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/add"
+            android:id="@+id/add_new_bilans"
+            android:onClick="bilans_add_new" />
+
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="15dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bilans_filter_category"
+            android:layout_gravity="center_horizontal"
+            android:hint="@string/bilans_view_filter_displayed_category_hint"
+            android:inputType="text" />
+
+        <ListView
+            android:layout_width="match_parent"
+            android:id="@+id/bilans_list_view"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </RelativeLayout>

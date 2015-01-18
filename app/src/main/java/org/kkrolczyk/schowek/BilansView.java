@@ -1,41 +1,32 @@
 package org.kkrolczyk.schowek;
 
-// todo: szukaj notki
-// todo: filtruj tagi
-// todo: opcja sortuj wg daty a nie id
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.database.Cursor;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
 
-public class NoteView extends Activity
+public class BilansView extends Activity
 {
-    final String TAG = "S_NoteView";
-    float FontSize = (float)12.0;
-
-    NoteDBAdapter db = new NoteDBAdapter(this);
+    final String TAG = "S_BilansView";
+    BilansDBAdapter db = new BilansDBAdapter(this);
     SimpleCursorAdapter dataAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_note_view);
+        setContentView(R.layout.activity_bilans_view);
     }
 
     @Override
@@ -50,41 +41,6 @@ public class NoteView extends Activity
 //        Log.i(TAG,"DB on RE start"); //after pause and after activity for result has returned...
 //    }
 
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////// handle volume keys as font size changer //////////////////////
-////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // TODO these two seem to be memory heavy = optimize?
-    private void SizeChanger(){
-
-        ListView listView = (ListView) findViewById(R.id.my_list_view);
-        for (int i = listView.getFirstVisiblePosition(); i <= listView.getChildCount(); i++) {
-            if (listView.getChildAt(i) != null) {
-                LinearLayout ll = (LinearLayout) listView.getChildAt(i); //hardcoded to linear layout but...
-                for (int j=0; j< ll.getChildCount(); ++j) {
-                    ((TextView) ll.getChildAt(j)).setTextSize(FontSize);
-                }
-            }
-        }
-    }
-
-    @Override
-    public boolean dispatchKeyEvent(KeyEvent event) {
-        int keyCode = event.getKeyCode();
-        switch (keyCode) {
-            case KeyEvent.KEYCODE_VOLUME_UP:
-                ++FontSize;
-                SizeChanger();
-                return true;
-            case KeyEvent.KEYCODE_VOLUME_DOWN:
-                FontSize--;
-                SizeChanger();
-                return true;
-            default:
-                return super.dispatchKeyEvent(event);
-        }
-    }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////   MENU   ///////////////////////////////////////////////////////
@@ -106,14 +62,16 @@ public class NoteView extends Activity
                 db.close();
                 break;
             case R.id.copy_to_ext_SD:
+                //Log.d (TAG, "COPYING DB to sdcard");
                 db.BackupDB(MyUtils.db_copy_direction.STORE, getPreferences(0).getBoolean("default_backup_to_external", true));
                 break;
             case R.id.copy_from_ext_SD:
+                //Log.d (TAG, "COPYING DB from sdcard");
                 db.BackupDB(MyUtils.db_copy_direction.LOAD, getPreferences(0).getBoolean("default_backup_to_external", true));
                 break;
             case R.id.default_backup_to_ext:
                 getPreferences(0).edit().putBoolean("default_backup_to_external", !getPreferences(0).getBoolean("default_backup_to_external", true)).commit();
-                Log.d(TAG," BACKUPS TO ext? "+getPreferences(0).getBoolean("default_backup_to_external", true) );
+                Log.d(TAG, " BACKUPS TO ext? " + getPreferences(0).getBoolean("default_backup_to_external", true));
                 break;
             default:
                 Log.e (TAG, "MENU = WTF?");
@@ -131,41 +89,56 @@ public class NoteView extends Activity
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void prepare_intent(int request_code, long invoking_id){
-        Intent intent = new Intent(NoteView.this, NoteAdd.class);
+        Intent intent = new Intent(BilansView.this, BilansAdd.class);
+
         if (invoking_id > 0) {
+            HashMap<String, String> map = GetItem(invoking_id);
             intent.putExtra("item_id", invoking_id);
-            intent.putExtra("content", GetItem(invoking_id));
+            String timestamp[] = map.get("data").split(" ");
+            intent.putExtra("data", timestamp[0]);
+            intent.putExtra("time", timestamp[1]);
+            intent.putExtra("tytul", map.get("tytul"));
         } else {
-            intent.putExtra("content", "");
+            intent.putExtra("data", MyUtils.datenow());
+            intent.putExtra("time", MyUtils.timenow());
+            intent.putExtra("amount", "");
         }
-        intent.putExtra("fontsize", FontSize);
         startActivityForResult(intent, request_code);
     }
 
-    public void note_add_new(View v){
+    public void bilans_add_new(View v){
         prepare_intent(0, -1);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         Boolean activity_success = false;
         switch (resultCode) {
-            case -1: //success
-                activity_success = data.getStringExtra("content").length() > 0;
+            case RESULT_OK:
+                activity_success = true;
                 break;
             default:
-                break;// failed
+                Toast.makeText(getApplicationContext(),
+                        getString(R.string.discarded_new_entry), Toast.LENGTH_LONG).show();
+                break; // failed
         }
         if (activity_success)
             switch (requestCode) {
                 case 0:
-                    PutItem(data.getStringExtra("content"));
-                    break;
-                case 1:
-                    long update_id = data.getLongExtra("item_id",-1);
-                    if (update_id > 0)
-                        UpdateItem(update_id, data.getStringExtra("content"));
-                    else
-                        Log.e(TAG, "WRONG item id?");
+                    String timestamp = intent.getStringExtra("data") + " " + intent.getStringExtra("time");
+
+//                  Log.e("BBB", "all ?:"+intent.getExtras().keySet());
+//                  Log.e("BBB", "all ?:"+intent.getExtras().toString());
+//                  // great for debugging bundles.
+//                    for (String key : bundle.keySet()) {
+//                        Object value = bundle.get(key);
+//                        Log.d("TAG HERE", String.format("%s %s (%s)", key,
+//                                value.toString(), value.getClass().getName()));
+//                    }
+                    int parametry = intent.getIntExtra("parametry", 0);
+                    String kwota = String.valueOf(intent.getDoubleExtra("shopping_sum", 0.0));
+                    String tytul = intent.getStringExtra("category");
+                    String szczegoly = intent.getStringExtra("items_serialized");
+                    PutItem(timestamp, kwota, parametry, tytul, szczegoly);
                     break;
                 default:
                     Log.e(TAG, "WRONG REQUEST CODE TO START ACTIVITY FOR RESULT ?");
@@ -173,8 +146,8 @@ public class NoteView extends Activity
         else
             Toast.makeText(getApplicationContext(),
                     getString(R.string.empty_or_cancelled), Toast.LENGTH_LONG).show();
-
     }
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////   DELEGATE WORK END   ///////////////////////////////////////////
@@ -185,17 +158,22 @@ public class NoteView extends Activity
 ///////////////////////////////////   DB ITEMS   ///////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-public void showAll() {
+public void showAll(){
 
-    String[] columns = new String[]{  // The desired columns to be bound
-            "timestamp",
-            "note",
+    String[] columns = new String[] {  // The desired columns to be bound
+            "data",
+            "tytul",
+            "kasa",
+            "szczegoly",
+            //"parametry"
     };
 
     // the XML defined views which the data will be bound to
-    int[] to = new int[]{
-            R.id.note_field_1,
-            R.id.note_field_2,
+    int[] to = new int[] {
+            R.id.data,
+            R.id.tytul,
+            R.id.kwota,
+            R.id.szczegoly,
     };
 
     db.open();
@@ -203,13 +181,13 @@ public void showAll() {
     // create the adapter using the cursor pointing to the desired data
     //as well as the layout information
     dataAdapter = new SimpleCursorAdapter(
-            this, R.layout.notes_table,
+            this, R.layout.bilans_table,
             db.getAllItems(),
             columns,
             to,
             0); //flags
 
-    ListView listView = (ListView) findViewById(R.id.my_list_view);
+    ListView listView = (ListView) findViewById(R.id.bilans_list_view);
     listView.setAdapter(dataAdapter);
     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -217,44 +195,40 @@ public void showAll() {
         public void onItemClick(AdapterView<?> arg0, View arg1,
                                 int position_of_of_view_in_adapter, long id_clicked) {
 
-            prepare_intent(1, id_clicked);
-//            int request_code = 1;
-//            // inside inner anonymous class so "ACTIVITY.this" below.
-//            Intent note_edit_intent = new Intent(NoteView.this, NoteAdd.class);
-//            note_edit_intent.putExtra("content", GetItem(id_clicked));
-//            note_edit_intent.putExtra("item_id", id_clicked);
-//            startActivityForResult(note_edit_intent, request_code);
+            prepare_intent(0, id_clicked);
         }
     });
     listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-        @Override
-        public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long id_clicked) {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long  id_clicked ){
 
-            AlertDialog.Builder alert = new AlertDialog.Builder(NoteView.this);
-            alert.setTitle(getString(R.string.delete_question));
-            alert.setMessage(getString(R.string.delete_confirm) + pos);
-            alert.setNegativeButton(getString(R.string.cancel), null);
-            alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    DelItem(id_clicked);
-                    db.open();
-                    dataAdapter.changeCursor(db.getAllItems());
-                    db.close();
-                    dataAdapter.notifyDataSetChanged();
-                }
-            });
-            alert.show();
-            return true;
-        }
-    });
+                AlertDialog.Builder alert = new AlertDialog.Builder(BilansView.this);
+                alert.setTitle(getString(R.string.delete_question));
+                alert.setMessage(getString(R.string.delete_confirm) + pos);
+                alert.setNegativeButton(getString(R.string.cancel), null);
+                alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DelItem(id_clicked);
+                        db.open();
+                        dataAdapter.changeCursor(db.getAllItems());
+                        db.close();
+                        dataAdapter.notifyDataSetChanged();
+                    }});
+                alert.show();
+                return true;
+            }
+        });
 
     db.close();
+
 }
 
-    public void UpdateItem(long id, String note) {
+
+    public void UpdateItem(long id, String timestamp, String kasa, int parametry, String tytul, String szczegoly) {
         db.open();
-        if (db.updateItem(id, MyUtils.timestamp(), note))
+
+        if (db.updateItem(id, timestamp, kasa, parametry, tytul, szczegoly))
             Toast.makeText(this, getString(R.string.update_successful),
                     Toast.LENGTH_LONG).show();
         else
@@ -262,14 +236,14 @@ public void showAll() {
                     Toast.LENGTH_LONG).show();
     }
 
-    public void PutItem(String note) {
+    public void PutItem(String timestamp, String kasa, int parametry, String tytul, String szczegoly) {
         db.open();
-        //HashMap<String,String> hm = new HashMap<String,String>();
-        //hm.put ("timestamp",MyUtils.timestamp());
-        //hm.put ("note", note);
-        db.insertItem( MyUtils.timestamp(), note );
+        //long id =
+        Log.e(TAG," " + timestamp + " " + kasa + " " + parametry + " " + tytul + " " + szczegoly);
+        db.insertItem(timestamp, kasa, parametry, tytul, szczegoly);
         db.close();
     }
+
 
     public void DelItem(long id)
     {
@@ -284,14 +258,21 @@ public void showAll() {
     }
 
 
-    public String GetItem(long id)
+    public HashMap<String, String> GetItem(long id)
     {
         db.open();
         Cursor c = db.getItem(id);
-        if (c.moveToFirst())
-            return c.getString(2); // GET 2 column (note)
-        else
-            return "DB Error?";
+        HashMap<String, String> map = new HashMap<String, String>();
+        for(int i=0; i<c.getColumnCount();i++)
+        {
+            map.put(c.getColumnName(i), c.getString(i));
+        }
+        return map;
+        // move to first is assured by DBAdapter
+//        if (c.moveToFirst())
+//            return c.getString(2); // GET 2 column (note)
+//        else
+//            return "DB Error?";
     }
 
 
@@ -315,9 +296,12 @@ public void showAll() {
             Toast.makeText(this, getString(R.string.not_found), Toast.LENGTH_LONG).show();
         }
         db.close();
+
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////   DB ITEMS END   ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
 }

@@ -4,97 +4,137 @@
     android:layout_height="match_parent"
     android:weightSum="1">
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:id="@+id/bilans_add_new_save"
+        android:onClick="bilans_finalize_this_shopping_list"/>
+
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
 
         <EditText
-            android:layout_width="200dp"
+            android:id="@+id/bilans_date"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="date"
             android:ems="10"
-            android:id="@+id/date_bilans" />
+            android:hint="@string/add_input"
+            android:layout_weight="1"/>
+        <!--android:inputType="number|numberDecimal|numberSigned"-->
 
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent" />
-
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/calendar"
-            android:id="@+id/open_calendar_setting" />
+            <ImageButton
+                android:id="@+id/bilans_date_picker_button"
+                android:src="@drawable/calendar"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:text="date_picker"
+                android:gravity="right"
+                android:hint="@string/add_input"
+                android:onClick="runDatePicker"
+                android:layout_weight="1"/>
 
     </LinearLayout>
 
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:weightSum="2">
 
         <EditText
-            android:layout_width="200dp"
+            android:id="@+id/bilans_time"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="time"
             android:ems="10"
-            android:id="@+id/time_bilans" />
+            android:hint="@string/add_input"
+            android:layout_weight="1"/>
 
-        <Space
-            android:layout_width="10dp"
-            android:layout_height="match_parent" />
+                   <ImageButton
+                   android:src="@drawable/clock"
+                   android:layout_width="50dp"
+                   android:layout_height="50dp"
+                   android:text="time_picker"
+                   android:id="@+id/bilans_time_picker_button"
+                   android:gravity="right"
+                   android:onClick="runTimePicker"
+                   android:layout_weight="1"/>
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/time"
-            android:id="@+id/open_time_setting" />
     </LinearLayout>
 
+    <!-- android:touchscreenBlocksFocus="false" ?? -->
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:inputType="numberSigned"
-            android:ems="10"
-            android:id="@+id/kwota_bilans" />
-    </LinearLayout>
-
-    <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:touchscreenBlocksFocus="false"
-        android:orientation="horizontal">
+        android:weightSum="2">
 
-        <RadioButton
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/cash"
-            android:id="@+id/cash_radio_btn" />
+            android:layout_height="match_parent"
+            android:layout_weight="1">
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/card"
-            android:id="@+id/card_radio_btn" />
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="@string/add_category"
+                android:id="@+id/bilans_button_new_category"
+                android:layout_gravity="right"
+                android:clickable="true"
+                android:onClick="add_category"/>
 
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/card2"
-            android:id="@+id/card2_radio_btn" />
-        <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/atm"
-            android:id="@+id/atm_radio_btn" />
-    </RadioGroup>
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="@string/add_item"
+                android:id="@+id/bilans_add_new_details"
+                android:layout_gravity="right"
+                android:clickable="true"
+                android:onClick="add_item_to_category"/>
+
+        </LinearLayout>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_weight="1"
+            android:id="@+id/bilans_selected_method">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bilans_paid_with_cash"
+                android:id="@+id/cash_radio_btn"
+                android:checked="true" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bilans_paid_with_card_1"
+                android:id="@+id/card_radio_btn" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bilans_paid_with_card_2"
+                android:id="@+id/card2_radio_btn" />
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bilans_atm_withdrawal"
+                android:id="@+id/atm_radio_btn" />
+
+        </RadioGroup>
+    </LinearLayout>
 
     <Spinner
         android:layout_width="match_parent"
@@ -104,28 +144,7 @@
 
     <ListView
         android:layout_width="match_parent"
-        android:layout_height="219dp"
-        android:id="@+id/detailed_desc_bilans"
-        android:choiceMode="multipleChoice" />
-
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:weightSum="1">
-
-        <EditText
-            android:layout_width="162dp"
-            android:layout_height="fill_parent"
-            android:inputType="numberSigned"
-            android:ems="10"
-            android:id="@+id/new_sub_item_bilans" />
-
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="fill_parent"
-            android:id="@+id/editText"
-            android:ems="10" />
-    </LinearLayout>
-
+        android:layout_height="match_parent"
+        android:id="@+id/detailed_desc_bilans" />
+	<!-- android:choiceMode="multipleChoice" -->
 </LinearLayout>

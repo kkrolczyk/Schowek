@@ -14,14 +14,14 @@
             android:layout_width="180dp"
             android:layout_height="wrap_content"
             android:text="@string/save"
-            android:id="@+id/save"
+            android:id="@+id/notes_add_new_save"
             android:onClick="save_clicked" />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/cancel"
-            android:id="@+id/cancel"
+            android:id="@+id/notes_add_new_cancel"
             android:layout_marginEnd="0dp"
             android:layout_marginRight="0dp"
             android:layout_gravity="end"

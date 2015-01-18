@@ -1,14 +1,20 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
-    <item android:id="@+id/auto_login" android:title="@string/auto_login"
+    <item android:id="@+id/allow_no_password" android:title="@string/allow_no_pass"
         android:orderInCategory="1" android:showAsAction="never"
-        android:checkable="true"/>
-
+        android:checkable="true" android:checked="true"/>
+    <!--<item android:id="@+id/auto_login" android:title="@string/auto_login"-->
+        <!--android:orderInCategory="1" android:showAsAction="never"-->
+        <!--android:checkable="true"/>-->
+    <item android:id="@+id/set_password" android:title="@string/set_password"
+        android:orderInCategory="2" android:showAsAction="never"/>
+    <item android:id="@+id/reset_password" android:title="reset password to none (remove me in release version)"
+        android:orderInCategory="2" android:showAsAction="never"/>
     <group android:id="@+id/language">
         <item android:id="@+id/language_pl" android:title="@string/language_pl"
-            android:orderInCategory="2" android:showAsAction="never"/>
+            android:orderInCategory="3" android:showAsAction="never"/>
         <item android:id="@+id/language_en" android:title="@string/language_en"
-            android:orderInCategory="2" android:showAsAction="never"/>
+            android:orderInCategory="4" android:showAsAction="never"/>
     </group>
 
 </menu>
