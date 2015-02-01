@@ -29,7 +29,7 @@ public class BilansCustomArrayAdapter extends ArrayAdapter<List<String>> {
     }
     ViewHolder viewHolder;
     public BilansCustomArrayAdapter(Context ctx, int xml_layout, List<List<String>> texts ) {
-        super(ctx, R.layout.bilans_item_add_row, texts);
+        super(ctx, R.layout.activity_bilans_add_single_row, texts);
     }
 
 
@@ -67,7 +67,7 @@ public class BilansCustomArrayAdapter extends ArrayAdapter<List<String>> {
         if (convertView == null) {
             viewHolder = new ViewHolder();
             LayoutInflater inflater = LayoutInflater.from(getContext());
-            convertView = inflater.inflate(R.layout.bilans_item_add_row, parent, false);
+            convertView = inflater.inflate(R.layout.activity_bilans_add_single_row, parent, false);
             // Populate the data into the template view using the data object
             ((TextView) convertView.findViewById(R.id.bilans_row_item)).setText(txt.get(0));
             ((TextView) convertView.findViewById(R.id.bilans_row_value)).setText(txt.get(1));

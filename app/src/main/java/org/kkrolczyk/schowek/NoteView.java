@@ -22,8 +22,6 @@ import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.HashMap;
-
 public class NoteView extends Activity
 {
     final String TAG = "S_NoteView";
@@ -113,7 +111,13 @@ public class NoteView extends Activity
                 break;
             case R.id.default_backup_to_ext:
                 getPreferences(0).edit().putBoolean("default_backup_to_external", !getPreferences(0).getBoolean("default_backup_to_external", true)).commit();
-                Log.d(TAG," BACKUPS TO ext? "+getPreferences(0).getBoolean("default_backup_to_external", true) );
+                //Log.d(TAG," BACKUPS TO ext? "+getPreferences(0).getBoolean("default_backup_to_external", true) );
+                break;
+            case R.id.sort_order:
+                MyUtils.set_sort_order(this);
+                db.open();
+                dataAdapter.changeCursor(db.getAllItems(getSharedPreferences(this.getPackageName(),0).getInt("sort_order", MyUtils.sort_order.CREATION_ASC.ordinal())));
+                db.close();
                 break;
             default:
                 Log.e (TAG, "MENU = WTF?");
@@ -187,6 +191,7 @@ public class NoteView extends Activity
 
 public void showAll() {
 
+
     String[] columns = new String[]{  // The desired columns to be bound
             "timestamp",
             "note",
@@ -203,7 +208,7 @@ public void showAll() {
     // create the adapter using the cursor pointing to the desired data
     //as well as the layout information
     dataAdapter = new SimpleCursorAdapter(
-            this, R.layout.notes_table,
+            this, R.layout.activity_note_view_listview,
             db.getAllItems(),
             columns,
             to,
@@ -211,6 +216,8 @@ public void showAll() {
 
     ListView listView = (ListView) findViewById(R.id.my_list_view);
     listView.setAdapter(dataAdapter);
+    // update view to display current amount of notes
+    this.getActionBar().setTitle(getString(R.string.add) + ", " + getString(R.string.right_now) + dataAdapter.getCount());
     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
         @Override

@@ -1,14 +1,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" tools:context="org.kkrolczyk.schowek.NoteView">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="3" android:showAsAction="never" />
+
     <item android:id="@+id/clean_all" android:title="@string/clean_all"
         android:orderInCategory="1" android:showAsAction="never" />
     <item android:id="@+id/copy_to_ext_SD" android:title="@string/backup_store"
         android:orderInCategory="2" android:showAsAction="never" />
+
+    <item android:id="@+id/sort_order" android:title="@string/sort_order"
+        android:orderInCategory="3" android:showAsAction="never" />
+
     <item android:id="@+id/copy_from_ext_SD" android:title="@string/backup_load"
         android:orderInCategory="4" android:showAsAction="never" />
-
     <item android:id="@+id/default_backup_to_ext" android:title="@string/default_backup_to_ext"
         android:orderInCategory="5"
         android:checkable="true" android:checked="true"/>

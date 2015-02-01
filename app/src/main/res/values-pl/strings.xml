@@ -45,7 +45,9 @@
     <string name="ok">OK</string>
     <string name="pass_too_short">hasło jest zbyt krótkie, podaj przynajmniej 3 cyfry&#8230;</string>
     <string name="save">Zapisz</string>
+    <string name="sort_order">Porządek sortowania</string>
     <string name="set_password">Ustaw hasło</string>
+    <string name="right_now">obecnie:</string>
     <string name="title_activity_bilans">Stan gotówki</string>
     <string name="title_activity_bilans_view">Widok bilansu</string>
     <string name="title_activity_bilans_add">Dodaj/Edytuj zakupy</string>
@@ -57,4 +59,6 @@
     <string name="update_failed">Aktualizacja się nie powiodła.</string>
     <string name="update_successful">Aktualizacja się powiodła.</string>
     <string name="wrong_password">Błędne hasło.</string>
+    <string name="todo_view_filter_displayed_tags">podaj tagi do zawężenia wyświetlanych wyników</string>
+
 </resources>

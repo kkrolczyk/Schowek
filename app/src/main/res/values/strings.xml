@@ -54,15 +54,22 @@
     <string name="pass_too_short">password too short, use at least 3 digits&#8230;</string>
     <string name="save">Save</string>
     <string name="set_password">Set password</string>
+    <string name="sort_order">Sort order</string>
+    <string name="right_now">currently:</string>
     <string name="title_activity_bilans">Cash flow activity</string>
     <string name="title_activity_bilans_view">Bilans View</string>
     <string name="title_activity_bilans_add">Add/Edit shopping item</string>
     <string name="title_activity_notes">Notes activity</string>
     <string name="title_activity_notes_view">Notes View</string>
     <string name="title_activity_notes_add">Add/Edit note</string>
+    <string name="todo_add_assigned_tags_header">Currently assigned</string>
+    <string name="todo_add_available_tags_header">Available</string>
+    <string name="todo_manage_tags_button">Manage tags</string>
+    <string name="todo_view_filter_displayed_tags">enter tags here to filter todo list</string>
 
     <string name="title_activity_smallitems">Small items to remember</string>
-    <string name="title_activity_todo">To-Do</string>
+    <string name="title_activity_todo">To-Do</string> <!-- selector_todo_activity -->
+    <string name="title_activity_todo_add">To-Do - add item</string>
 
     <string name="update_successful">Update successful.</string>
     <string name="update_failed">Update failed.</string>

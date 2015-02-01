@@ -8,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -158,12 +157,12 @@ public class BilansAdd extends Activity {
         if (category != null){
 
             db.open();
-            current_shopping_list = db.getCategoryItems2(category);
+            current_shopping_list = db.getCategoryItems(category);
             db.close();
 
             current_shopping_list_adapter = new BilansCustomArrayAdapter(
                     BilansAdd.this,
-                    R.layout.bilans_item_add_row,
+                    R.layout.activity_bilans_add_single_row,
                     current_shopping_list );
 
             shopping_items_for_category_lv.setAdapter(current_shopping_list_adapter);

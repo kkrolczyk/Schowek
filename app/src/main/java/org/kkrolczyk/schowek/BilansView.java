@@ -181,7 +181,7 @@ public void showAll(){
     // create the adapter using the cursor pointing to the desired data
     //as well as the layout information
     dataAdapter = new SimpleCursorAdapter(
-            this, R.layout.bilans_table,
+            this, R.layout.activity_bilans_add_listview,
             db.getAllItems(),
             columns,
             to,
@@ -239,7 +239,7 @@ public void showAll(){
     public void PutItem(String timestamp, String kasa, int parametry, String tytul, String szczegoly) {
         db.open();
         //long id =
-        Log.e(TAG," " + timestamp + " " + kasa + " " + parametry + " " + tytul + " " + szczegoly);
+        Log.d(TAG," " + timestamp + " " + kasa + " " + parametry + " " + tytul + " " + szczegoly);
         db.insertItem(timestamp, kasa, parametry, tytul, szczegoly);
         db.close();
     }

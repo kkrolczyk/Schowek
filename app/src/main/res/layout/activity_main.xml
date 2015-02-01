@@ -79,8 +79,8 @@
         <RadioButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/selector_todo_activity"
-            android:id="@+id/selector_smallitems_activity"
+            android:text="@string/title_activity_todo"
+            android:id="@+id/activity_todo_selected"
             android:onClick="updateSelectedActivity"
             android:checked="false" /> -->
     </RadioGroup>

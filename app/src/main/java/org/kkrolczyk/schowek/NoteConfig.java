@@ -1,5 +1,6 @@
 package org.kkrolczyk.schowek;
 
+import android.util.Log;
 import android.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +22,6 @@ public class NoteConfig extends AbstractConfig {
         configuration.add(new Pair("note", "TEXT"));
     }
 
-    NoteConfig(){ super(DBASE_NAME, TABLE_NAME, configuration); };
+    NoteConfig(){ super(DBASE_NAME, TABLE_NAME, configuration); super.DBASE_NAME = DBASE_NAME;  };
 
 }

@@ -7,8 +7,9 @@ buildscript {
     dependencies {
         //classpath 'com.android.tools.build:gradle:0.13.2'   //// OLD VERSION  new AS 1.0 uses 2.2
         //classpath 'com.android.tools.build:gradle:0.14.4'   //// last one that worked flawlessy...
-        classpath 'com.android.tools.build:gradle:1.0.0'      //// but since as 1.0.1 all's just f* up.
+        //classpath 'com.android.tools.build:gradle:1.0.0'      //// but since as 1.0.1 all's just f* up.
         //classpath 'com.android.tools.build:gradle:0.5.+'
+        classpath 'com.android.tools.build:gradle:1.0.1'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

@@ -289,7 +289,6 @@ public class MainActivity extends Activity {
 
     public void updateSelectedActivity(View view) {
         boolean checked = ((RadioButton) view).isChecked();
-        Log.d(TAG, "Selected id:"+view.getId());
         switch(view.getId()) {
             case R.id.activity_note_selected:
                 if (checked)
@@ -298,8 +297,15 @@ public class MainActivity extends Activity {
             case R.id.activity_bilans_selected:
                 if (checked)
                     SelectedActivity = BilansView.class;
-            // TODO: SmallItemsView + ToDoView
                 break;
+//            case R.id.activity_todo_selected:
+//                if (checked)
+//                    SelectedActivity = TodoView.class;
+//                break;
+//            case R.id.activity_smallitems_selected:
+//                if (checked)
+//                    SelectedActivity = .class;
+//                break;
         }
     }
 

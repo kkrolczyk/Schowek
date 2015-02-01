@@ -1,5 +1,6 @@
 package org.kkrolczyk.schowek;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
@@ -12,6 +13,7 @@ import java.util.List;
 /**
  * Created by kkrolczyk on 15.01.15.
  */
+
 public abstract class AbstractDBAdapter <T> {
 
     private static final String TAG = "AbstractDBAdapter";
@@ -20,7 +22,7 @@ public abstract class AbstractDBAdapter <T> {
     private AbstractConfig config;
     protected Context context;
     protected DatabaseHelper DBHelper;
-    protected SQLiteDatabase db;
+    protected SQLiteDatabase db = null;
 
     //private DatabaseHelper DBHelper;
 
@@ -28,17 +30,12 @@ public abstract class AbstractDBAdapter <T> {
     {
         DatabaseHelper(Context context){
             super(context, config.DBASE_NAME, null, DATABASE_VERSION);
-//            db = this.getWritableDatabase();
+            //db = this.getWritableDatabase(); // is this required for something?
         }
 
         @Override
         public void onCreate(SQLiteDatabase db){
-
-
-            Log.e(TAG, this.toString());
-            db.execSQL(config.TABLE_CREATE); //create if does not exist...
-
-            Log.e(TAG, config.TABLE_CREATE);
+            tables_creator(db);
         }
 
         @Override
@@ -55,7 +52,6 @@ public abstract class AbstractDBAdapter <T> {
     public AbstractDBAdapter(Context context, List<T> configs){
 
         this.context = context;
-
         // upcast, we will not use any of subclass items here. Other option? reflection
         this.configs = (List<AbstractConfig>) configs;
         this.config = (AbstractConfig) configs.get(0);
@@ -68,13 +64,12 @@ public abstract class AbstractDBAdapter <T> {
         return this;
     }
 
-    public void close()
-    {
+    public void close() {
         DBHelper.close();
     }
 
 
-    public void tables_dropper(SQLiteDatabase db){
+    public void tables_dropper(SQLiteDatabase db) {
         for (AbstractConfig conf: configs){
             db.execSQL(conf.TABLE_DROP);
         }
@@ -99,10 +94,24 @@ public abstract class AbstractDBAdapter <T> {
             MyUtils.Backup_DB(MyUtils.db_copy_direction.LOAD, config.DBASE_NAME, target_ext);
     }
 
+
+
+
+
     //public abstract long insertItem(...args);
-    public abstract boolean deleteItem(long item);
-    public abstract Cursor getItem(long rowId);
+    //public abstract boolean deleteItem(long item);
+    //public abstract Cursor getItem(long rowId);
     //public abstract boolean updateItem(...args);
+
+    //todo=>try to abstractize also some functions from *DBAdapters?
+//    public boolean updateItem(long rowId, String timestamp, String note)
+//    {
+//        ContentValues args = new ContentValues();
+//        args.put("timestamp", timestamp);
+//        args.put("note", note);
+//        return db.update(config.TABLE_NAME, args,
+//                "_id" + "=" + rowId, null) > 0;
+//    }
 
 
 }

@@ -1,9 +1,12 @@
 package org.kkrolczyk.schowek;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -11,6 +14,8 @@ import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 /**
@@ -18,7 +23,12 @@ import java.util.Calendar;
  */
 public class MyUtils {
 
+    //private Context mContext;
+    //public MyUtils(Context context){ mContext=context; };
+
+
     public enum db_copy_direction { STORE, LOAD };
+    public enum sort_order { CREATION_ASC, CREATION_DESC, MODIFICATION_ASC, MODIFICATION_DESC, CONTENT_ASC, CONTENT_DESC };
     public static String[] convertToStrings(byte[][] byteStrings) {
         String[] data = new String[byteStrings.length];
         for (int i = 0; i < byteStrings.length; i++) {
@@ -76,10 +86,39 @@ public class MyUtils {
             dst.close();
             //}
         } catch (Exception e) {
-            Log.e("SCHOWEK", e.toString());
+            Log.e("SCHOWEK", "Backup_DB:"+e.toString());
             return false;
         }
         return true;
+    }
+
+
+
+
+
+
+    public static void set_sort_order(final Context ctx){
+
+        //final sort_order[] selected_sort = {sort_order.CREATION_ASC}; // default
+        // could use sort_order.CREATION_ASC.ordinal() as default, but final prevents this inner class from modyfying outer so array needed.
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+        builder.setTitle(ctx.getString(R.string.sort_order))
+               .setSingleChoiceItems(new ArrayAdapter<sort_order>(ctx, android.R.layout.simple_list_item_1, sort_order.values()), sort_order.CREATION_ASC.ordinal(),
+                        new DialogInterface.OnClickListener(){
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //selected_sort[0] = sort_order.values()[which];
+                                ctx.getSharedPreferences(ctx.getPackageName(),0).edit().putInt("sort_order", sort_order.values()[which].ordinal()).commit();
+                                ctx.getSharedPreferences("Prefs",0).edit().putInt("sort_order", sort_order.values()[which].ordinal()).commit();
+                                ctx.getApplicationContext().getSharedPreferences(ctx.getPackageName(),0).edit().putInt("sort_order", sort_order.values()[which].ordinal()).commit();
+                                Log.e("Alert,"+ctx.getPackageName(), "sort_order:"+ctx.getSharedPreferences(ctx.getPackageName(),0).getInt("sort_order",900));
+                                Log.e("Alert,"+ctx.getPackageName(), "sort_order:"+ctx.getSharedPreferences(ctx.getApplicationContext().getPackageName(),0).getInt("sort_order",9999));
+                                dialog.dismiss();
+                                }
+                            });
+        builder.show();
+
     }
 
 }
