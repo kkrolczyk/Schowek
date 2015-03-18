@@ -37,7 +37,7 @@
             android:name=".BilansAdd"
             android:label="@string/title_activity_bilans_add" >
         </activity>
-<!--
+
         <activity
             android:name=".TodoView"
             android:label="@string/title_activity_todo" >
@@ -46,7 +46,7 @@
             android:name=".TodoAdd"
             android:label="@string/title_activity_todo_add" >
         </activity>
--->
+
     </application>
 
 </manifest>

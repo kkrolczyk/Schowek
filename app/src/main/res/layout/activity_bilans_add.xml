@@ -87,7 +87,6 @@
                 android:text="@string/add_category"
                 android:id="@+id/bilans_button_new_category"
                 android:layout_gravity="right"
-                android:clickable="true"
                 android:onClick="add_category"/>
 
             <Button
@@ -97,9 +96,17 @@
                 android:text="@string/add_item"
                 android:id="@+id/bilans_add_new_details"
                 android:layout_gravity="right"
-                android:clickable="true"
                 android:onClick="add_item_to_category"/>
 
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:text="@string/add_item"
+                android:id="@+id/bilans_add_temporary_item_no_save"
+                android:layout_gravity="right"
+                android:onClick="add_item_to_shopping_list_one_time"/>
+                
         </LinearLayout>
 
         <RadioGroup
@@ -115,13 +122,11 @@
                 android:text="@string/bilans_paid_with_cash"
                 android:id="@+id/cash_radio_btn"
                 android:checked="true" />
-
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/bilans_paid_with_card_1"
                 android:id="@+id/card_radio_btn" />
-
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -132,7 +137,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/bilans_atm_withdrawal"
                 android:id="@+id/atm_radio_btn" />
-
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/bilans_income_any"
+                android:id="@+id/income_radio_btn" />
         </RadioGroup>
     </LinearLayout>
 
