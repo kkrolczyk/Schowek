@@ -298,10 +298,10 @@ public class MainActivity extends Activity {
                 if (checked)
                     SelectedActivity = BilansView.class;
                 break;
-//            case R.id.activity_todo_selected:
-//                if (checked)
-//                    SelectedActivity = TodoView.class;
-//                break;
+            case R.id.activity_todo_selected:
+                if (checked)
+                    SelectedActivity = TodoView.class;
+                break;
 //            case R.id.activity_smallitems_selected:
 //                if (checked)
 //                    SelectedActivity = .class;

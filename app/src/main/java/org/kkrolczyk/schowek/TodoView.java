@@ -4,29 +4,31 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.database.Cursor;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 
-public class BilansView extends Activity
+public class TodoView extends Activity
 {
-    final String TAG = "S_BilansView";
-    BilansDBAdapter db = new BilansDBAdapter(this);
-    SimpleCursorAdapter dataAdapter;
+    final String TAG = "S_TodoView";
+    float FontSize = (float)12.0;
+
+    protected TodoDBAdapter db = new TodoDBAdapter(this);
+    private TodoCustomArrayAdapter dataAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_bilans_view);
+        setContentView(R.layout.activity_todo_view);
     }
 
     @Override
@@ -62,28 +64,14 @@ public class BilansView extends Activity
                 db.close();
                 break;
             case R.id.copy_to_ext_SD:
-                //Log.d (TAG, "COPYING DB to sdcard");
                 db.BackupDB(MyUtils.db_copy_direction.STORE, getPreferences(0).getBoolean("default_backup_to_external", true));
                 break;
             case R.id.copy_from_ext_SD:
-                //Log.d (TAG, "COPYING DB from sdcard");
                 db.BackupDB(MyUtils.db_copy_direction.LOAD, getPreferences(0).getBoolean("default_backup_to_external", true));
                 break;
             case R.id.default_backup_to_ext:
                 getPreferences(0).edit().putBoolean("default_backup_to_external", !getPreferences(0).getBoolean("default_backup_to_external", true)).commit();
-                Log.d(TAG, " BACKUPS TO ext? " + getPreferences(0).getBoolean("default_backup_to_external", true));
-                break;
-            case R.id.bilans_status_wallet_value:
-                // temporary stored in shared preferences, updated each time after "add"
-                // however i don't like this solution, i'd need to rethink this  layout and overal method, how should this work
-                getPreferences(0).edit().putFloat("current_wallet_status", 0).commit();
-                break;
-            case R.id.bilans_status_value_1:
-                // see above
-                getPreferences(0).edit().putFloat("current_account_1_status", 0).commit();
-                break;
-            case R.id.bilans_status_value_2:
-                getPreferences(0).edit().putFloat("current_account_2_status", 0).commit();
+                Log.d(TAG," BACKUPS TO ext? "+getPreferences(0).getBoolean("default_backup_to_external", true) );
                 break;
             default:
                 Log.e (TAG, "MENU = WTF?");
@@ -101,56 +89,54 @@ public class BilansView extends Activity
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void prepare_intent(int request_code, long invoking_id){
-        Intent intent = new Intent(BilansView.this, BilansAdd.class);
-
+        db.open();
+        Intent intent = new Intent(TodoView.this, TodoAdd.class);
         if (invoking_id > 0) {
-            HashMap<String, String> map = GetItem(invoking_id);
             intent.putExtra("item_id", invoking_id);
-            String timestamp[] = map.get("data").split(" ");
-            intent.putExtra("data", timestamp[0]);
-            intent.putExtra("time", timestamp[1]);
-            intent.putExtra("tytul", map.get("tytul"));
+            intent.putExtra("content", GetItem(invoking_id));                       // get item from main table
+            intent.putExtra("assigned_tags", db.getTags(new Long[]{invoking_id}));  // pass an array of associated tags from table 2
         } else {
-            intent.putExtra("data", MyUtils.datenow());
-            intent.putExtra("time", MyUtils.timenow());
-            intent.putExtra("amount", "");
+            intent.putExtra("content", "");
+            intent.putExtra("assigned_tags", new ArrayList<String>());
         }
+        intent.putExtra("all_tags", db.getTags());
+        intent.putExtra("fontsize", FontSize);
+        db.close();
         startActivityForResult(intent, request_code);
     }
 
-    public void bilans_add_new(View v){
+    public void note_add_new(View v){
         prepare_intent(0, -1);
     }
+    public void tags_add_new(View v){
+        Log.e(TAG, "Not implemented");
+        db.open();
+        db.insertTag(this.toString());
+        db.close();
+        //prepare_intent(0, -1);
+    }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
         Boolean activity_success = false;
         switch (resultCode) {
-            case RESULT_OK:
-                activity_success = true;
+            case -1: //success
+                activity_success = data.getStringExtra("content").length() > 0;
                 break;
             default:
-                Toast.makeText(getApplicationContext(),
-                        getString(R.string.discarded_new_entry), Toast.LENGTH_LONG).show();
-                break; // failed
+                break;// failed
         }
         if (activity_success)
             switch (requestCode) {
                 case 0:
-                    String timestamp = intent.getStringExtra("data") + " " + intent.getStringExtra("time");
-
-//                  Log.e("BBB", "all ?:"+intent.getExtras().keySet());
-//                  Log.e("BBB", "all ?:"+intent.getExtras().toString());
-//                  // great for debugging bundles.
-//                    for (String key : bundle.keySet()) {
-//                        Object value = bundle.get(key);
-//                        Log.d("TAG HERE", String.format("%s %s (%s)", key,
-//                                value.toString(), value.getClass().getName()));
-//                    }
-                    int parametry = intent.getIntExtra("parametry", 0);
-                    String kwota = String.valueOf(intent.getDoubleExtra("shopping_sum", 0.0));
-                    String tytul = intent.getStringExtra("category");
-                    String szczegoly = intent.getStringExtra("items_serialized");
-                    PutItem(timestamp, kwota, parametry, tytul, szczegoly);
+                    PutItem(data.getStringExtra("content"));
+                    break;
+                case 1:
+                    long update_id = data.getLongExtra("item_id",-1);
+                    if (update_id > 0)
+                        UpdateItem(update_id, data.getStringExtra("content"));
+                    else
+                        Log.e(TAG, "WRONG item id?");
                     break;
                 default:
                     Log.e(TAG, "WRONG REQUEST CODE TO START ACTIVITY FOR RESULT ?");
@@ -158,8 +144,8 @@ public class BilansView extends Activity
         else
             Toast.makeText(getApplicationContext(),
                     getString(R.string.empty_or_cancelled), Toast.LENGTH_LONG).show();
-    }
 
+    }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 //////////////////////////////////   DELEGATE WORK END   ///////////////////////////////////////////
@@ -170,36 +156,27 @@ public class BilansView extends Activity
 ///////////////////////////////////   DB ITEMS   ///////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-public void showAll(){
-
-    String[] columns = new String[] {  // The desired columns to be bound
-            "data",
-            "tytul",
-            "kasa",
-            "szczegoly",
-            //"parametry"
-    };
-
-    // the XML defined views which the data will be bound to
-    int[] to = new int[] {
-            R.id.data,
-            R.id.tytul,
-            R.id.kwota,
-            R.id.szczegoly,
-    };
+public void showAll() {
 
     db.open();
+    Cursor c = db.getAllItems(); // first item has items, second aggregated tags related to id
+    db.close();
 
-    // create the adapter using the cursor pointing to the desired data
-    //as well as the layout information
-    dataAdapter = new SimpleCursorAdapter(
-            this, R.layout.activity_bilans_add_listview,
-            db.getAllItems(),
-            columns,
-            to,
-            0); //flags
+    ArrayList<Pair<String, String>> dataAggregate = new ArrayList<Pair<String, String>>();
+    if (c != null && c.moveToFirst())
+    {
 
-    ListView listView = (ListView) findViewById(R.id.bilans_list_view);
+        do {
+            Pair<String, String> dataContainer = new Pair<String, String>(c.getString(0), c.getString(1));
+            dataAggregate.add(dataContainer);
+        } while (c.moveToNext());
+    } else {
+        Log.e(TAG, "null pointer - cursor from database (show all)");
+    }
+
+    dataAdapter = new TodoCustomArrayAdapter(this, R.layout.activity_todo_view_listview, dataAggregate);
+
+    ListView listView = (ListView) findViewById(R.id.my_list_view);
     listView.setAdapter(dataAdapter);
     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -207,40 +184,38 @@ public void showAll(){
         public void onItemClick(AdapterView<?> arg0, View arg1,
                                 int position_of_of_view_in_adapter, long id_clicked) {
 
-            prepare_intent(0, id_clicked);
+            prepare_intent(1, id_clicked);
         }
     });
     listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-            @Override
-            public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long  id_clicked ){
+        @Override
+        public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long id_clicked) {
 
-                AlertDialog.Builder alert = new AlertDialog.Builder(BilansView.this);
-                alert.setTitle(getString(R.string.delete_question));
-                alert.setMessage(getString(R.string.delete_confirm) + pos);
-                alert.setNegativeButton(getString(R.string.cancel), null);
-                alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        DelItem(id_clicked);
-                        db.open();
-                        dataAdapter.changeCursor(db.getAllItems());
-                        db.close();
-                        dataAdapter.notifyDataSetChanged();
-                    }});
-                alert.show();
-                return true;
-            }
-        });
+            AlertDialog.Builder alert = new AlertDialog.Builder(TodoView.this);
+            alert.setTitle(getString(R.string.delete_question));
+            alert.setMessage(getString(R.string.delete_confirm) + pos);
+            alert.setNegativeButton(getString(R.string.cancel), null);
+            alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    DelItem(id_clicked);
+                    db.open();
+                    //dataAdapter.changeCursor(db.getAllItems());
+                    db.close();
+                    dataAdapter.notifyDataSetChanged();
+                }
+            });
+            alert.show();
+            return true;
+        }
+    });
 
     db.close();
-
 }
 
-
-    public void UpdateItem(long id, String timestamp, String kasa, int parametry, String tytul, String szczegoly) {
+    public void UpdateItem(long id, String item) {
         db.open();
-
-        if (db.updateItem(id, timestamp, kasa, parametry, tytul, szczegoly))
+        if (db.updateItem(id, item))
             Toast.makeText(this, getString(R.string.update_successful),
                     Toast.LENGTH_LONG).show();
         else
@@ -248,14 +223,14 @@ public void showAll(){
                     Toast.LENGTH_LONG).show();
     }
 
-    public void PutItem(String timestamp, String kasa, int parametry, String tytul, String szczegoly) {
+    public void PutItem(String item) {
         db.open();
-        //long id =
-        Log.d(TAG," " + timestamp + " " + kasa + " " + parametry + " " + tytul + " " + szczegoly);
-        db.insertItem(timestamp, kasa, parametry, tytul, szczegoly);
+        //HashMap<String,String> hm = new HashMap<String,String>();
+        //hm.put ("timestamp",MyUtils.timestamp());
+        //hm.put ("note", note);
+        db.insertItem( item );
         db.close();
     }
-
 
     public void DelItem(long id)
     {
@@ -270,21 +245,14 @@ public void showAll(){
     }
 
 
-    public HashMap<String, String> GetItem(long id)
+    public String GetItem(long id)
     {
         db.open();
         Cursor c = db.getItem(id);
-        HashMap<String, String> map = new HashMap<String, String>();
-        for(int i=0; i<c.getColumnCount();i++)
-        {
-            map.put(c.getColumnName(i), c.getString(i));
-        }
-        return map;
-        // move to first is assured by DBAdapter
-//        if (c.moveToFirst())
-//            return c.getString(2); // GET 2 column (note)
-//        else
-//            return "DB Error?";
+        if (c.moveToFirst())
+            return c.getString(2); // GET 2 column (note)
+        else
+            return "DB Error?";
     }
 
 
@@ -308,12 +276,9 @@ public void showAll(){
             Toast.makeText(this, getString(R.string.not_found), Toast.LENGTH_LONG).show();
         }
         db.close();
-
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////   DB ITEMS END   ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 }

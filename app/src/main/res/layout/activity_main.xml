@@ -69,7 +69,7 @@
             android:text="@string/selector_smallitems_activity"
             android:id="@+id/selector_smallitems_activity" vs "@+id/activity_smallitems_selected"
             android:onClick="updateSelectedActivity"
-            android:checked="false" />
+            android:checked="false" /> -->
 
         <Space
             android:layout_width="match_parent"
@@ -82,6 +82,6 @@
             android:text="@string/title_activity_todo"
             android:id="@+id/activity_todo_selected"
             android:onClick="updateSelectedActivity"
-            android:checked="false" /> -->
+            android:checked="false" />
     </RadioGroup>
 </RelativeLayout>

@@ -23,6 +23,7 @@
     <string name="bilans_paid_with_card_1">Card 1</string>
     <string name="bilans_paid_with_card_2">Lunchcard</string>
     <string name="bilans_atm_withdrawal">ATM</string>
+    <string name="bilans_income_any">income</string>
 
     <string name="bilans_status_wallet_value">0.0</string>
     <string name="bilans_status_value">0.0</string>
