@@ -73,16 +73,16 @@ public class BilansView extends Activity
                 getPreferences(0).edit().putBoolean("default_backup_to_external", !getPreferences(0).getBoolean("default_backup_to_external", true)).commit();
                 Log.d(TAG, " BACKUPS TO ext? " + getPreferences(0).getBoolean("default_backup_to_external", true));
                 break;
-            case R.id.set_wallet:
+            case R.id.bilans_status_wallet_value:
                 // temporary stored in shared preferences, updated each time after "add"
                 // however i don't like this solution, i'd need to rethink this  layout and overal method, how should this work
                 getPreferences(0).edit().putFloat("current_wallet_status", 0).commit();
                 break;
-            case R.id.set_account_1:
+            case R.id.bilans_status_value_1:
                 // see above
                 getPreferences(0).edit().putFloat("current_account_1_status", 0).commit();
                 break;
-            case R.id.set_account_2:
+            case R.id.bilans_status_value_2:
                 getPreferences(0).edit().putFloat("current_account_2_status", 0).commit();
                 break;
             default:

@@ -26,7 +26,7 @@ public class TodoConfig extends AbstractConfig {
     {
         tags = new ArrayList<Pair<String, String>>();
         tags.add(new Pair("tag_id", "INTEGER PRIMARY KEY autoincrement"));
-        tags.add(new Pair("item", "UNIQUE TEXT"));
+        tags.add(new Pair("item", "TEXT UNIQUE"));
     }
 
     /*
