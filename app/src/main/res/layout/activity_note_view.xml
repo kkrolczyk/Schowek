@@ -8,7 +8,7 @@
 
     <ListView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/my_list_view"
         android:layout_below="@+id/add_new_note_button"
         android:layout_alignParentLeft="true"

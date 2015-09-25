@@ -4,13 +4,28 @@ Schowek
 simple android PIM.
 
 
+
 Todo: add availability to connect application through socket and write/read DB
 
-Todo: add tags
+Todo: Fix readme is a mess
 
-Todo: fix crash on empty password. Actually remove that ridiculous password protection and do something sane.
 
-Todo: still this readme is a mess
+BUGS:
+
+- notes: sorting user-friendly names (are not)
+
+- notes: fix user readable strings (also scrolling or better description)
+
+- bilans: adding past date item is buggy
+
+- main activity: security is non existent
+
+- main activity: fix changing language when app is already loaded
+
+- other: PL: add string "reset password to none"
+
+- todo activity: a lot. tags, sorting, filter etc.
+
 
 Todo: indicator how much notes are stored for now? allow to sort notes differently than creation time (for example by modification time, or size?), after tags - allow also to search in content, and allow searching via tags. Allow searching via full text.
 

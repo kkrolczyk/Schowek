@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.database.Cursor;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -25,7 +26,7 @@ import android.widget.Toast;
 public class NoteView extends Activity
 {
     final String TAG = "S_NoteView";
-    float FontSize = (float)12.0;
+    float FontSize = 12.0f;
 
     NoteDBAdapter db = new NoteDBAdapter(this);
     SimpleCursorAdapter dataAdapter;
@@ -34,12 +35,13 @@ public class NoteView extends Activity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_view);
+        showAll();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        showAll();
+        refreshViewAndDataAdapter();
     }
 
 //    @Override
@@ -53,18 +55,23 @@ public class NoteView extends Activity
 ///////////////////////////////////// handle volume keys as font size changer //////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // TODO these two seem to be memory heavy = optimize?
+
     private void SizeChanger(){
 
         ListView listView = (ListView) findViewById(R.id.my_list_view);
-        for (int i = listView.getFirstVisiblePosition(); i <= listView.getChildCount(); i++) {
+        for (int i = 0; i <= listView.getCount(); i++) {
             if (listView.getChildAt(i) != null) {
-                LinearLayout ll = (LinearLayout) listView.getChildAt(i); //hardcoded to linear layout but...
-                for (int j=0; j< ll.getChildCount(); ++j) {
+                ViewGroup ll = (ViewGroup) listView.getChildAt(i);
+                for (int j = 0; j< ll.getChildCount(); ++j) {
                     ((TextView) ll.getChildAt(j)).setTextSize(FontSize);
                 }
             }
         }
+        /* listview with 'wrap_content' is unable to properly resize itself. */
+        //listView.getParent().recomputeViewAttributes(listView);
+        //refreshViewAndDataAdapter();
+
+
     }
 
     @Override
@@ -72,11 +79,15 @@ public class NoteView extends Activity
         int keyCode = event.getKeyCode();
         switch (keyCode) {
             case KeyEvent.KEYCODE_VOLUME_UP:
-                ++FontSize;
+                if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0)
+                    return true;
+                FontSize += 1;
                 SizeChanger();
                 return true;
             case KeyEvent.KEYCODE_VOLUME_DOWN:
-                FontSize--;
+                if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0)
+                    return true;
+                FontSize -= 1;
                 SizeChanger();
                 return true;
             default:
@@ -102,6 +113,7 @@ public class NoteView extends Activity
                 db.open();
                 db.drop();
                 db.close();
+                refreshViewAndDataAdapter();
                 break;
             case R.id.copy_to_ext_SD:
                 db.BackupDB(MyUtils.db_copy_direction.STORE, getPreferences(0).getBoolean("default_backup_to_external", true));
@@ -217,7 +229,6 @@ public void showAll() {
     ListView listView = (ListView) findViewById(R.id.my_list_view);
     listView.setAdapter(dataAdapter);
     // update view to display current amount of notes
-    this.getActionBar().setTitle(getString(R.string.add) + ", " + getString(R.string.right_now) + dataAdapter.getCount());
     listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
         @Override
@@ -245,10 +256,7 @@ public void showAll() {
             alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
                     DelItem(id_clicked);
-                    db.open();
-                    dataAdapter.changeCursor(db.getAllItems());
-                    db.close();
-                    dataAdapter.notifyDataSetChanged();
+                    refreshViewAndDataAdapter();
                 }
             });
             alert.show();
@@ -257,7 +265,22 @@ public void showAll() {
     });
 
     db.close();
+    recountActionBar();
 }
+
+    private void refreshViewAndDataAdapter(){
+        db.open();
+        dataAdapter.changeCursor(db.getAllItems());
+        db.close();
+        dataAdapter.notifyDataSetChanged();
+        recountActionBar();
+    }
+    private void recountActionBar() {
+        this.getActionBar().setTitle(getString(R.string.add) + ", " + getString(R.string.right_now) + dataAdapter.getCount());
+    }
+
+
+
 
     public void UpdateItem(long id, String note) {
         db.open();
