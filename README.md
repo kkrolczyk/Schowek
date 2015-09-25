@@ -4,26 +4,27 @@ Schowek
 simple android PIM.
 
 
-
-Todo: add availability to connect application through socket and write/read DB
-
-Todo: Fix readme is a mess
+# Table of contents
 
 
 BUGS:
+-----
 
-- notes: fix user readable strings (also scrolling or better description)
+- needs testing: backup manager
 
-- bilans: adding past date item is buggy
+- main activity: security is nonexistent - JP :)
 
-- main activity: security is non existent
-
-- main activity: fix changing language when app is already loaded
+- main activity: fix changing language when app is already loaded (works except main screen)
 
 - other: PL: add string "reset password to none"
 
 - todo activity: a lot. tags, sorting, filter etc.
 
+- bilans: finish implementing debts activity
+
+
+Random notes, random roadmap:
+-----------------------------
 
 Todo: indicator how much notes are stored for now? allow to sort notes differently than creation time (for example by modification time, or size?), after tags - allow also to search in content, and allow searching via tags. Allow searching via full text.
 
@@ -33,11 +34,9 @@ Todo: bilans borrowed/lend should have add (with amount and date), and plain che
 
 Todo: birthday / calendar with anniversaries. in very distant future, if ever, if schowek evolves to contain sms archive and contact's db's = map/connect contact to some date. Or item to date. Or item to tag..etc,etc.
 
+Todo: add availability to connect application through socket and write/read DB
 
-
-# Table of contents
-
-
+Main: Readme is a mess, TOC is nonexistent
 
 
 # DONE

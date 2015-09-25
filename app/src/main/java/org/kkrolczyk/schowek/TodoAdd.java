@@ -41,7 +41,6 @@ public class TodoAdd extends Activity {
         String message = intent.getStringExtra("content");
 
         textField = ((EditText) findViewById(R.id.display_or_update_entry_field));
-        textField.setTextSize(intent.getFloatExtra("fontsize", 10));
         textField.setText(message);
         textField.setSelection(message.length());
 

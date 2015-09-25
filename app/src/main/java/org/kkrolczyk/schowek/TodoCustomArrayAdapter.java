@@ -109,7 +109,7 @@ public class TodoCustomArrayAdapter extends ArrayAdapter<Pair<String, String>> i
 //
 //                results.count = FilteredArrayNames.size();
 //                results.values = FilteredArrayNames;
-//                Log.e("VALUES", results.values.toString());
+//                Log.e(TAG, "VALUES" + results.values.toString());
 
                 return results;
             }

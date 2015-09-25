@@ -1,8 +1,7 @@
 package org.kkrolczyk.schowek;
 
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
+import android.content.Intent;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -87,14 +86,11 @@ public abstract class AbstractDBAdapter <T> {
     }
 
 
-    protected void BackupDB(Enum direction, boolean target_ext){
-        if (direction == MyUtils.db_copy_direction.STORE)
-            MyUtils.Backup_DB(MyUtils.db_copy_direction.STORE, config.DBASE_NAME, target_ext);
-        else
-            MyUtils.Backup_DB(MyUtils.db_copy_direction.LOAD, config.DBASE_NAME, target_ext);
+    protected void Backup(){
+        Intent intent = new Intent(context, BackupActivityView.class);
+        intent.putExtra("dbname", config.DBASE_NAME);
+        context.startActivity(intent);
     }
-
-
 
 
 

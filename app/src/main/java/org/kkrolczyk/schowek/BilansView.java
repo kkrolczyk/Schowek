@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.database.Cursor;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
@@ -32,6 +33,7 @@ public class BilansView extends Activity
     @Override
     protected void onStart() {
         super.onStart();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         showAll();
     }
 
@@ -61,17 +63,8 @@ public class BilansView extends Activity
                 db.drop();
                 db.close();
                 break;
-            case R.id.copy_to_ext_SD:
-                //Log.d (TAG, "COPYING DB to sdcard");
-                db.BackupDB(MyUtils.db_copy_direction.STORE, getPreferences(0).getBoolean("default_backup_to_external", true));
-                break;
-            case R.id.copy_from_ext_SD:
-                //Log.d (TAG, "COPYING DB from sdcard");
-                db.BackupDB(MyUtils.db_copy_direction.LOAD, getPreferences(0).getBoolean("default_backup_to_external", true));
-                break;
-            case R.id.default_backup_to_ext:
-                getPreferences(0).edit().putBoolean("default_backup_to_external", !getPreferences(0).getBoolean("default_backup_to_external", true)).commit();
-                Log.d(TAG, " BACKUPS TO ext? " + getPreferences(0).getBoolean("default_backup_to_external", true));
+            case R.id.manage_backup:
+                db.Backup();
                 break;
             case R.id.bilans_status_wallet_value:
                 // temporary stored in shared preferences, updated each time after "add"
@@ -136,16 +129,8 @@ public class BilansView extends Activity
         if (activity_success)
             switch (requestCode) {
                 case 0:
-                    String timestamp = intent.getStringExtra("data") + " " + intent.getStringExtra("time");
+                    String timestamp = intent.getStringExtra("date") + " " + intent.getStringExtra("time");
 
-//                  Log.e("BBB", "all ?:"+intent.getExtras().keySet());
-//                  Log.e("BBB", "all ?:"+intent.getExtras().toString());
-//                  // great for debugging bundles.
-//                    for (String key : bundle.keySet()) {
-//                        Object value = bundle.get(key);
-//                        Log.d("TAG HERE", String.format("%s %s (%s)", key,
-//                                value.toString(), value.getClass().getName()));
-//                    }
                     int parametry = intent.getIntExtra("parametry", 0);
                     String kwota = String.valueOf(intent.getDoubleExtra("shopping_sum", 0.0));
                     String tytul = intent.getStringExtra("category");

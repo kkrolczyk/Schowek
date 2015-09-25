@@ -115,15 +115,8 @@ public class NoteView extends Activity
                 db.close();
                 refreshViewAndDataAdapter();
                 break;
-            case R.id.copy_to_ext_SD:
-                db.BackupDB(MyUtils.db_copy_direction.STORE, getPreferences(0).getBoolean("default_backup_to_external", true));
-                break;
-            case R.id.copy_from_ext_SD:
-                db.BackupDB(MyUtils.db_copy_direction.LOAD, getPreferences(0).getBoolean("default_backup_to_external", true));
-                break;
-            case R.id.default_backup_to_ext:
-                getPreferences(0).edit().putBoolean("default_backup_to_external", !getPreferences(0).getBoolean("default_backup_to_external", true)).commit();
-                //Log.d(TAG," BACKUPS TO ext? "+getPreferences(0).getBoolean("default_backup_to_external", true) );
+            case R.id.manage_backup:
+                db.Backup();
                 break;
             case R.id.sort_order:
                 MyUtils.set_sort_order(this,

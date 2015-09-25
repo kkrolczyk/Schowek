@@ -20,7 +20,6 @@ import java.util.ArrayList;
 public class TodoView extends Activity
 {
     final String TAG = "S_TodoView";
-    float FontSize = (float)12.0;
 
     protected TodoDBAdapter db = new TodoDBAdapter(this);
     private TodoCustomArrayAdapter dataAdapter;
@@ -63,15 +62,8 @@ public class TodoView extends Activity
                 db.drop();
                 db.close();
                 break;
-            case R.id.copy_to_ext_SD:
-                db.BackupDB(MyUtils.db_copy_direction.STORE, getPreferences(0).getBoolean("default_backup_to_external", true));
-                break;
-            case R.id.copy_from_ext_SD:
-                db.BackupDB(MyUtils.db_copy_direction.LOAD, getPreferences(0).getBoolean("default_backup_to_external", true));
-                break;
-            case R.id.default_backup_to_ext:
-                getPreferences(0).edit().putBoolean("default_backup_to_external", !getPreferences(0).getBoolean("default_backup_to_external", true)).commit();
-                Log.d(TAG," BACKUPS TO ext? "+getPreferences(0).getBoolean("default_backup_to_external", true) );
+            case R.id.manage_backup:
+                db.Backup();
                 break;
             default:
                 Log.e (TAG, "MENU = WTF?");
@@ -100,7 +92,6 @@ public class TodoView extends Activity
             intent.putExtra("assigned_tags", new ArrayList<String>());
         }
         intent.putExtra("all_tags", db.getTags());
-        intent.putExtra("fontsize", FontSize);
         db.close();
         startActivityForResult(intent, request_code);
     }

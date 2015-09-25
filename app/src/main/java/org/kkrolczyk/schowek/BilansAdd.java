@@ -11,6 +11,7 @@ import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
@@ -47,6 +48,7 @@ public class BilansAdd extends Activity {
         super.onCreate(savedInstanceState);             // todo: save state+populate on update too.
         setContentView(R.layout.activity_bilans_add);
         Intent intent = getIntent();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         calendar = Calendar.getInstance();
 

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.kkrolczyk.schowek">
+    package="org.kkrolczyk.schowek" >
 
     <!-- DB backup -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!-- socket DB communication (PC-device) -->
     <uses-permission android:name="android.permission.INTERNET" />
+
     <!-- not yet ready... -->
     <application
         android:allowBackup="true"
@@ -14,10 +15,11 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="org.kkrolczyk.schowek.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -37,7 +39,6 @@
             android:name=".BilansAdd"
             android:label="@string/title_activity_bilans_add" >
         </activity>
-
         <activity
             android:name=".TodoView"
             android:label="@string/title_activity_todo" >
@@ -46,7 +47,10 @@
             android:name=".TodoAdd"
             android:label="@string/title_activity_todo_add" >
         </activity>
-
+        <activity
+            android:name=".BackupActivityView"
+            android:label="@string/title_activity_backup_activity_view" >
+        </activity>
     </application>
 
 </manifest>

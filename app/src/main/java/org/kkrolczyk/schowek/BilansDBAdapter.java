@@ -67,7 +67,7 @@ public class BilansDBAdapter extends AbstractDBAdapter{
 
     public Cursor getItem(long rowId) throws SQLException
     {
-        //Log.e("DB get", ""+rowId);
+        //Log.e(TAG, "DB get item "+rowId);
         Cursor mCursor =
                 db.query(true, configs.get(0).TABLE_NAME, configs.get(0).DATABASE_KEYS,
                         "_id =" + rowId,

@@ -10,8 +10,13 @@
     <string name="auto_login">Auto-login</string>
     <string name="allow_no_pass">Allow no password</string>
 
+    <string name="backup">Backup</string>
     <string name="backup_store">Save backup</string>
     <string name="backup_load">Load backup</string>
+    <string name="backup_target_internal">Target: internal memory</string>
+    <string name="backup_target_external">Target: external SD card</string>
+
+
     <string name="bilans_status_account_txt_1">Account status (1)</string>
     <string name="bilans_status_account_txt_2">Account status (2) /assets</string>
     <string name="bilans_status_debts_minus">To return</string>
@@ -30,6 +35,7 @@
     <string name="bilans_status_account_1_value">0.0</string>
     <string name="bilans_info_add_new_or_select">Add new item name above OR select from drop down menu below</string>
 
+
     <string name="clean_all">Purge table (!)</string>
     <string name="cancel">Cancel</string>
 
@@ -39,7 +45,7 @@
     <string name="delete_successful">Delete successful.</string>
     <string name="delete_failed">Delete failed.</string>
     <string name="discarded_new_entry">Discarded adding new entry.</string>
-    <string name="default_backup_to_ext">Backup to ext (if not=>to internal)</string>
+
 
     <string name="empty_or_cancelled">Empty contents or cancel has been pressed</string>
     <string name="empty_input">No input!</string>
@@ -49,6 +55,7 @@
     <string name="language_pl">Polish</string>
     <string name="language_en">English</string>
     <string name="login">Login</string>
+
     <string name="not_found">Item not found</string>
     <string name="not_logged">Not logged in.</string>
     <string name="ok">OK</string>
@@ -57,12 +64,15 @@
     <string name="set_password">Set password</string>
     <string name="sort_order">Sort order</string>
     <string name="right_now">currently:</string>
+
     <string name="title_activity_bilans">Cash flow activity</string>
     <string name="title_activity_bilans_view">Bilans View</string>
     <string name="title_activity_bilans_add">Add/Edit shopping item</string>
     <string name="title_activity_notes">Notes activity</string>
     <string name="title_activity_notes_view">Notes View</string>
     <string name="title_activity_notes_add">Add/Edit note</string>
+    <string name="title_activity_backup_activity_view">BackupActivityView</string>
+
     <string name="todo_add_assigned_tags_header">Currently assigned</string>
     <string name="todo_add_available_tags_header">Available</string>
     <string name="todo_manage_tags_button">Manage tags</string>

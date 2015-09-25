@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.ArrayAdapter;
@@ -21,15 +22,15 @@ import java.util.Calendar;
 /**
  * Created by kkrolczyk on 23.11.14.
  */
+
 public class MyUtils {
+
     private static String TAG = MyUtils.class.getSimpleName();
+
     //private Context mContext;
     //public MyUtils(Context context){ mContext=context; };
 
-
-    public enum db_copy_direction { STORE, LOAD };
     public enum sort_order { CREATION_ASC, CREATION_DESC, MODIFICATION_ASC, MODIFICATION_DESC, CONTENT_ASC, CONTENT_DESC };
-
 
     public static String[] convertToStrings(byte[][] byteStrings) {
         String[] data = new String[byteStrings.length];
@@ -49,6 +50,16 @@ public class MyUtils {
         return data;
     }
 
+    public void debug_bundle(Bundle bundle){
+    //        Log.e(TAG, "all ?:"+intent.getExtras().keySet());
+    //        Log.e(TAG, "all ?:"+intent.getExtras().toString());
+        // great for debugging bundles
+        for (String key : bundle.keySet()) {
+            Object value = bundle.get(key);
+            Log.d(TAG, String.format("%s %s (%s)", key,
+                    value.toString(), value.getClass().getName()));
+        }
+    }
 
     public static String timestamp(){
         return new SimpleDateFormat("yyyy-MM-dd HH:mm").format(Calendar.getInstance().getTime());
@@ -60,39 +71,6 @@ public class MyUtils {
         return new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
     }
 
-
-
-    public static Boolean Backup_DB(Enum direction, String dbname, boolean target_ext){
-
-        try {
-            File source = Environment.getDataDirectory();
-            File target = target_ext ? new File("/mnt/extSdCard/") : Environment.getExternalStorageDirectory();
-
-            //if (sd.canWrite()) {
-            String currentDBPath = "//data//" + MyUtils.class.getPackage().getName() + "//databases//" + dbname;
-            String backupDBPath = dbname;
-            File currentDB, backupDB;
-            if (direction == db_copy_direction.LOAD) { // TODO: swap dirs == swap(currentDB, backupDB);
-                currentDB = new File(target, backupDBPath);
-                backupDB = new File(source, currentDBPath);
-            } else {
-                currentDB = new File(source, currentDBPath);
-                backupDB = new File(target, backupDBPath);
-            }
-
-            //if (currentDB.exists()) {
-            FileChannel src = new FileInputStream(currentDB).getChannel();
-            FileChannel dst = new FileOutputStream(backupDB).getChannel();
-            dst.transferFrom(src, 0, src.size());
-            src.close();
-            dst.close();
-            //}
-        } catch (Exception e) {
-            Log.e(TAG, "Backup_DB:"+e.toString());
-            return false;
-        }
-        return true;
-    }
 
     private static String [] getSortNames(final Context ctx){
         int [] sort_name_ids  = { R.string.creation_asc, R.string.creation_desc, R.string.modification_asc, R.string.modification_desc, R.string.content_asc, R.string.content_desc };
