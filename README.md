@@ -12,8 +12,6 @@ Todo: Fix readme is a mess
 
 BUGS:
 
-- notes: sorting user-friendly names (are not)
-
 - notes: fix user readable strings (also scrolling or better description)
 
 - bilans: adding past date item is buggy

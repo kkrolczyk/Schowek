@@ -126,10 +126,14 @@ public class NoteView extends Activity
                 //Log.d(TAG," BACKUPS TO ext? "+getPreferences(0).getBoolean("default_backup_to_external", true) );
                 break;
             case R.id.sort_order:
-                MyUtils.set_sort_order(this);
-                db.open();
-                dataAdapter.changeCursor(db.getAllItems(getSharedPreferences(this.getPackageName(),0).getInt("sort_order", MyUtils.sort_order.CREATION_ASC.ordinal())));
-                db.close();
+                MyUtils.set_sort_order(this,
+                        new MyUtils.SortOrderCallback() {
+                            @Override
+                            public void callback() {
+                                refreshViewAndDataAdapter();
+                            }
+                        }
+                );
                 break;
             default:
                 Log.e (TAG, "MENU = WTF?");
@@ -268,9 +272,10 @@ public void showAll() {
     recountActionBar();
 }
 
-    private void refreshViewAndDataAdapter(){
+    public void refreshViewAndDataAdapter(){
         db.open();
-        dataAdapter.changeCursor(db.getAllItems());
+        int default_sort_order = MyUtils.sort_order.CREATION_ASC.ordinal();
+        dataAdapter.changeCursor(db.getAllItems(getSharedPreferences(this.getPackageName(), 0).getInt("sort_order", default_sort_order)));
         db.close();
         dataAdapter.notifyDataSetChanged();
         recountActionBar();

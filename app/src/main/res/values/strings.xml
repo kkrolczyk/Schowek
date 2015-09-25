@@ -76,4 +76,11 @@
     <string name="update_failed">Update failed.</string>
     <string name="wrong_password">Wrong password - or password not set.</string>
 
+    <string name="content_asc">Content: ASC</string>
+    <string name="content_desc">Content: DESC</string>
+    <string name="creation_asc">Creation date: ASC</string>
+    <string name="creation_desc">Creation date: DESC</string>
+    <string name="modification_asc">Modification date: ASC</string>
+    <string name="modification_desc">Modification date: DESC</string>
+
 </resources>
