@@ -14,10 +14,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by kkrolczyk on 18.11.14.
- */
-
 public class NoteDBAdapter extends AbstractDBAdapter {
 
     private static final String TAG = "NoteDBAdapter";
@@ -53,7 +49,7 @@ public class NoteDBAdapter extends AbstractDBAdapter {
         String order_by = null;
 
         if (sort_order.length>0){
-            //Log.e(TAG,"Sort order = cre asc/cre desc/mod asc/mod desc/cont asc/cont desc/ =:" + sort_order[0]);
+            // TODO: WUT? Note to past me: do elaborate on that, srsly.
             String order_dir = Arrays.toString(MyUtils.sort_order.values()).replaceAll("^.|.$", "").split(", ")[sort_order[0]].split("_")[1];
             //Log.e(TAG,"Sort order 7:" + config.DATABASE_KEYS[sort_order[0] % config.DATABASE_KEYS.length]);
             order_by = config.DATABASE_KEYS[sort_order[0] / 2] + " " + order_dir;

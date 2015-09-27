@@ -15,6 +15,7 @@
     <string name="backup_load">Load backup</string>
     <string name="backup_target_internal">Target: internal memory</string>
     <string name="backup_target_external">Target: external SD card</string>
+    <string name="backup_not_set">Backup direction NOT selected - assuming accidental click</string>
 
 
     <string name="bilans_status_account_txt_1">Account status (1)</string>

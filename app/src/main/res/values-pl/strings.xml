@@ -27,6 +27,7 @@
     <string name="backup_store">Utwórz kopię zapasową</string>
     <string name="backup_target_internal">Eksportuj do pamięci urządzenia</string>
     <string name="backup_target_external">Eksportuj na kartę pamięci</string>
+    <string name="backup_not_set">Nie ustawiono kierunku operacji kopii zapasowej</string>
     <string name="cancel">Anuluj</string>
     <string name="clean_all">Wyczyść tabele (!)</string>
     <string name="delete_question">Usunąć?</string>

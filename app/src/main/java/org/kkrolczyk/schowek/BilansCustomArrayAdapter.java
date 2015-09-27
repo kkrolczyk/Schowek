@@ -12,17 +12,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by kkrolczyk on 02.01.15.
- */
-
-
 public class BilansCustomArrayAdapter extends ArrayAdapter<List<String>> {
 
     private static class ViewHolder {
-        // https://guides.codepath.com/android/Using-an-ArrayAdapter-with-ListView - does this even work ? :)
-        // view lookup cache stored in TAG
-        // Check if an existing view is being reused, otherwise inflate the view
         TextView name;
         TextView value;
         TextView bilans_row_current_amount;
@@ -31,7 +23,6 @@ public class BilansCustomArrayAdapter extends ArrayAdapter<List<String>> {
     public BilansCustomArrayAdapter(Context ctx, int xml_layout, List<List<String>> texts ) {
         super(ctx, R.layout.activity_bilans_add_single_row, texts);
     }
-
 
     public Double getSumOfElements(){
         Double sum = 0.0;

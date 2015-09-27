@@ -12,11 +12,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by kkrolczyk on 22.01.15.
- */
-
-
 public class TodoCustomArrayAdapter extends ArrayAdapter<Pair<String, String>> implements Filterable {
 
     private static class ViewHolder {
@@ -34,7 +29,8 @@ public class TodoCustomArrayAdapter extends ArrayAdapter<Pair<String, String>> i
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent)
+    {
 
         Pair<String, String> txt =  getItem(position);
 
@@ -54,7 +50,8 @@ public class TodoCustomArrayAdapter extends ArrayAdapter<Pair<String, String>> i
     }
 
     @Override
-    public Filter getFilter() {
+    public Filter getFilter()
+    {
 
         Filter filter = new Filter() {
 
@@ -68,61 +65,15 @@ public class TodoCustomArrayAdapter extends ArrayAdapter<Pair<String, String>> i
                 }
             }
 
-
-
-
-
-            ////////////////////// strasznie to zjebane...
-
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
 
                 FilterResults results = new FilterResults();
-//                List<Pair<String, String>> filtered = new ArrayList<Pair<String, String>> ();
-//
-//                // perform your search here using the searchConstraint String.
-//
-//                constraint = constraint.toString().toLowerCase();
-//
-//                List<JournalModel> allJournals = getTags();
-//                if(constraint == null || constraint.length() == 0){
-//
-//                    result.values = allJournals;
-//                    result.count = allJournals.size();
-//                }else{
-//                    ArrayList<JournalModel> filteredList = new ArrayList<JournalModel>();
-//                    for(JournalModel j: allJournals){
-//                        if(j.source.title.contains(constraint))
-//                            filteredList.add(j);
-//                    }
-//                    result.values = filteredList;
-//                    result.count = filteredList.size();
-//                }
-//
-//
-//                for (int i = 0; i < mDatabaseOfNames.size(); i++) {
-//                    String dataNames = mDatabaseOfNames.get(i);
-//                    if (dataNames.toLowerCase().startsWith(constraint.toString()))  {
-//                        filtered.add(dataNames);
-//                    }
-//                }
-//
-//                results.count = FilteredArrayNames.size();
-//                results.values = FilteredArrayNames;
-//                Log.e(TAG, "VALUES" + results.values.toString());
-
+		// TODO: fix-me, see previous commits
                 return results;
             }
-
-
-
-
-
-            ////////////////////////////////////////////////
         };
-
         return filter;
     }
-
 }
 

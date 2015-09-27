@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by kkrolczyk on 22.11.14.
- */
 
 public class BilansDBAdapter extends AbstractDBAdapter{
 
@@ -32,9 +29,7 @@ public class BilansDBAdapter extends AbstractDBAdapter{
     public BilansDBAdapter(Context context)
     {
         super(context, Configs_preparer());
-        //this.context = context;
     }
-    //private BilansDBAdapter(){this.context = null;}; //prevent empty constructor
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -163,7 +158,4 @@ public class BilansDBAdapter extends AbstractDBAdapter{
 
         return items;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
 }

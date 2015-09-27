@@ -19,18 +19,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-/**
- * Created by kkrolczyk on 23.11.14.
- */
-
 public class MyUtils {
 
-    private static String TAG = MyUtils.class.getSimpleName();
-
-    //private Context mContext;
-    //public MyUtils(Context context){ mContext=context; };
-
-    public enum sort_order { CREATION_ASC, CREATION_DESC, MODIFICATION_ASC, MODIFICATION_DESC, CONTENT_ASC, CONTENT_DESC };
+    private static String TAG = "MyUtils";
 
     public static String[] convertToStrings(byte[][] byteStrings) {
         String[] data = new String[byteStrings.length];
@@ -45,7 +36,7 @@ public class MyUtils {
         byte[][] data = new byte[strings.length][];
         for (int i = 0; i < strings.length; i++) {
             String string = strings[i];
-            data[i] = string.getBytes(Charset.defaultCharset()); // you can chose charset
+            data[i] = string.getBytes(Charset.defaultCharset());
         }
         return data;
     }
@@ -53,7 +44,7 @@ public class MyUtils {
     public void debug_bundle(Bundle bundle){
     //        Log.e(TAG, "all ?:"+intent.getExtras().keySet());
     //        Log.e(TAG, "all ?:"+intent.getExtras().toString());
-        // great for debugging bundles
+    //  great for debugging bundles
         for (String key : bundle.keySet()) {
             Object value = bundle.get(key);
             Log.d(TAG, String.format("%s %s (%s)", key,
@@ -71,6 +62,9 @@ public class MyUtils {
         return new SimpleDateFormat("HH:mm").format(Calendar.getInstance().getTime());
     }
 
+
+    // TODO: if this is to be generic, enum should be provided by database, from keys(?)...
+    public enum sort_order { CREATION_ASC, CREATION_DESC, MODIFICATION_ASC, MODIFICATION_DESC, CONTENT_ASC, CONTENT_DESC };
 
     private static String [] getSortNames(final Context ctx){
         int [] sort_name_ids  = { R.string.creation_asc, R.string.creation_desc, R.string.modification_asc, R.string.modification_desc, R.string.content_asc, R.string.content_desc };
