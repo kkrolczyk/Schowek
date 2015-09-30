@@ -76,7 +76,7 @@
         android:layout_height="wrap_content"
         android:text="@string/ok"
         android:id="@+id/backup_go"
-        android:onClick="Backup_DB"
+        android:onClick="runBackupOrRestore"
         />
 
 </LinearLayout>

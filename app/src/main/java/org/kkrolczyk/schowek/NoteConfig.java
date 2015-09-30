@@ -5,10 +5,6 @@ import android.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by kkrolczyk on 15.01.15.
- */
-
 public class NoteConfig extends AbstractConfig {
 
     public static final String DBASE_NAME = "notki.db";
@@ -22,6 +18,6 @@ public class NoteConfig extends AbstractConfig {
         configuration.add(new Pair("note", "TEXT"));
     }
 
-    NoteConfig(){ super(DBASE_NAME, TABLE_NAME, configuration); super.DBASE_NAME = DBASE_NAME;  };
+    NoteConfig(){ super(DBASE_NAME, TABLE_NAME, configuration); };
 
 }

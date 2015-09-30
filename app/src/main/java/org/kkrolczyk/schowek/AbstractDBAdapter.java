@@ -6,108 +6,82 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
 import java.util.List;
-
-/**
- * Created by kkrolczyk on 15.01.15.
- */
 
 public abstract class AbstractDBAdapter <T> {
 
     private static final String TAG = "AbstractDBAdapter";
     private static final int DATABASE_VERSION = 1;
     private List<AbstractConfig> configs;
-    private AbstractConfig config;
     protected Context context;
     protected DatabaseHelper DBHelper;
     protected SQLiteDatabase db = null;
-
-    //private DatabaseHelper DBHelper;
+    protected String db_path;
 
     protected class DatabaseHelper extends SQLiteOpenHelper
     {
-        DatabaseHelper(Context context){
-            super(context, config.DBASE_NAME, null, DATABASE_VERSION);
-            //db = this.getWritableDatabase(); // is this required for something?
+        DatabaseHelper(Context context, String DatabaseName){
+            super(context, DatabaseName, null, DATABASE_VERSION);
         }
 
         @Override
         public void onCreate(SQLiteDatabase db){
             tables_creator(db);
+            db_path = db.getPath();
         }
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
         {
-            Log.w(TAG, "Upgrading database from version " + oldVersion
-                    + " to "
-                    + newVersion + ", which will destroy all old data");
-            db.execSQL(config.TABLE_DROP);
+            Log.w(TAG, "Upgrading database, which will destroy all old data. " +
+                       "Ver_old: " + oldVersion + ", Ver_new: " + newVersion);
+            tables_dropper(db);
             onCreate(db);
         }
+
     }
 
     public AbstractDBAdapter(Context context, List<T> configs){
+    /* AbstractDBAdapter receives list of configs, type T, all based on AbstractConfig */
 
         this.context = context;
-        // upcast, we will not use any of subclass items here. Other option? reflection
+        // upcast, we will not use any of subclass items here
         this.configs = (List<AbstractConfig>) configs;
-        this.config = (AbstractConfig) configs.get(0);
         //create new DB if there isn't one...
-        DBHelper = new DatabaseHelper(context);
+        DBHelper = new DatabaseHelper(context, ((AbstractConfig) configs.get(0)).DBASE_NAME);
     }
 
     public AbstractDBAdapter open() throws SQLException {
         db = DBHelper.getWritableDatabase();
-        return this;
+        return this; // TODO: ?
     }
 
     public void close() {
         DBHelper.close();
     }
 
+    public void drop(){
+        tables_dropper(db);
+        tables_creator(db);
+    }
 
-    public void tables_dropper(SQLiteDatabase db) {
+    protected void Backup(){
+        Intent intent = new Intent(context, BackupActivityView.class);
+        intent.putExtra("dbname", (configs.get(0)).DBASE_NAME);
+        intent.putExtra("dbpath", db_path);
+        context.startActivity(intent);
+    }
+
+    private void tables_dropper(SQLiteDatabase db) {
         for (AbstractConfig conf: configs){
             db.execSQL(conf.TABLE_DROP);
         }
     }
-    public void tables_creator(SQLiteDatabase db){
+    private void tables_creator(SQLiteDatabase db){
         for (AbstractConfig conf: configs){
-            db.execSQL(conf.TABLE_CREATE); //create if does not exist...
+            db.execSQL(conf.TABLE_CREATE);
+            if (conf.tb_preconfiguration != null)
+                db.execSQL(conf.tb_preconfiguration);
         }
     }
-
-    public void drop(){
-        tables_dropper(db);
-        tables_creator(db);
-        //db = DBHelper.getWritableDatabase();
-    }
-
-
-    protected void Backup(){
-        Intent intent = new Intent(context, BackupActivityView.class);
-        intent.putExtra("dbname", config.DBASE_NAME);
-        context.startActivity(intent);
-    }
-
-
-
-    //public abstract long insertItem(...args);
-    //public abstract boolean deleteItem(long item);
-    //public abstract Cursor getItem(long rowId);
-    //public abstract boolean updateItem(...args);
-
-    //todo=>try to abstractize also some functions from *DBAdapters?
-//    public boolean updateItem(long rowId, String timestamp, String note)
-//    {
-//        ContentValues args = new ContentValues();
-//        args.put("timestamp", timestamp);
-//        args.put("note", note);
-//        return db.update(config.TABLE_NAME, args,
-//                "_id" + "=" + rowId, null) > 0;
-//    }
-
-
 }

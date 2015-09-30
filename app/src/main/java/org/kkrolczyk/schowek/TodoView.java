@@ -36,13 +36,6 @@ public class TodoView extends Activity
         showAll();
     }
 
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        Log.i(TAG,"DB on RE start"); //after pause and after activity for result has returned...
-//    }
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////   MENU   ///////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -80,8 +73,8 @@ public class TodoView extends Activity
 ///////////////////////////////////  DELEGATE WORK   ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void prepare_intent(int request_code, long invoking_id){
-        db.open();
+    public void prepare_intent(int request_code, long invoking_id)
+    {    
         Intent intent = new Intent(TodoView.this, TodoAdd.class);
         if (invoking_id > 0) {
             intent.putExtra("item_id", invoking_id);
@@ -91,14 +84,12 @@ public class TodoView extends Activity
             intent.putExtra("content", "");
             intent.putExtra("assigned_tags", new ArrayList<String>());
         }
+        db.open();
         intent.putExtra("all_tags", db.getTags());
         db.close();
         startActivityForResult(intent, request_code);
     }
 
-    public void note_add_new(View v){
-        prepare_intent(0, -1);
-    }
     public void tags_add_new(View v){
         Log.e(TAG, "Not implemented");
         db.open();
@@ -106,7 +97,6 @@ public class TodoView extends Activity
         db.close();
         //prepare_intent(0, -1);
     }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         Boolean activity_success = false;
@@ -123,7 +113,7 @@ public class TodoView extends Activity
                     PutItem(data.getStringExtra("content"));
                     break;
                 case 1:
-                    long update_id = data.getLongExtra("item_id",-1);
+                    long update_id = data.getLongExtra("item_id", -1);
                     if (update_id > 0)
                         UpdateItem(update_id, data.getStringExtra("content"));
                     else
@@ -135,7 +125,6 @@ public class TodoView extends Activity
         else
             Toast.makeText(getApplicationContext(),
                     getString(R.string.empty_or_cancelled), Toast.LENGTH_LONG).show();
-
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -147,62 +136,61 @@ public class TodoView extends Activity
 ///////////////////////////////////   DB ITEMS   ///////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-public void showAll() {
-
-    db.open();
-    Cursor c = db.getAllItems(); // first item has items, second aggregated tags related to id
-    db.close();
-
-    ArrayList<Pair<String, String>> dataAggregate = new ArrayList<Pair<String, String>>();
-    if (c != null && c.moveToFirst())
+    public void showAll()
     {
+        db.open();
+        Cursor c = db.getAllItems(); // first item has items, second aggregated tags related to id
+        db.close();
 
-        do {
-            Pair<String, String> dataContainer = new Pair<String, String>(c.getString(0), c.getString(1));
-            dataAggregate.add(dataContainer);
-        } while (c.moveToNext());
-    } else {
-        Log.e(TAG, "null pointer - cursor from database (show all)");
+        ArrayList<Pair<String, String>> dataAggregate = new ArrayList<Pair<String, String>>();
+        if (c != null && c.moveToFirst())
+        {
+            do {
+                Pair<String, String> dataContainer = new Pair<String, String>(c.getString(0), c.getString(1));
+                dataAggregate.add(dataContainer);
+            } while (c.moveToNext());
+        } else {
+            Log.e(TAG, "null pointer - cursor from database (show all)");
+        }
+
+        dataAdapter = new TodoCustomArrayAdapter(this, R.layout.activity_todo_view_listview, dataAggregate);
+
+        ListView listView = (ListView) findViewById(R.id.my_list_view);
+        listView.setAdapter(dataAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position_of_of_view_in_adapter, long id_clicked) {
+
+                prepare_intent(1, id_clicked);
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long id_clicked) {
+
+                AlertDialog.Builder alert = new AlertDialog.Builder(TodoView.this);
+                alert.setTitle(getString(R.string.delete_question));
+                alert.setMessage(getString(R.string.delete_confirm) + pos);
+                alert.setNegativeButton(getString(R.string.cancel), null);
+                alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DelItem(id_clicked);
+                        db.open();
+                        //dataAdapter.changeCursor(db.getAllItems());
+                        db.close();
+                        dataAdapter.notifyDataSetChanged();
+                    }
+                });
+                alert.show();
+                return true;
+            }
+        });
+
+        db.close();
     }
-
-    dataAdapter = new TodoCustomArrayAdapter(this, R.layout.activity_todo_view_listview, dataAggregate);
-
-    ListView listView = (ListView) findViewById(R.id.my_list_view);
-    listView.setAdapter(dataAdapter);
-    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-        @Override
-        public void onItemClick(AdapterView<?> arg0, View arg1,
-                                int position_of_of_view_in_adapter, long id_clicked) {
-
-            prepare_intent(1, id_clicked);
-        }
-    });
-    listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-
-        @Override
-        public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long id_clicked) {
-
-            AlertDialog.Builder alert = new AlertDialog.Builder(TodoView.this);
-            alert.setTitle(getString(R.string.delete_question));
-            alert.setMessage(getString(R.string.delete_confirm) + pos);
-            alert.setNegativeButton(getString(R.string.cancel), null);
-            alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    DelItem(id_clicked);
-                    db.open();
-                    //dataAdapter.changeCursor(db.getAllItems());
-                    db.close();
-                    dataAdapter.notifyDataSetChanged();
-                }
-            });
-            alert.show();
-            return true;
-        }
-    });
-
-    db.close();
-}
 
     public void UpdateItem(long id, String item) {
         db.open();
@@ -216,9 +204,6 @@ public void showAll() {
 
     public void PutItem(String item) {
         db.open();
-        //HashMap<String,String> hm = new HashMap<String,String>();
-        //hm.put ("timestamp",MyUtils.timestamp());
-        //hm.put ("note", note);
         db.insertItem( item );
         db.close();
     }
@@ -235,7 +220,6 @@ public void showAll() {
         db.close();
     }
 
-
     public String GetItem(long id)
     {
         db.open();
@@ -245,7 +229,6 @@ public void showAll() {
         else
             return "DB Error?";
     }
-
 
     public void ItemsProvider(int... id)
     {
@@ -273,3 +256,4 @@ public void showAll() {
 ///////////////////////////////////   DB ITEMS END   ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 }
+

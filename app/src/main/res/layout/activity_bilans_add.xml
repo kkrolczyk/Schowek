@@ -70,13 +70,13 @@
     <!-- android:touchscreenBlocksFocus="false" ?? -->
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:weightSum="2">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1">
 
@@ -102,20 +102,22 @@
                 style="?android:attr/buttonStyleSmall"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:text="@string/add_item"
+                android:text="@string/add_temp_item"
                 android:id="@+id/bilans_add_temporary_item_no_save"
                 android:layout_gravity="right"
                 android:onClick="add_item_to_shopping_list_one_time"/>
                 
         </LinearLayout>
-
+        <Space
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+        />
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:layout_weight="1"
             android:id="@+id/bilans_selected_method">
-
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

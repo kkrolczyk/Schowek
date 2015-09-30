@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -45,9 +47,9 @@ public class BilansAdd extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);             // todo: save state+populate on update too.
+        super.onCreate(savedInstanceState);             // TODO: save state+populate on update too.
         setContentView(R.layout.activity_bilans_add);
-        Intent intent = getIntent();
+
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         calendar = Calendar.getInstance();
@@ -57,17 +59,17 @@ public class BilansAdd extends Activity {
         categories_holder = ((Spinner) findViewById(R.id.coarse_desc_bilans));
         shopping_items_for_category_lv = ((ListView) findViewById(R.id.detailed_desc_bilans));
 
-        // populate from intent
+        // populate from intent in case we want to edit entry
+        Intent intent = getIntent();
         data_field.setText(intent.getStringExtra("data"));
         time_field.setText(intent.getStringExtra("time"));
-
-        // TODO: careful- check when spinner list is empty or item is no longer found ?
         populate_categories(intent.getStringExtra("title"));
-        //categories_holder.setSelection(categories_list_adapter.getPosition(intent.getStringExtra("title")));
-        populate_items_for_category(intent.getStringExtra("title"));
-        // TODO: populate previously selected up's and down's
+        // TODO: should populate "old" current_shopping_list as well, and their selected counts
 
+        populate_items_for_category(intent.getStringExtra("title"));
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -91,13 +93,11 @@ public class BilansAdd extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void bilans_finalize_this_shopping_list(View v){
 
-        if (current_shopping_list != null) { // else had not been populated yet (nothing selected)
-
+        if (current_shopping_list != null) {
             Intent intent = this.getIntent();
             intent.putExtra("date", data_field.getText().toString());
             intent.putExtra("time", time_field.getText().toString());
@@ -111,8 +111,6 @@ public class BilansAdd extends Activity {
             intent.putExtra("shopping_sum", current_shopping_list_adapter.getSumOfElements());
             intent.putExtra("items_serialized", current_shopping_list_adapter.getSerializedElements());
 
-
-            // TODO: 2 next lines suck :)
             RadioGroup temporary = (RadioGroup) findViewById(R.id.bilans_selected_method);
             intent.putExtra("parametry", temporary.indexOfChild(temporary.findViewById(temporary.getCheckedRadioButtonId())));
 
@@ -124,17 +122,14 @@ public class BilansAdd extends Activity {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void populate_categories(String... input){
+    private void populate_categories(String... input){
 
         db.open();
         List<String> categories = db.getCategories();
         db.close();
 
-        categories_list_adapter = new ArrayAdapter<String>(this,
-            android.R.layout.simple_spinner_item, categories);
-
+        categories_list_adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,categories);
         categories_list_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
         categories_holder.setAdapter(categories_list_adapter);
 
         // set spinner to new selection if any given in arguments
@@ -152,12 +147,11 @@ public class BilansAdd extends Activity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
+    }
 
-}
+    private void populate_items_for_category(String category){
 
-    public void populate_items_for_category(String category){
         if (category != null){
-
             db.open();
             current_shopping_list = db.getCategoryItems(category);
             db.close();
@@ -165,23 +159,24 @@ public class BilansAdd extends Activity {
             current_shopping_list_adapter = new BilansCustomArrayAdapter(
                     BilansAdd.this,
                     R.layout.activity_bilans_add_single_row,
-                    current_shopping_list );
+                    current_shopping_list);
 
             shopping_items_for_category_lv.setAdapter(current_shopping_list_adapter);
 
-            // todo: click = display time added ? long click delete/edit item ?
-
+            // TODO: click - long click delete/edit item ? In case of temporary price change?
+            
+            // TODO: check - this is probably code that never runs
             shopping_items_for_category_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
                     String str = (String) shopping_items_for_category_lv.getItemAtPosition(position);
-                    Toast.makeText(getBaseContext(), "item was clicked"+str, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "item was clicked " + str, Toast.LENGTH_SHORT).show();
                 }
             });
         }
     }
 
-
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void add_category(View view){
 
@@ -209,44 +204,16 @@ public class BilansAdd extends Activity {
         alert.show();
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void add_item_to_category (View view){
+        Boolean wantToAddToDB = true;
+        namedItemWithValueDialog(wantToAddToDB);
+    }
 
-        if (categories_holder.getChildCount()>0) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            // Set an EditText view to get user input
-            final EditText first = new EditText(this);
-            //first.setHint(EMAIL_HINT);
-            final EditText second = new EditText(this);
-            second.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-            //pass.setHint(PASSWORD_HINT);
-            LinearLayout layout = new LinearLayout(getApplicationContext());
-            layout.setOrientation(LinearLayout.VERTICAL);
-            layout.addView(first);
-            layout.addView(second);
-            alert.setView(layout);
-            final String category = categories_holder.getSelectedItem().toString();
-            alert.setMessage(category);
-
-            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-
-                    if (first.getText().length() > 0 && second.getText().length() > 0) {
-                        db.open();
-                        db.insertItemIntoCategory(category, first.getText().toString(), Float.parseFloat(second.getText().toString()));
-                        db.close();
-                        populate_items_for_category(category);
-                    }
-                }
-            });
-
-            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    // Canceled.
-                }
-            });
-            alert.show();
-        }
+    public void add_item_to_shopping_list_one_time(View view){
+        Boolean wantToAddToDB = false;
+        namedItemWithValueDialog(wantToAddToDB);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -262,6 +229,7 @@ public class BilansAdd extends Activity {
         }
         current_shopping_list_adapter.notifyDataSetChanged();
     }
+
     public void bilans_category_item_plus(View view){
 
         int pos = Integer.parseInt(view.getTag().toString());
@@ -270,6 +238,65 @@ public class BilansAdd extends Activity {
         item.set(2, String.valueOf(current_amount+1));
         current_shopping_list.set(pos, item);
         current_shopping_list_adapter.notifyDataSetChanged();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void namedItemWithValueDialog(final Boolean addToDB) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        // Set an EditText view to get user input
+        final EditText name = new EditText(this);
+        //name.setHint("item name");
+        final EditText price = new EditText(this);
+        price.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        //price.setHint("item price");
+        LinearLayout layout = new LinearLayout(getApplicationContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.addView(name);
+        layout.addView(price);
+        alert.setView(layout);
+        final String category;
+        if (categories_holder.getChildCount()>0) {
+            category = categories_holder.getSelectedItem().toString();
+        } else {
+            category = "_TEMPORARY_";
+        }
+
+        alert.setMessage(category);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String itemName = name.getText().toString();
+                float itemValue = Float.parseFloat(price.getText().toString());
+
+                if (addToDB) {
+                    if (name.getText().length() > 0 && price.getText().length() > 0) {
+                        db.open();
+                        db.insertItemIntoCategory(category,
+                                itemName,
+                                itemValue
+                        );
+                        db.close();
+                        populate_items_for_category(category);
+                    }
+                } else {
+                    populate_items_for_category(category);
+                    ArrayList<String> temp = new ArrayList<String>();
+                    temp.add(itemName);
+                    temp.add(price.getText().toString());
+                    temp.add("1");
+                    current_shopping_list_adapter.add(temp);
+                    current_shopping_list_adapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+        alert.show();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -284,7 +311,8 @@ public class BilansAdd extends Activity {
                                           int day) {
 
                         SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-                        data_field.setText(date.format( new Date(year-1900, month, day) ));                         // TODO: depreciated java.date ...wtf with adding 1900 ?!
+                        data_field.setText(date.format(new Date(year-1900,month,day)));
+                        // TODO: depreciated java.date - convert to Calendar.
                     }
                 };
         // show dialog

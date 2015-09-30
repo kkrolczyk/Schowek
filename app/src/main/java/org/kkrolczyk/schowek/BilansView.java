@@ -66,18 +66,23 @@ public class BilansView extends Activity
             case R.id.manage_backup:
                 db.Backup();
                 break;
-            case R.id.bilans_status_wallet_value:
-                // temporary stored in shared preferences, updated each time after "add"
-                // however i don't like this solution, i'd need to rethink this  layout and overal method, how should this work
-                getPreferences(0).edit().putFloat("current_wallet_status", 0).commit();
+
+/*
+	TODO: Add menu, menu entries 
+		- to set current amount of cash: wallet/account(1),account(2) etc
+		- to manage recurring funds (ie set monthly incomes/payments)
+
+            case R.id.manage_funds: 
+		// new activity,  to set recurring changes and current statuses
+		// should save current values in sharedprefs and read them during startup, 
+		//   getPreferences(0).edit().putFloat("current_wallet_status", 0).commit();
+		//   getPreferences(0).edit().putFloat("current_wallet_status", 0).commit();
+		// updating on the go, if new bilans entry is made, or recurrence event fires
+			bilans_status_wallet_value: displays current cash in wallet 
+			bilans_status_account1_value: displays current cash in account1         
+	        Log.e(TAG, "not implemented yet");
                 break;
-            case R.id.bilans_status_value_1:
-                // see above
-                getPreferences(0).edit().putFloat("current_account_1_status", 0).commit();
-                break;
-            case R.id.bilans_status_value_2:
-                getPreferences(0).edit().putFloat("current_account_2_status", 0).commit();
-                break;
+*/
             default:
                 Log.e (TAG, "MENU = WTF?");
         }
@@ -115,7 +120,8 @@ public class BilansView extends Activity
         prepare_intent(0, -1);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
         Boolean activity_success = false;
         switch (resultCode) {
             case RESULT_OK:
@@ -155,74 +161,75 @@ public class BilansView extends Activity
 ///////////////////////////////////   DB ITEMS   ///////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-public void showAll(){
+    public void showAll()
+    {
+        String[] columns = new String[] {  // The desired columns to be bound
+                "data",
+                "tytul",
+                "kasa",
+                "szczegoly",
+                //"parametry"
+        };
 
-    String[] columns = new String[] {  // The desired columns to be bound
-            "data",
-            "tytul",
-            "kasa",
-            "szczegoly",
-            //"parametry"
-    };
+        // the XML defined views which the data will be bound to
+        int[] to = new int[] {
+                R.id.data,
+                R.id.tytul,
+                R.id.kwota,
+                R.id.szczegoly,
+        };
 
-    // the XML defined views which the data will be bound to
-    int[] to = new int[] {
-            R.id.data,
-            R.id.tytul,
-            R.id.kwota,
-            R.id.szczegoly,
-    };
+        db.open();
 
-    db.open();
+        // create the adapter using the cursor pointing to the desired data
+        // as well as the layout information
+        dataAdapter = new SimpleCursorAdapter(
+                this, R.layout.activity_bilans_add_listview,
+                db.getAllItems(),
+                columns,
+                to,
+                0); //flags
 
-    // create the adapter using the cursor pointing to the desired data
-    //as well as the layout information
-    dataAdapter = new SimpleCursorAdapter(
-            this, R.layout.activity_bilans_add_listview,
-            db.getAllItems(),
-            columns,
-            to,
-            0); //flags
-
-    ListView listView = (ListView) findViewById(R.id.bilans_list_view);
-    listView.setAdapter(dataAdapter);
-    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-        @Override
-        public void onItemClick(AdapterView<?> arg0, View arg1,
-                                int position_of_of_view_in_adapter, long id_clicked) {
-
-            prepare_intent(0, id_clicked);
-        }
-    });
-    listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        ListView listView = (ListView) findViewById(R.id.bilans_list_view);
+        listView.setAdapter(dataAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
-            public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long  id_clicked ){
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position_of_of_view_in_adapter, long id_clicked) {
 
-                AlertDialog.Builder alert = new AlertDialog.Builder(BilansView.this);
-                alert.setTitle(getString(R.string.delete_question));
-                alert.setMessage(getString(R.string.delete_confirm) + pos);
-                alert.setNegativeButton(getString(R.string.cancel), null);
-                alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        DelItem(id_clicked);
-                        db.open();
-                        dataAdapter.changeCursor(db.getAllItems());
-                        db.close();
-                        dataAdapter.notifyDataSetChanged();
-                    }});
-                alert.show();
-                return true;
+                prepare_intent(0, id_clicked);
             }
         });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-    db.close();
+                @Override
+                public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long  id_clicked ){
 
-}
+                    AlertDialog.Builder alert = new AlertDialog.Builder(BilansView.this);
+                    alert.setTitle(getString(R.string.delete_question));
+                    alert.setMessage(getString(R.string.delete_confirm) + pos);
+                    alert.setNegativeButton(getString(R.string.cancel), null);
+                    alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            DelItem(id_clicked);
+                            db.open();
+                            dataAdapter.changeCursor(db.getAllItems());
+                            db.close();
+                            dataAdapter.notifyDataSetChanged();
+                        }});
+                    alert.show();
+                    return true;
+                }
+            });
+
+        db.close();
+    }
 
 
-    public void UpdateItem(long id, String timestamp, String kasa, int parametry, String tytul, String szczegoly) {
+    public void UpdateItem(long id, String timestamp, String kasa, 
+                           int parametry, String tytul, String szczegoly) 
+    {
         db.open();
 
         if (db.updateItem(id, timestamp, kasa, parametry, tytul, szczegoly))
@@ -233,14 +240,13 @@ public void showAll(){
                     Toast.LENGTH_LONG).show();
     }
 
-    public void PutItem(String timestamp, String kasa, int parametry, String tytul, String szczegoly) {
+    public void PutItem(String timestamp, String kasa, int parametry, String tytul, String szczegoly)
+    {
         db.open();
-        //long id =
-        Log.d(TAG," " + timestamp + " " + kasa + " " + parametry + " " + tytul + " " + szczegoly);
+        //Log.d(TAG," " + timestamp + " " + kasa + " " + parametry + " " + tytul + " " + szczegoly);
         db.insertItem(timestamp, kasa, parametry, tytul, szczegoly);
         db.close();
     }
-
 
     public void DelItem(long id)
     {
@@ -254,7 +260,6 @@ public void showAll(){
         db.close();
     }
 
-
     public HashMap<String, String> GetItem(long id)
     {
         db.open();
@@ -265,13 +270,8 @@ public void showAll(){
             map.put(c.getColumnName(i), c.getString(i));
         }
         return map;
-        // move to first is assured by DBAdapter
-//        if (c.moveToFirst())
-//            return c.getString(2); // GET 2 column (note)
-//        else
-//            return "DB Error?";
+        // c.moveToFirst() is assured by DBAdapter
     }
-
 
     public void ItemsProvider(int... id)
     {
@@ -293,12 +293,9 @@ public void showAll(){
             Toast.makeText(this, getString(R.string.not_found), Toast.LENGTH_LONG).show();
         }
         db.close();
-
     }
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////   DB ITEMS END   ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
 }

@@ -7,6 +7,7 @@
     <string name="auto_login">Auto logowanie</string>
     <string name="add_category">dodaj kategorię</string>
     <string name="add_item">dodaj element</string>
+    <string name="add_temp_item">dodaj tymczasową</string>
     <string name="allow_no_pass">Zezwalaj na brak hasła</string>
     <string name="bilans_status_account_txt_2">Lunchcard / inne zasoby</string>
     <string name="bilans_status_account_txt_1">Stan konta (1)</string>
@@ -27,6 +28,7 @@
     <string name="backup_store">Utwórz kopię zapasową</string>
     <string name="backup_target_internal">Eksportuj do pamięci urządzenia</string>
     <string name="backup_target_external">Eksportuj na kartę pamięci</string>
+    <string name="backup_not_set">Nie ustawiono kierunku operacji kopii zapasowej</string>
     <string name="cancel">Anuluj</string>
     <string name="clean_all">Wyczyść tabele (!)</string>
     <string name="delete_question">Usunąć?</string>

@@ -15,20 +15,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-/**
- * Created by kkrolczyk on 21.01.15
- */
-
-
-
-// TODO : FIND A WAY TO PRECONFIG SOME DATABASE FOR EXAMPLE:        insertTag("nieotagowane");
-
 public class TodoDBAdapter extends AbstractDBAdapter{
 
     private static final String TAG = "TodoDBAdapter";
 
     private static List<TodoConfig> configs;
-    private static List<TodoConfig> Configs_preparer(){
+    private static List<TodoConfig> Configs_preparer()
+    {
         configs = new ArrayList<TodoConfig>();
         configs.add(new TodoConfig("entries"));
         configs.add(new TodoConfig("tags"));
@@ -70,7 +63,6 @@ public class TodoDBAdapter extends AbstractDBAdapter{
 
         Cursor mCursor = db.rawQuery(MY_QUERY, null); //new String[]{String.valueOf(where...)}
         return mCursor.getCount() > 0 ? mCursor : null;
-
     }
 
     public Cursor getItem(long rowId) throws SQLException
@@ -98,7 +90,8 @@ public class TodoDBAdapter extends AbstractDBAdapter{
     }
 
     // probably suboptimal to query for single unique item? + probable SQLITE injection possible by entry
-    private long getEntryId(String entry){
+    private long getEntryId(String entry)
+    {
         Cursor c = db.query(configs.get(2).TABLE_NAME, new String[]{"item_id"},
                 "item = " + "'" + entry + "'",
                 null,
@@ -118,8 +111,8 @@ public class TodoDBAdapter extends AbstractDBAdapter{
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // HELPERS table and its functions.
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    public void insertTag(String tag){
-
+    public void insertTag(String tag)
+    {
         ContentValues args = new ContentValues();
         args.put("item", tag);
         try {
@@ -160,7 +153,6 @@ public class TodoDBAdapter extends AbstractDBAdapter{
         return getTags(null);
     }
 
-
     // probably suboptimal to query for single unique item?
     private long getTagId(String tag){
         Cursor c = db.query(configs.get(1).TABLE_NAME, new String[]{"tag_id"},
@@ -183,23 +175,26 @@ public class TodoDBAdapter extends AbstractDBAdapter{
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // HELPERS for mapping items to tags and vice versa
 
-
-    public void insertRelation(long item_id, long tag_id){
-
+    public void insertRelation(long item_id, long tag_id)
+    {
         ContentValues args = new ContentValues();
         args.put("mitem_id",item_id);
         args.put("mtag_id", tag_id);
         db.insert(configs.get(2).TABLE_NAME, null, args);
     }
-    public void insertRelation(String entry, String tag){
+
+    public void insertRelation(String entry, String tag)
+    {
         insertRelation(getEntryId(entry), getTagId(tag));
     }
 
-
-    public boolean removeRelation(long item_id, long tag_id){
-        return db.delete(configs.get(2).TABLE_NAME, "mtag_id = " + tag_id + " AND mitem_id = " + item_id, null) > 0;
+    public boolean removeRelation(long item_id, long tag_id)
+    {
+        return db.delete(configs.get(2).TABLE_NAME, "mtag_id = " 
+                                                    + tag_id + " AND mitem_id = " 
+                                                    + item_id, null
+                        ) > 0;
     }
-
 
     public List<Long> getEntriesForTag(long tag_id){
 
@@ -224,5 +219,4 @@ public class TodoDBAdapter extends AbstractDBAdapter{
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-
 }

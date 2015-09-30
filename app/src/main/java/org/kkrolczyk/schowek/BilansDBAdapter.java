@@ -12,9 +12,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-/**
- * Created by kkrolczyk on 22.11.14.
- */
 
 public class BilansDBAdapter extends AbstractDBAdapter{
 
@@ -32,9 +29,7 @@ public class BilansDBAdapter extends AbstractDBAdapter{
     public BilansDBAdapter(Context context)
     {
         super(context, Configs_preparer());
-        //this.context = context;
     }
-    //private BilansDBAdapter(){this.context = null;}; //prevent empty constructor
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -97,8 +92,8 @@ public class BilansDBAdapter extends AbstractDBAdapter{
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // HELPERS table and its functions.
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    public void insertCategory(String category){
-
+    public void insertCategory(String category)
+    {
         ContentValues args = new ContentValues();
         args.put("category", category);
         try {
@@ -107,9 +102,9 @@ public class BilansDBAdapter extends AbstractDBAdapter{
         // skip unique
     }
 
-    public List<String> getCategories(){
-       List<String> categories = new ArrayList<String>();
-        Log.e(TAG, "BilansDBAdapter:" + configs.get(2).TABLE_NAME);
+    public List<String> getCategories()
+    {
+        List<String> categories = new ArrayList<String>();
         Cursor c = db.query(configs.get(2).TABLE_NAME, new String[]{"category"},
                 null,
                 null,
@@ -129,8 +124,8 @@ public class BilansDBAdapter extends AbstractDBAdapter{
     // HELPERS for categories items
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void insertItemIntoCategory(String category, String item, Float value){
-
+    public void insertItemIntoCategory(String category, String item, Float value)
+    {
         ContentValues args = new ContentValues();
         args.put("category", category);
         args.put("item", item);
@@ -163,7 +158,4 @@ public class BilansDBAdapter extends AbstractDBAdapter{
 
         return items;
     }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
 }

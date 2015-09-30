@@ -1,30 +1,25 @@
 package org.kkrolczyk.schowek;
 
 import android.util.Pair;
-
 import java.util.ArrayList;
 import java.util.List;
-
-/**
- * Created by kkrolczyk on 15.01.15.
- */
 
 public abstract class AbstractConfig {
 
     public String TABLE_DROP;
     public String TABLE_CREATE;
-    protected String TABLE_NAME; // virtual - filled by subclasses
-    protected String DBASE_NAME; // virtual - filled by subclasses
-    //public List<String> DATABASE_KEYS;    // preferred but,
-    public String [] DATABASE_KEYS;         // Sqlite api uses this
+    protected String tb_preconfiguration;   // virtual - filled by subclasses
+    protected String TABLE_NAME;            // virtual - filled by subclasses
+    protected String DBASE_NAME;            // virtual - filled by subclasses
+    public String [] DATABASE_KEYS;         // Sqlite api requires String[]
 
-    public AbstractConfig(String DBASE_NAME, String TABLE_NAME, List<Pair<String, String>> configuration) {
+    public AbstractConfig(String DBASE_NAME, String TABLE_NAME,
+                          List<Pair<String, String>> configuration) {
 
         this.TABLE_NAME = TABLE_NAME;
         this.DBASE_NAME = DBASE_NAME;
-        TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";  // todo: check this.TABLE_DROP = X VS TABLE_DROP = X
-        this.DATABASE_KEYS = new String[configuration.size()];    // actually oracle docs said that you cannot instantiate abstract class... so why this is allowed
 
+        this.DATABASE_KEYS = new String[configuration.size()];
         List<String> temp = new ArrayList<String>(configuration.size());
         for( Pair<String, String> entry : configuration ){
             temp.add(entry.first);
@@ -41,5 +36,6 @@ public abstract class AbstractConfig {
         sb.deleteCharAt(sb.length()-1); // remove last ','
         sb.append(" );");
         this.TABLE_CREATE = sb.toString();
+        this.TABLE_DROP = "DROP TABLE IF EXISTS " + TABLE_NAME + ";";
     }
 }

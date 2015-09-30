@@ -1,9 +1,5 @@
 package org.kkrolczyk.schowek;
 
-// todo: szukaj notki
-// todo: filtruj tagi
-// todo: opcja sortuj wg daty a nie id
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -44,13 +40,6 @@ public class NoteView extends Activity
         refreshViewAndDataAdapter();
     }
 
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        Log.i(TAG,"DB on RE start"); //after pause and after activity for result has returned...
-//    }
-
-
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////// handle volume keys as font size changer //////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,11 +56,9 @@ public class NoteView extends Activity
                 }
             }
         }
-        /* listview with 'wrap_content' is unable to properly resize itself. */
+        /* listview with 'wrap_content' is unable to properly resize itself. Changed to match_parent */
         //listView.getParent().recomputeViewAttributes(listView);
         //refreshViewAndDataAdapter();
-
-
     }
 
     @Override
@@ -143,7 +130,8 @@ public class NoteView extends Activity
 ///////////////////////////////////  DELEGATE WORK   ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void prepare_intent(int request_code, long invoking_id){
+    public void prepare_intent(int request_code, long invoking_id)
+    {
         Intent intent = new Intent(NoteView.this, NoteAdd.class);
         if (invoking_id > 0) {
             intent.putExtra("item_id", invoking_id);
@@ -155,14 +143,16 @@ public class NoteView extends Activity
         startActivityForResult(intent, request_code);
     }
 
-    public void note_add_new(View v){
+    public void note_add_new(View v)
+    {
         prepare_intent(0, -1);
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         Boolean activity_success = false;
         switch (resultCode) {
-            case -1: //success
+            case -1: //success ...TODO: rly? -1 as success, just great. Hint: RESULT_OK
                 activity_success = data.getStringExtra("content").length() > 0;
                 break;
             default:
@@ -198,74 +188,68 @@ public class NoteView extends Activity
 ///////////////////////////////////   DB ITEMS   ///////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-public void showAll() {
+    public void showAll()
+    {
 
+        String[] columns = new String[]{  // The desired columns to be bound
+                "timestamp",
+                "note",
+        };
 
-    String[] columns = new String[]{  // The desired columns to be bound
-            "timestamp",
-            "note",
-    };
+        // the XML defined views which the data will be bound to
+        int[] to = new int[]{
+                R.id.note_field_1,
+                R.id.note_field_2,
+        };
 
-    // the XML defined views which the data will be bound to
-    int[] to = new int[]{
-            R.id.note_field_1,
-            R.id.note_field_2,
-    };
+        db.open();
 
-    db.open();
+        // create the adapter using the cursor pointing to the desired data
+        //as well as the layout information
+        dataAdapter = new SimpleCursorAdapter(
+                this, R.layout.activity_note_view_listview,
+                db.getAllItems(),
+                columns,
+                to,
+                0); //flags
 
-    // create the adapter using the cursor pointing to the desired data
-    //as well as the layout information
-    dataAdapter = new SimpleCursorAdapter(
-            this, R.layout.activity_note_view_listview,
-            db.getAllItems(),
-            columns,
-            to,
-            0); //flags
+        ListView listView = (ListView) findViewById(R.id.my_list_view);
+        listView.setAdapter(dataAdapter);
+        // update view to display current amount of notes
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-    ListView listView = (ListView) findViewById(R.id.my_list_view);
-    listView.setAdapter(dataAdapter);
-    // update view to display current amount of notes
-    listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1,
+                                    int position_of_of_view_in_adapter, long id_clicked) {
+                prepare_intent(1, id_clicked);
+            }
+        });
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-        @Override
-        public void onItemClick(AdapterView<?> arg0, View arg1,
-                                int position_of_of_view_in_adapter, long id_clicked) {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long id_clicked) {
 
-            prepare_intent(1, id_clicked);
-//            int request_code = 1;
-//            // inside inner anonymous class so "ACTIVITY.this" below.
-//            Intent note_edit_intent = new Intent(NoteView.this, NoteAdd.class);
-//            note_edit_intent.putExtra("content", GetItem(id_clicked));
-//            note_edit_intent.putExtra("item_id", id_clicked);
-//            startActivityForResult(note_edit_intent, request_code);
-        }
-    });
-    listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                AlertDialog.Builder alert = new AlertDialog.Builder(NoteView.this);
+                alert.setTitle(getString(R.string.delete_question));
+                alert.setMessage(getString(R.string.delete_confirm) + pos);
+                alert.setNegativeButton(getString(R.string.cancel), null);
+                alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DelItem(id_clicked);
+                        refreshViewAndDataAdapter();
+                    }
+                });
+                alert.show();
+                return true;
+            }
+        });
 
-        @Override
-        public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long id_clicked) {
+        db.close();
+        recountActionBar();
+    }
 
-            AlertDialog.Builder alert = new AlertDialog.Builder(NoteView.this);
-            alert.setTitle(getString(R.string.delete_question));
-            alert.setMessage(getString(R.string.delete_confirm) + pos);
-            alert.setNegativeButton(getString(R.string.cancel), null);
-            alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    DelItem(id_clicked);
-                    refreshViewAndDataAdapter();
-                }
-            });
-            alert.show();
-            return true;
-        }
-    });
-
-    db.close();
-    recountActionBar();
-}
-
-    public void refreshViewAndDataAdapter(){
+    public void refreshViewAndDataAdapter()
+    {
         db.open();
         int default_sort_order = MyUtils.sort_order.CREATION_ASC.ordinal();
         dataAdapter.changeCursor(db.getAllItems(getSharedPreferences(this.getPackageName(), 0).getInt("sort_order", default_sort_order)));
@@ -273,14 +257,14 @@ public void showAll() {
         dataAdapter.notifyDataSetChanged();
         recountActionBar();
     }
-    private void recountActionBar() {
+
+    private void recountActionBar()
+    {
         this.getActionBar().setTitle(getString(R.string.add) + ", " + getString(R.string.right_now) + dataAdapter.getCount());
     }
 
-
-
-
-    public void UpdateItem(long id, String note) {
+    public void UpdateItem(long id, String note)
+    {
         db.open();
         if (db.updateItem(id, MyUtils.timestamp(), note))
             Toast.makeText(this, getString(R.string.update_successful),
@@ -290,11 +274,9 @@ public void showAll() {
                     Toast.LENGTH_LONG).show();
     }
 
-    public void PutItem(String note) {
+    public void PutItem(String note)
+    {
         db.open();
-        //HashMap<String,String> hm = new HashMap<String,String>();
-        //hm.put ("timestamp",MyUtils.timestamp());
-        //hm.put ("note", note);
         db.insertItem( MyUtils.timestamp(), note );
         db.close();
     }
@@ -311,7 +293,6 @@ public void showAll() {
         db.close();
     }
 
-
     public String GetItem(long id)
     {
         db.open();
@@ -321,7 +302,6 @@ public void showAll() {
         else
             return "DB Error?";
     }
-
 
     public void ItemsProvider(int... id)
     {
