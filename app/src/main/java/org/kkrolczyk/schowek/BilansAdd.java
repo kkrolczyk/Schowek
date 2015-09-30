@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,6 +26,7 @@ import android.widget.Toast;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -168,7 +170,7 @@ public class BilansAdd extends Activity {
                 public void onItemClick(AdapterView<?> parent, View view,
                                         int position, long id) {
                     String str = (String) shopping_items_for_category_lv.getItemAtPosition(position);
-                    Toast.makeText(getBaseContext(), "item was clicked"+str, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getBaseContext(), "item was clicked " + str, Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -205,45 +207,13 @@ public class BilansAdd extends Activity {
     ////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void add_item_to_category (View view){
+        Boolean wantToAddToDB = true;
+        namedItemWithValueDialog(wantToAddToDB);
+    }
 
-        if (categories_holder.getChildCount()>0) {
-            AlertDialog.Builder alert = new AlertDialog.Builder(this);
-            // Set an EditText view to get user input
-            final EditText name = new EditText(this);
-            //name.setHint("item name");
-            final EditText price = new EditText(this);
-            price.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-            //price.setHint("item price");
-            LinearLayout layout = new LinearLayout(getApplicationContext());
-            layout.setOrientation(LinearLayout.VERTICAL);
-            layout.addView(name);
-            layout.addView(price);
-            alert.setView(layout);
-            final String category = categories_holder.getSelectedItem().toString();
-            alert.setMessage(category);
-
-            alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-
-                    if (name.getText().length() > 0 && price.getText().length() > 0) {
-                        db.open();
-                        db.insertItemIntoCategory(category, 
-                                                  name.getText().toString(), 
-                                                  Float.parseFloat(price.getText().toString())
-                        );
-                        db.close();
-                        populate_items_for_category(category);
-                    }
-                }
-            });
-
-            alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
-                    // Canceled.
-                }
-            });
-            alert.show();
-        }
+    public void add_item_to_shopping_list_one_time(View view){
+        Boolean wantToAddToDB = false;
+        namedItemWithValueDialog(wantToAddToDB);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -268,6 +238,65 @@ public class BilansAdd extends Activity {
         item.set(2, String.valueOf(current_amount+1));
         current_shopping_list.set(pos, item);
         current_shopping_list_adapter.notifyDataSetChanged();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private void namedItemWithValueDialog(final Boolean addToDB) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        // Set an EditText view to get user input
+        final EditText name = new EditText(this);
+        //name.setHint("item name");
+        final EditText price = new EditText(this);
+        price.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        //price.setHint("item price");
+        LinearLayout layout = new LinearLayout(getApplicationContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.addView(name);
+        layout.addView(price);
+        alert.setView(layout);
+        final String category;
+        if (categories_holder.getChildCount()>0) {
+            category = categories_holder.getSelectedItem().toString();
+        } else {
+            category = "_TEMPORARY_";
+        }
+
+        alert.setMessage(category);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String itemName = name.getText().toString();
+                float itemValue = Float.parseFloat(price.getText().toString());
+
+                if (addToDB) {
+                    if (name.getText().length() > 0 && price.getText().length() > 0) {
+                        db.open();
+                        db.insertItemIntoCategory(category,
+                                itemName,
+                                itemValue
+                        );
+                        db.close();
+                        populate_items_for_category(category);
+                    }
+                } else {
+                    populate_items_for_category(category);
+                    ArrayList<String> temp = new ArrayList<String>();
+                    temp.add(itemName);
+                    temp.add(price.getText().toString());
+                    temp.add("1");
+                    current_shopping_list_adapter.add(temp);
+                    current_shopping_list_adapter.notifyDataSetChanged();
+                }
+            }
+        });
+
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                // Canceled.
+            }
+        });
+        alert.show();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

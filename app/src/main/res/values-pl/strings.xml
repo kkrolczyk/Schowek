@@ -7,6 +7,7 @@
     <string name="auto_login">Auto logowanie</string>
     <string name="add_category">dodaj kategorię</string>
     <string name="add_item">dodaj element</string>
+    <string name="add_temp_item">dodaj tymczasową</string>
     <string name="allow_no_pass">Zezwalaj na brak hasła</string>
     <string name="bilans_status_account_txt_2">Lunchcard / inne zasoby</string>
     <string name="bilans_status_account_txt_1">Stan konta (1)</string>

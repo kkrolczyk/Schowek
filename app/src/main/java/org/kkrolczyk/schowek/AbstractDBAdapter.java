@@ -29,6 +29,16 @@ public abstract class AbstractDBAdapter <T> {
             tables_creator(db);
             db_path = db.getPath();
         }
+
+        @Override
+        public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+        {
+            Log.w(TAG, "Upgrading database, which will destroy all old data. " +
+                       "Ver_old: " + oldVersion + ", Ver_new: " + newVersion);
+            tables_dropper(db);
+            onCreate(db);
+        }
+
     }
 
     public AbstractDBAdapter(Context context, List<T> configs){
@@ -38,7 +48,7 @@ public abstract class AbstractDBAdapter <T> {
         // upcast, we will not use any of subclass items here
         this.configs = (List<AbstractConfig>) configs;
         //create new DB if there isn't one...
-        DBHelper = new DatabaseHelper(context, configs.get(0).DBASE_NAME);
+        DBHelper = new DatabaseHelper(context, ((AbstractConfig) configs.get(0)).DBASE_NAME);
     }
 
     public AbstractDBAdapter open() throws SQLException {
@@ -55,9 +65,9 @@ public abstract class AbstractDBAdapter <T> {
         tables_creator(db);
     }
 
-    private void Backup(){
+    protected void Backup(){
         Intent intent = new Intent(context, BackupActivityView.class);
-        intent.putExtra("dbname", config.DBASE_NAME);
+        intent.putExtra("dbname", (configs.get(0)).DBASE_NAME);
         intent.putExtra("dbpath", db_path);
         context.startActivity(intent);
     }
