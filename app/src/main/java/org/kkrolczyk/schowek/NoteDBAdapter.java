@@ -4,19 +4,12 @@ import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.os.Bundle;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
-public class NoteDBAdapter extends AbstractDBAdapter {
-
-    private static final String TAG = "NoteDBAdapter";
+public class NoteDBAdapter extends _AbstractDBAdapter {
 
     private static NoteConfig config;
     private static List<NoteConfig> Configs_preparer(){
@@ -50,7 +43,7 @@ public class NoteDBAdapter extends AbstractDBAdapter {
 
         if (sort_order.length>0){
             // TODO: WUT? Note to past me: do elaborate on that, srsly.
-            String order_dir = Arrays.toString(MyUtils.sort_order.values()).replaceAll("^.|.$", "").split(", ")[sort_order[0]].split("_")[1];
+            String order_dir = Arrays.toString(_MyUtils.SORT_ORDER.values()).replaceAll("^.|.$", "").split(", ")[sort_order[0]].split("_")[1];
             //Log.e(TAG,"Sort order 7:" + config.DATABASE_KEYS[sort_order[0] % config.DATABASE_KEYS.length]);
             order_by = config.DATABASE_KEYS[sort_order[0] / 2] + " " + order_dir;
         }

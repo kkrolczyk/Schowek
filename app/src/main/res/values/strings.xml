@@ -24,7 +24,7 @@
     <string name="bilans_status_debts_minus">To return</string>
     <string name="bilans_status_debts_plus">To collect</string>
     <string name="bilans_status_wallet_txt">Wallet status</string>
-    <string name="bilans_view_filter_displayed_category_hint">filter for single category&#8230;</string>
+    <string name="bilans_view_filter_displayed_category_hint">filter by category&#8230;</string>
 
     <string name="bilans_paid_with_cash">Cash</string>
     <string name="bilans_paid_with_card_1">Card 1</string>
@@ -53,6 +53,7 @@
     <string name="empty_input">No input!</string>
     <string name="get_password">Enter password</string>
 
+    <string name="manage_funds">Manage funds status</string>
     <string name="language">Language</string>
     <string name="language_pl">Polish</string>
     <string name="language_en">English</string>
@@ -81,7 +82,7 @@
     <string name="todo_view_filter_displayed_tags">enter tags here to filter todo list</string>
 
     <string name="title_activity_smallitems">Small items to remember</string>
-    <string name="title_activity_todo">To-Do</string> <!-- selector_todo_activity -->
+    <string name="title_activity_todo">To-Do</string>
     <string name="title_activity_todo_add">To-Do - add item</string>
 
     <string name="update_successful">Update successful.</string>

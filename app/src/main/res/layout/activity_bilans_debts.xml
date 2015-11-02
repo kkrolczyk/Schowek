@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="org.kkrolczyk.schowek.BilansView">
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_debt_amount"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:hint="add menu show/dont completed"
+        android:inputType="number|numberDecimal" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_debt_owner"
+        android:hint="who?"
+        android:inputType="text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_weight="4.30"
+        android:layout_below="@+id/new_debt_amount"
+        android:layout_alignRight="@+id/new_debt_amount" />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linearLayout"
+        android:layout_below="@+id/new_debt_owner">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="lend (out)"
+            android:id="@+id/lend"
+            android:layout_weight="0.5"
+            android:tag="out"
+            android:onClick="add_debt_entry_and_finalize"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="borrow (in)"
+            android:id="@+id/borrow"
+            android:tag="in"
+            android:layout_weight="0.5"
+            android:onClick="add_debt_entry_and_finalize"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/linearLayout">
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="364dp"
+            android:id="@+id/previous_debts"
+            android:layout_gravity="center_horizontal|bottom"/>
+    </FrameLayout>
+
+</RelativeLayout>

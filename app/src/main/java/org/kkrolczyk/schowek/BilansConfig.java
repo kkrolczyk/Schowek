@@ -1,12 +1,11 @@
 package org.kkrolczyk.schowek;
 
-import android.util.Log;
 import android.util.Pair;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class BilansConfig extends AbstractConfig {
+public class BilansConfig extends _AbstractConfig {
 
     public static final String DBASE_NAME = "bilans.db";
 

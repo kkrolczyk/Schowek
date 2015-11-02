@@ -4,16 +4,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
-public class BilansDBAdapter extends AbstractDBAdapter{
+public class BilansDBAdapter extends _AbstractDBAdapter {
 
     private static final String TAG = "BilansDBAdapter";
 
@@ -130,7 +126,7 @@ public class BilansDBAdapter extends AbstractDBAdapter{
         args.put("category", category);
         args.put("item", item);
         args.put("value", value);
-        args.put("datetime", MyUtils.timestamp());
+        args.put("datetime", _MyUtils.timestamp());
         db.insert(configs.get(1).TABLE_NAME, null, args);
     }
 

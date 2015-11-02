@@ -8,11 +8,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 import java.util.List;
 
-public abstract class AbstractDBAdapter <T> {
+public abstract class _AbstractDBAdapter<T> {
 
-    private static final String TAG = "AbstractDBAdapter";
+    private static final String TAG = "_AbstractDBAdapter";
     private static final int DATABASE_VERSION = 1;
-    private List<AbstractConfig> configs;
+    private List<_AbstractConfig> configs;
     protected Context context;
     protected DatabaseHelper DBHelper;
     protected SQLiteDatabase db = null;
@@ -41,17 +41,17 @@ public abstract class AbstractDBAdapter <T> {
 
     }
 
-    public AbstractDBAdapter(Context context, List<T> configs){
-    /* AbstractDBAdapter receives list of configs, type T, all based on AbstractConfig */
+    public _AbstractDBAdapter(Context context, List<T> configs){
+    /* _AbstractDBAdapter receives list of configs, type T, all based on AbstractConfig */
 
         this.context = context;
         // upcast, we will not use any of subclass items here
-        this.configs = (List<AbstractConfig>) configs;
+        this.configs = (List<_AbstractConfig>) configs;
         //create new DB if there isn't one...
-        DBHelper = new DatabaseHelper(context, ((AbstractConfig) configs.get(0)).DBASE_NAME);
+        DBHelper = new DatabaseHelper(context, ((_AbstractConfig) configs.get(0)).DBASE_NAME);
     }
 
-    public AbstractDBAdapter open() throws SQLException {
+    public _AbstractDBAdapter open() throws SQLException {
         db = DBHelper.getWritableDatabase();
         return this; // TODO: ?
     }
@@ -66,19 +66,19 @@ public abstract class AbstractDBAdapter <T> {
     }
 
     protected void Backup(){
-        Intent intent = new Intent(context, BackupActivityView.class);
+        Intent intent = new Intent(context, _BackupActivityView.class);
         intent.putExtra("dbname", (configs.get(0)).DBASE_NAME);
         intent.putExtra("dbpath", db_path);
         context.startActivity(intent);
     }
 
     private void tables_dropper(SQLiteDatabase db) {
-        for (AbstractConfig conf: configs){
+        for (_AbstractConfig conf: configs){
             db.execSQL(conf.TABLE_DROP);
         }
     }
     private void tables_creator(SQLiteDatabase db){
-        for (AbstractConfig conf: configs){
+        for (_AbstractConfig conf: configs){
             db.execSQL(conf.TABLE_CREATE);
             if (conf.tb_preconfiguration != null)
                 db.execSQL(conf.tb_preconfiguration);

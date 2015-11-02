@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" tools:context="org.kkrolczyk.schowek.BilansView">
+
+    <item android:id="@+id/clean_all" android:title="@string/clean_all"
+        android:orderInCategory="1" android:showAsAction="never" />
+
+    <item android:id="@+id/sort_order" android:title="@string/sort_order"
+        android:orderInCategory="2" android:showAsAction="never" />
+
+    <item android:id="@+id/manage_backup" android:title="@string/backup"
+        android:orderInCategory="3" android:showAsAction="never" />
+
+    <item android:id="@+id/manage_funds" android:title="@string/manage_funds"
+        android:orderInCategory="4" android:showAsAction="never" />
+</menu>

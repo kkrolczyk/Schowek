@@ -16,7 +16,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 
-public class BackupActivityView extends Activity {
+public class _BackupActivityView extends Activity {
 
     private String dbname;
     private String dbpath;
@@ -60,7 +60,7 @@ public class BackupActivityView extends Activity {
                 File cardDir = backup_target == db_copy_location.external.ordinal() ? new File("/mnt/extSdCard/") : Environment.getExternalStorageDirectory();
 
                 // optionally: getBaseContext().getDatabasePath(dbname).getPath();
-                // appDBpath="//data//"+MyUtils.class.getPackage().getName()+"//databases//"+dbname;
+                // appDBpath="//data//"+_MyUtils.class.getPackage().getName()+"//databases//"+dbname;
                 String appDBpath = dbpath;
                 String bakBDpath = dbname;
                 File source_fp, target_fp;

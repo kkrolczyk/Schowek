@@ -4,7 +4,7 @@ import android.util.Pair;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class AbstractConfig {
+public abstract class _AbstractConfig {
 
     public String TABLE_DROP;
     public String TABLE_CREATE;
@@ -13,8 +13,8 @@ public abstract class AbstractConfig {
     protected String DBASE_NAME;            // virtual - filled by subclasses
     public String [] DATABASE_KEYS;         // Sqlite api requires String[]
 
-    public AbstractConfig(String DBASE_NAME, String TABLE_NAME,
-                          List<Pair<String, String>> configuration) {
+    public _AbstractConfig(String DBASE_NAME, String TABLE_NAME,
+                           List<Pair<String, String>> configuration) {
 
         this.TABLE_NAME = TABLE_NAME;
         this.DBASE_NAME = DBASE_NAME;

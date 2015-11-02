@@ -4,18 +4,13 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
-import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
-import android.widget.Filterable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TodoDBAdapter extends AbstractDBAdapter{
+public class TodoDBAdapter extends _AbstractDBAdapter {
 
     private static final String TAG = "TodoDBAdapter";
 

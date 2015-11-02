@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -9,33 +10,23 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        >
-
+        android:layout_height="fill_parent">
         <TableLayout
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:id="@+id/bilans_view_statuses_table"
+            android:paddingBottom="0dp"
+            android:paddingTop="0dp">
+        </TableLayout>
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/bilans_view_debts_table">
 
-            <TableRow
+            <View
                 android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical">
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bilans_status_wallet_txt"
-                    android:id="@+id/bilans_status_wallet_txt"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:text="@string/bilans_status_wallet_value"
-                    android:id="@+id/bilans_status_wallet_value"
-                    android:layout_column="1"
-                    android:layout_weight="0.40" />
-            </TableRow>
+                android:layout_height="1dip"
+                android:background="#000000" />
 
             <TableRow
                 android:layout_width="fill_parent"
@@ -45,50 +36,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:text="@string/bilans_status_account_txt_1"
-                    android:id="@+id/bilans_status_header_1"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:text="@string/bilans_status_value"
-                    android:id="@+id/bilans_status_value_1"
-                    android:layout_column="1"
-                    android:layout_weight="0.40" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:text="@string/bilans_status_account_txt_2"
-                    android:id="@+id/bilans_status_header_2"
-                    android:layout_weight="1" />
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:gravity="right"
-                    android:text="@string/bilans_status_value"
-                    android:id="@+id/bilans_status_value_2"
-                    android:layout_column="1"
-                    android:layout_weight="0.40" />
-            </TableRow>
-
-            <TableRow
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:background="#a0002050"
                     android:text="@string/bilans_status_debts_minus"
                     android:id="@+id/bilans_status_to_return"
                     android:layout_weight="1" />
@@ -102,6 +50,7 @@
                     android:layout_column="1"
                     android:layout_weight="0.40" />
             </TableRow>
+
             <TableRow
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -110,6 +59,7 @@
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:background="#c5bb0000"
                     android:text="@string/bilans_status_debts_plus"
                     android:id="@+id/bilans_status_to_collect"
                     android:layout_weight="1" />
@@ -133,11 +83,12 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/debts_button_txt"
-            android:id="@+id/borrow_lend_button" />
+            android:id="@+id/borrow_lend_button"
+            android:onClick="startDebtsManager"/>
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="15dp"
+            android:layout_height="5dp"
             />
 
         <Button
@@ -149,7 +100,7 @@
 
         <Space
             android:layout_width="match_parent"
-            android:layout_height="15dp" />
+            android:layout_height="5dp" />
 
         <EditText
             android:layout_width="match_parent"

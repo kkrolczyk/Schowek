@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.database.Cursor;
@@ -14,9 +16,14 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TableLayout;
+import android.widget.TableRow;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 public class BilansView extends Activity
 {
@@ -50,7 +57,7 @@ public class BilansView extends Activity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_db_view, menu);
+        getMenuInflater().inflate(R.menu.menu_bilans_view, menu);
         return true;
     }
 
@@ -66,19 +73,16 @@ public class BilansView extends Activity
             case R.id.manage_backup:
                 db.Backup();
                 break;
+            case R.id.manage_funds:
+                startActivityForResult(new Intent(BilansView.this, BilansStatusSetting.class), 1);
+                break;
+
 
 /*
-	TODO: Add menu, menu entries 
-		- to set current amount of cash: wallet/account(1),account(2) etc
-		- to manage recurring funds (ie set monthly incomes/payments)
+	TODO: check for possibility to chain/join/combine xml menus
+    TODO: manage recurring funds (ie set monthly incomes/payments)
 
-            case R.id.manage_funds: 
-		// new activity,  to set recurring changes and current statuses
-		// should save current values in sharedprefs and read them during startup, 
-		//   getPreferences(0).edit().putFloat("current_wallet_status", 0).commit();
-		//   getPreferences(0).edit().putFloat("current_wallet_status", 0).commit();
-		// updating on the go, if new bilans entry is made, or recurrence event fires
-			bilans_status_wallet_value: displays current cash in wallet 
+			bilans_status_wallet_value: displays current cash in wallet
 			bilans_status_account1_value: displays current cash in account1         
 	        Log.e(TAG, "not implemented yet");
                 break;
@@ -98,7 +102,7 @@ public class BilansView extends Activity
 ///////////////////////////////////  DELEGATE WORK   ///////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    public void prepare_intent(int request_code, long invoking_id){
+    public void prepare_intent(int requestCode, long invoking_id){
         Intent intent = new Intent(BilansView.this, BilansAdd.class);
 
         if (invoking_id > 0) {
@@ -109,11 +113,11 @@ public class BilansView extends Activity
             intent.putExtra("time", timestamp[1]);
             intent.putExtra("tytul", map.get("tytul"));
         } else {
-            intent.putExtra("data", MyUtils.datenow());
-            intent.putExtra("time", MyUtils.timenow());
+            intent.putExtra("data", _MyUtils.datenow());
+            intent.putExtra("time", _MyUtils.timenow());
             intent.putExtra("amount", "");
         }
-        startActivityForResult(intent, request_code);
+        startActivityForResult(intent, requestCode);
     }
 
     public void bilans_add_new(View v){
@@ -134,21 +138,61 @@ public class BilansView extends Activity
         }
         if (activity_success)
             switch (requestCode) {
-                case 0:
+                case 0: // activity responsible for adding/editing bilans entry
                     String timestamp = intent.getStringExtra("date") + " " + intent.getStringExtra("time");
-
                     int parametry = intent.getIntExtra("parametry", 0);
                     String kwota = String.valueOf(intent.getDoubleExtra("shopping_sum", 0.0));
                     String tytul = intent.getStringExtra("category");
                     String szczegoly = intent.getStringExtra("items_serialized");
                     PutItem(timestamp, kwota, parametry, tytul, szczegoly);
+
+                    break;
+                case 1:
+                    // activity responsible for setting current status of wallet/account etc has returned. No action needed.
+                    break;
+                case 2:
+                    // activity responsible for setting debt/loans used in view's status
+                    Toast.makeText(getApplicationContext(),
+                            "Activity debt manager returned successfully. Remove this", Toast.LENGTH_LONG).show();
                     break;
                 default:
                     Log.e(TAG, "WRONG REQUEST CODE TO START ACTIVITY FOR RESULT ?");
             }
-        else
+        else {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.empty_or_cancelled), Toast.LENGTH_LONG).show();
+        }
+
+        refreshWealthStatus(); // always
+    }
+
+    private void refreshWealthStatus(){
+
+        // todo, push to class item
+        Set<String> account_fields = getSharedPreferences("Account_Status_Prefs", 0).getStringSet("account_fields", new HashSet<String>());
+        // to remember :
+        // - getSharedPreferences("Account_Status_Prefs", 0) => "named" prefs
+        // - getPreferences(0) => preferences per Activity
+
+        // TODO: use BilansStatusSetting class to reduce duplication.
+        SharedPreferences prefs = getSharedPreferences("Account_Status_Prefs", 0);
+        TableLayout table = (TableLayout) findViewById(R.id.bilans_view_statuses_table);
+        table.removeAllViews(); // TODO: For now this empties table, and generates rows from start. Optimize.
+        for(String name: account_fields)
+        {
+            TableRow row = (TableRow) LayoutInflater.from(this).inflate(R.layout.activity_bilans_view_status_row, null);
+            ((TextView)row.findViewById(R.id.attrib_name)).setText(name);
+
+            TextView e = (TextView)row.findViewById(R.id.attrib_value);
+            e.setText(Float.toString(prefs.getFloat(name, 0.0f)));
+            //e.setTag(e); // TODO: is it right use of tags?
+            table.addView(row);
+        }
+        table.requestLayout();
+    }
+
+    public void startDebtsManager(View v){
+        startActivityForResult(new Intent(BilansView.this, BilansDebtMgr.class), 2);
     }
 
 
@@ -203,27 +247,30 @@ public class BilansView extends Activity
         });
         listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
 
-                @Override
-                public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long  id_clicked ){
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> listView, final View v, int pos, final long id_clicked) {
 
-                    AlertDialog.Builder alert = new AlertDialog.Builder(BilansView.this);
-                    alert.setTitle(getString(R.string.delete_question));
-                    alert.setMessage(getString(R.string.delete_confirm) + pos);
-                    alert.setNegativeButton(getString(R.string.cancel), null);
-                    alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int which) {
-                            DelItem(id_clicked);
-                            db.open();
-                            dataAdapter.changeCursor(db.getAllItems());
-                            db.close();
-                            dataAdapter.notifyDataSetChanged();
-                        }});
-                    alert.show();
-                    return true;
-                }
-            });
+                AlertDialog.Builder alert = new AlertDialog.Builder(BilansView.this);
+                alert.setTitle(getString(R.string.delete_question));
+                alert.setMessage(getString(R.string.delete_confirm) + pos);
+                alert.setNegativeButton(getString(R.string.cancel), null);
+                alert.setPositiveButton(getString(R.string.ok), new AlertDialog.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        DelItem(id_clicked);
+                        db.open();
+                        dataAdapter.changeCursor(db.getAllItems());
+                        db.close();
+                        dataAdapter.notifyDataSetChanged();
+                        refreshWealthStatus();
+                    }
+                });
+                alert.show();
+                return true;
+            }
+        });
 
         db.close();
+        refreshWealthStatus();
     }
 
 

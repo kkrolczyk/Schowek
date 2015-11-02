@@ -1,23 +1,17 @@
 package org.kkrolczyk.schowek;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.text.Editable;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.Toast;
 
 import java.util.Locale;
 
-public class MainActivity extends Activity {
+public class _MainActivity extends Activity {
 
     Class<?> SelectedActivity = NoteView.class; //default
     final String TAG = "S_main";
@@ -42,7 +36,7 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_a_greeting, menu);
         return true;
     }
 

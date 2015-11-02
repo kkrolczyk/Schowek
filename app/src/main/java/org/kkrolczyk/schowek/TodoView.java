@@ -42,7 +42,7 @@ public class TodoView extends Activity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_db_view, menu);
+        getMenuInflater().inflate(R.menu.menu_notes_view, menu);
         return true;
     }
 
@@ -155,7 +155,7 @@ public class TodoView extends Activity
 
         dataAdapter = new TodoCustomArrayAdapter(this, R.layout.activity_todo_view_listview, dataAggregate);
 
-        ListView listView = (ListView) findViewById(R.id.my_list_view);
+        ListView listView = (ListView) findViewById(R.id.todo_list_view);
         listView.setAdapter(dataAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 

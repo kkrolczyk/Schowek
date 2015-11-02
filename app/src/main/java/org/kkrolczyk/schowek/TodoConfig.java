@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class TodoConfig extends AbstractConfig {
+public class TodoConfig extends _AbstractConfig {
 
     public static final String DBASE_NAME = "todo.db";
 

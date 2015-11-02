@@ -6,9 +6,10 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TimePicker;
@@ -29,6 +31,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
@@ -66,31 +69,8 @@ public class BilansAdd extends Activity {
         populate_categories(intent.getStringExtra("title"));
         // TODO: should populate "old" current_shopping_list as well, and their selected counts
 
+        populate_accounts(); // TODO: find better name - something like payment methods...transaction sources? something to group: cash payment, atm withdraval, card payment, account deposit/withdrawal
         populate_items_for_category(intent.getStringExtra("title"));
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_db_view_add, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -174,6 +154,19 @@ public class BilansAdd extends Activity {
                 }
             });
         }
+    }
+
+    private void populate_accounts(){
+        RadioGroup temporary = (RadioGroup) findViewById(R.id.bilans_selected_method);
+        SharedPreferences prefs = getSharedPreferences("Account_Status_Prefs", 0);
+
+        for(String name: prefs.getStringSet("account_fields", new HashSet<String>()))
+        {
+            RadioButton rb = (RadioButton) LayoutInflater.from(this).inflate(R.layout.activity_bilans_add_radiobutton, null);
+            rb.setText(name);
+            temporary.addView(rb);
+        }
+        temporary.requestLayout();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

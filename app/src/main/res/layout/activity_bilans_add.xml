@@ -118,32 +118,6 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:id="@+id/bilans_selected_method">
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bilans_paid_with_cash"
-                android:id="@+id/cash_radio_btn"
-                android:checked="true" />
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bilans_paid_with_card_1"
-                android:id="@+id/card_radio_btn" />
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bilans_paid_with_card_2"
-                android:id="@+id/card2_radio_btn" />
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bilans_atm_withdrawal"
-                android:id="@+id/atm_radio_btn" />
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/bilans_income_any"
-                android:id="@+id/income_radio_btn" />
         </RadioGroup>
     </LinearLayout>
 

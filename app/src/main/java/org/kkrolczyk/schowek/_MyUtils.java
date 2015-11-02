@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 
-public class MyUtils {
+public class _MyUtils {
 
-    private static String TAG = "MyUtils";
+    private static String TAG = "_MyUtils";
 
     public static String[] convertToStrings(byte[][] byteStrings) {
         String[] data = new String[byteStrings.length];
@@ -64,7 +64,7 @@ public class MyUtils {
 
 
     // TODO: if this is to be generic, enum should be provided by database, from keys(?)...
-    public enum sort_order { CREATION_ASC, CREATION_DESC, MODIFICATION_ASC, MODIFICATION_DESC, CONTENT_ASC, CONTENT_DESC };
+    public enum SORT_ORDER { CREATION_ASC, CREATION_DESC, MODIFICATION_ASC, MODIFICATION_DESC, CONTENT_ASC, CONTENT_DESC };
 
     private static String [] getSortNames(final Context ctx){
         int [] sort_name_ids  = { R.string.creation_asc, R.string.creation_desc, R.string.modification_asc, R.string.modification_desc, R.string.content_asc, R.string.content_desc };
@@ -75,18 +75,18 @@ public class MyUtils {
         return names;
     }
 
-    public static void set_sort_order(final Context ctx, final SortOrderCallback sortOrderCallback){
+    public static void setSortOrder(final Context ctx, final SortOrderCallback sortOrderCallback){
 
         AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
         builder.setTitle(ctx.getString(R.string.sort_order))
-               .setSingleChoiceItems(new ArrayAdapter<String>(ctx, android.R.layout.simple_list_item_1, getSortNames(ctx)), sort_order.CREATION_ASC.ordinal(),
+               .setSingleChoiceItems(new ArrayAdapter<String>(ctx, android.R.layout.simple_list_item_1, getSortNames(ctx)), SORT_ORDER.CREATION_ASC.ordinal(),
                        new DialogInterface.OnClickListener() {
                            @Override
                            public void onClick(DialogInterface dialog, int which) {
                                //selected_sort[0] = sort_order.values()[which];
-                               ctx.getSharedPreferences(ctx.getPackageName(), 0).edit().putInt("sort_order", sort_order.values()[which].ordinal()).commit();
-                               ctx.getSharedPreferences("Prefs", 0).edit().putInt("sort_order", sort_order.values()[which].ordinal()).commit();
-                               ctx.getApplicationContext().getSharedPreferences(ctx.getPackageName(), 0).edit().putInt("sort_order", sort_order.values()[which].ordinal()).commit();
+                               ctx.getSharedPreferences(ctx.getPackageName(), 0).edit().putInt("sort_order", SORT_ORDER.values()[which].ordinal()).commit();
+                               ctx.getSharedPreferences("Prefs", 0).edit().putInt("sort_order", SORT_ORDER.values()[which].ordinal()).commit();
+                               ctx.getApplicationContext().getSharedPreferences(ctx.getPackageName(), 0).edit().putInt("sort_order", SORT_ORDER.values()[which].ordinal()).commit();
                                if (sortOrderCallback != null){
                                    sortOrderCallback.callback();
                                }
