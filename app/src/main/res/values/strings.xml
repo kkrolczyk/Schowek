@@ -40,6 +40,8 @@
 
     <string name="clean_all">Purge table (!)</string>
     <string name="cancel">Cancel</string>
+    <string name="content_encrypted">Content encrypted.\n</string>
+
 
     <string name="debts_button_txt">Debts:borrowed/lend</string>
     <string name="delete_question">Delete?</string>

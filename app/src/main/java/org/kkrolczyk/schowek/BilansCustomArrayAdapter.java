@@ -7,21 +7,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class BilansCustomArrayAdapter extends ArrayAdapter<List<String>> {
+public class BilansCustomArrayAdapter extends ArrayAdapter<List<String>>  implements Filterable {
 
+    private final String TAG = "BilansCustomArrayAdapt";
     private static class ViewHolder {
         TextView name;
         TextView value;
         TextView bilans_row_current_amount;
     }
     ViewHolder viewHolder;
+    private ArrayList<List<String>> texts;
     public BilansCustomArrayAdapter(Context ctx, int xml_layout, List<List<String>> texts ) {
         super(ctx, R.layout.activity_bilans_add_single_row, texts);
+        this.texts = (ArrayList) texts;
     }
 
     public Double getSumOfElements(){
@@ -74,6 +79,35 @@ public class BilansCustomArrayAdapter extends ArrayAdapter<List<String>> {
         }
         // Return the completed view to render on screen
         return convertView;
+    }
+
+    @Override
+    public Filter getFilter()
+    {
+        Filter filter = new Filter() {
+
+            @Override
+            protected void publishResults(CharSequence constraint, Filter.FilterResults results) {
+                if (results.count == 0) {
+                    notifyDataSetInvalidated();
+                } else {
+                    //todo_items = (List<Pair<String, String>>) results.values;
+                    texts = (ArrayList<List<String>>) results.values;
+                    notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+
+                Log.d(TAG, "performFiltering");
+                FilterResults results = new FilterResults();
+                //ArrayList<List<String>> filtered;
+
+                return results;
+            }
+        };
+        return filter;
     }
 }
 

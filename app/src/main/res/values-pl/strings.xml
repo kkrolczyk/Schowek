@@ -31,6 +31,7 @@
     <string name="backup_not_set">Nie ustawiono kierunku operacji kopii zapasowej</string>
     <string name="cancel">Anuluj</string>
     <string name="clean_all">Wyczyść tabele (!)</string>
+    <string name="content_encrypted">Tresc zaszyfrowana\n</string>
     <string name="delete_question">Usunąć?</string>
     <string name="delete_confirm">Czy napewno usunąć:</string>
     <string name="delete_failed">Usuwanie się nie powiodło.</string>

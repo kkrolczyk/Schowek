@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CheckBox;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
@@ -136,6 +137,8 @@ public class NoteView extends Activity {
         Intent intent = new Intent(NoteView.this, NoteAdd.class);
         intent.putExtra("content", "");
         intent.putExtra("fontSize", fontSize);
+        if( ((CheckBox) findViewById(R.id.want_encryption)).isChecked() )
+            intent.putExtra(getString(R.string.content_encrypted), true);
         startActivityForResult(intent, requestCode);
     }
 
@@ -145,6 +148,8 @@ public class NoteView extends Activity {
         intent.putExtra("noteId", invokingId);
         intent.putExtra("content", GetItem(invokingId));
         intent.putExtra("fontSize", fontSize);
+        if( ((CheckBox) findViewById(R.id.want_encryption)).isChecked() )
+            intent.putExtra(getString(R.string.content_encrypted), true);
         startActivityForResult(intent, requestCode);
     }
 
