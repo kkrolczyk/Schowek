@@ -39,7 +39,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/todo_view_buttons_container"
-        android:hint="@string/todo_view_filter_displayed_tags"/>
+        android:hint="@string/filter_hint"/>
 
     <ListView
         android:layout_width="wrap_content"

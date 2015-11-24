@@ -45,7 +45,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="right"
-                    android:text="@string/bilans_status_account_1_value"
                     android:id="@+id/bilans_status_to_return_value"
                     android:layout_column="1"
                     android:layout_weight="0.40" />
@@ -68,7 +67,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:gravity="right"
-                    android:text="@string/bilans_status_account_1_value"
                     android:id="@+id/bilans_status_to_collect_value"
                     android:layout_column="1"
                     android:layout_weight="0.40" />

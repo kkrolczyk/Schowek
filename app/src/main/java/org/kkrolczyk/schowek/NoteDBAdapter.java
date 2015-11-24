@@ -56,6 +56,18 @@ public class NoteDBAdapter extends _AbstractDBAdapter {
                 order_by);
     }
 
+
+    public Cursor getAllItemsLike(String similar) throws SQLException
+    {
+        return db.query(config.TABLE_NAME, config.DATABASE_KEYS,
+                "note like '%" + similar + "%'",
+                null,
+                null,
+                null,
+                null);
+                // "CASE WHEN note like '" + similar.toString() + "%' THEN 0 ELSE 1 END, LAST_NAME"  ??
+    }
+
     public Cursor getItem(long rowId) throws SQLException
     {
         Cursor mCursor =

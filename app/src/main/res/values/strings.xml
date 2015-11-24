@@ -34,7 +34,7 @@
 
     <string name="bilans_status_wallet_value">0.0</string>
     <string name="bilans_status_value">0.0</string>
-    <string name="bilans_status_account_1_value">0.0</string>
+    <!--<string name="bilans_status_account_1_value">0.0</string>-->
     <string name="bilans_info_add_new_or_select">Add new item name above OR select from drop down menu below</string>
 
 
@@ -49,6 +49,7 @@
     <string name="delete_successful">Delete successful.</string>
     <string name="delete_failed">Delete failed.</string>
     <string name="discarded_new_entry">Discarded adding new entry.</string>
+    <string name="show_completed">show completed</string>
 
 
     <string name="empty_or_cancelled">Empty contents or cancel has been pressed</string>
@@ -66,6 +67,7 @@
     <string name="ok">OK</string>
     <string name="pass_too_short">password too short, use at least 3 digits&#8230;</string>
     <string name="save">Save</string>
+    <string name="search">Search</string>
     <string name="set_password">Set password</string>
     <string name="sort_order">Sort order</string>
     <string name="right_now">currently:</string>
@@ -81,7 +83,7 @@
     <string name="todo_add_assigned_tags_header">Currently assigned</string>
     <string name="todo_add_available_tags_header">Available</string>
     <string name="todo_manage_tags_button">Manage tags</string>
-    <string name="todo_view_filter_displayed_tags">enter tags here to filter todo list</string>
+    <string name="filter_hint">filter this list</string>
 
     <string name="title_activity_smallitems">Small items to remember</string>
     <string name="title_activity_todo">To-Do</string>

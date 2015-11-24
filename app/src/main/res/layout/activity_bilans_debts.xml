@@ -12,9 +12,11 @@
         android:layout_height="wrap_content"
         android:id="@+id/new_debt_amount"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:hint="add menu show/dont completed"
-        android:inputType="number|numberDecimal" />
+        android:layout_alignParentLeft="true"
+        android:hint="amount"
+        android:inputType="number|numberDecimal"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -28,13 +30,25 @@
         android:layout_below="@+id/new_debt_amount"
         android:layout_alignRight="@+id/new_debt_amount" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/new_debt_descr"
+        android:hint="description"
+        android:inputType="text"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="false"
+        android:layout_weight="4.30"
+        android:layout_below="@+id/new_debt_owner"
+        android:layout_alignRight="@+id/new_debt_amount" />
+
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:id="@+id/linearLayout"
-        android:layout_below="@+id/new_debt_owner">
+        android:layout_below="@+id/new_debt_descr">
 
         <Button
             android:layout_width="wrap_content"
@@ -55,15 +69,37 @@
             android:onClick="add_debt_entry_and_finalize"/>
     </LinearLayout>
 
+    <Space
+        android:id="@+id/my_spacer"
+        android:layout_width="fill_parent"
+        android:layout_height="20dp"
+        android:layout_below="@+id/linearLayout"
+    />
+
     <FrameLayout
+        android:id="@+id/my_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/linearLayout">
+        android:layout_above="@+id/display_completed"
+        android:layout_below="@+id/my_spacer">
+
         <ListView
             android:layout_width="wrap_content"
-            android:layout_height="364dp"
+            android:layout_height="match_parent"
             android:id="@+id/previous_debts"
             android:layout_gravity="center_horizontal|bottom"/>
+
     </FrameLayout>
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/show_completed"
+        android:id="@+id/display_completed"
+        android:layout_gravity="center_horizontal|bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:checked="true"
+        android:gravity="bottom" />
 
 </RelativeLayout>

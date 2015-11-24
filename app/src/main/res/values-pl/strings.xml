@@ -12,7 +12,7 @@
     <string name="bilans_status_account_txt_2">Lunchcard / inne zasoby</string>
     <string name="bilans_status_account_txt_1">Stan konta (1)</string>
     <string name="bilans_status_wallet_txt">Stan portfela</string>
-    <string name="bilans_status_account_1_value">0.0</string>
+    <!--<string name="bilans_status_account_1_value">0.0</string>-->
     <string name="bilans_status_value">0.0</string>
     <string name="bilans_status_wallet_value">0.0</string>
     <string name="bilans_info_add_new_or_select">Dodaj nowy element powyżej bądź wybierz z listy poniżej</string>
@@ -51,6 +51,7 @@
     <string name="ok">OK</string>
     <string name="pass_too_short">hasło jest zbyt krótkie, podaj przynajmniej 3 cyfry&#8230;</string>
     <string name="save">Zapisz</string>
+    <string name="search">Szukaj</string>
     <string name="set_password">Ustaw hasło</string>
     <string name="right_now">obecnie:</string>
 
@@ -65,7 +66,7 @@
     <string name="title_activity_backup_activity_view">Menadżer kopii zapasowej</string>
     <string name="title_activity_todo_add">Do zrobienia (To-Do) - dodaj pozycję</string>
 
-    <string name="todo_view_filter_displayed_tags">podaj tagi do zawężenia wyświetlanych wyników</string>
+    <string name="filter_hint">zawęź wyniki</string>
     <string name="todo_add_assigned_tags_header">Obecnie przypisane</string>
     <string name="todo_add_available_tags_header">Wybieralne</string>
     <string name="todo_manage_tags_button">Zarządzaj tagami</string>
@@ -81,5 +82,6 @@
     <string name="modification_asc">Data modyfikacji: rosnąco</string>
     <string name="modification_desc">Data modyfikacji: malejąco</string>
     <string name="bilans_income_any">wpływy</string>
+    <string name="manage_funds">Zarządzaj statusami funduszy</string>
 
 </resources>

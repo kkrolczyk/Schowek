@@ -42,6 +42,8 @@ public class BilansView extends Activity
         super.onStart();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         showAll();
+        refreshWealthStatus();
+        refreshDebtStatus();
     }
 
 //    @Override
@@ -164,6 +166,7 @@ public class BilansView extends Activity
         }
 
         refreshWealthStatus(); // always
+        refreshDebtStatus();
     }
 
     private void refreshWealthStatus(){
@@ -189,6 +192,15 @@ public class BilansView extends Activity
             table.addView(row);
         }
         table.requestLayout();
+    }
+
+    private void refreshDebtStatus() { //TODO?
+        SharedPreferences prefs = getSharedPreferences("Account_Status_Prefs", 0);
+
+        TextView give = (TextView)findViewById(R.id.bilans_status_to_return_value);
+        TextView get = (TextView)findViewById(R.id.bilans_status_to_collect_value);
+        give.setText(Float.toString(prefs.getFloat("bilans_status_to_return_value", 0.0f)));
+        get.setText(Float.toString(prefs.getFloat("bilans_status_to_collect_value", 0.0f)));
     }
 
     public void startDebtsManager(View v){
