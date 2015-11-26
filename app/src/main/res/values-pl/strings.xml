@@ -26,8 +26,8 @@
     <string name="backup">Kopia zapasowa</string>
     <string name="backup_load">Załaduj kopię zapasową</string>
     <string name="backup_store">Utwórz kopię zapasową</string>
-    <string name="backup_target_internal">Eksportuj do pamięci urządzenia</string>
-    <string name="backup_target_external">Eksportuj na kartę pamięci</string>
+    <string name="backup_target_internal">Korzystaj z wbud. pamięci urządzenia</string>
+    <string name="backup_target_external">Korzystaj z zew. karty pamięci</string>
     <string name="backup_not_set">Nie ustawiono kierunku operacji kopii zapasowej</string>
     <string name="cancel">Anuluj</string>
     <string name="clean_all">Wyczyść tabele (!)</string>
@@ -83,5 +83,7 @@
     <string name="modification_desc">Data modyfikacji: malejąco</string>
     <string name="bilans_income_any">wpływy</string>
     <string name="manage_funds">Zarządzaj statusami funduszy</string>
+    <string name="show_completed">pokaż zakończone</string>
+    <string name="backup_db_not_found">Nie znaleziono bazy danych aplikacji!</string>
 
 </resources>

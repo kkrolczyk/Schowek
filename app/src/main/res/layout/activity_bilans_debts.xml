@@ -100,6 +100,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:checked="true"
-        android:gravity="bottom" />
+        android:gravity="bottom"
+        android:onClick="display_only_unchecked"/>
 
 </RelativeLayout>

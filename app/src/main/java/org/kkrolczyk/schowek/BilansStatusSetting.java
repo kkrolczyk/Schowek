@@ -18,38 +18,23 @@ public class BilansStatusSetting extends Activity {
 
     // TODO: on first run it should show "no accounts defined", later = for now = accounts lists will be held in shared prefs
     Set<String> account_fields;
+    //SharedPreferences prefs ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bilans_status_edit_view);
-
         account_fields = getSharedPreferences("Account_Status_Prefs", 0).getStringSet("account_fields", new HashSet<String>());
-        //String[] account_fields = prefs.getStringSet("account_fields", new String[]{});
-
-        //String[] x = new String[]{};
-        //Set<String> y = new HashSet<String>();
-        //Set account_fields = prefs.getStringSet("account_fields", y);
+        if(account_fields.isEmpty()){  // first time run or all accounts deleted.
+        // I will prepopulate it just to maintan backwards compatibility FOR THE TIME BEING
+            account_fields.add("gotowka");
+            account_fields.add("karta konto 1");
+            account_fields.add("karta lunchowa");
+            account_fields.add("bankomat");
+        }
         populate_accounts_view();
     }
-
-
-
-
-    public void reduce_wealth(String source, float amount){
-        float value = getSharedPreferences("Account_Status_Prefs", 0).getFloat(source, 0.0f);
-        getSharedPreferences("Account_Status_Prefs", 0).edit().putFloat(source, value - amount).commit();
-    }
-    public void increase_wealth(String source, float amount){
-        float value = getSharedPreferences("Account_Status_Prefs", 0).getFloat(source, 0.0f);
-        getSharedPreferences("Account_Status_Prefs", 0).edit().putFloat(source, value + amount).commit();
-    }
-    public void transfer_resources(String source, String target, float amount){
-        reduce_wealth(source, amount);
-        increase_wealth(target, amount);
-    }
-
 
     private void save_accounts_values(){
         TableLayout table = (TableLayout) findViewById(R.id.bilans_status_table);
@@ -63,7 +48,6 @@ public class BilansStatusSetting extends Activity {
             getSharedPreferences("Account_Status_Prefs", 0).edit().putFloat(name, value).commit();
         }
     }
-
 
     public void save_bilans_status(View v){
         save_accounts_values();
@@ -92,17 +76,16 @@ public class BilansStatusSetting extends Activity {
     // mayble pass args: TableLayout...table, Context...context ?
     private void populate_accounts_view(){
 
-        SharedPreferences prefs = getSharedPreferences("Account_Status_Prefs", 0);
         TableLayout table = (TableLayout) findViewById(R.id.bilans_status_table);
         // clean table, populate from zero, TODO: optimize?
         table.removeAllViews();
-        for(String name: account_fields)
+        for(String account_name: account_fields)
         {
             TableRow row = (TableRow) LayoutInflater.from(this).inflate(R.layout.activity_bilans_status_edit_row, null);
-            ((TextView)row.findViewById(R.id.attrib_name)).setText(name);
+            ((TextView)row.findViewById(R.id.attrib_name)).setText(account_name);
 
             EditText e = (EditText)row.findViewById(R.id.attrib_value);
-            e.setText(Float.toString(prefs.getFloat(name, 0.0f)));
+            e.setText(Float.toString(getSharedPreferences("Account_Status_Prefs", 0).getFloat(account_name, 0.0f)));
             //e.setTag(e); // TODO: is it right use of tags?
             table.addView(row);
         }

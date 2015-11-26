@@ -17,6 +17,7 @@
     <string name="backup_target_internal">Target: internal memory</string>
     <string name="backup_target_external">Target: external SD card</string>
     <string name="backup_not_set">Backup direction NOT selected - assuming accidental click</string>
+    <string name="backup_db_not_found">Unable to find application database!</string>
 
 
     <string name="bilans_status_account_txt_1">Account status (1)</string>
@@ -54,6 +55,7 @@
 
     <string name="empty_or_cancelled">Empty contents or cancel has been pressed</string>
     <string name="empty_input">No input!</string>
+    <string name="failed">Operation failed!</string>
     <string name="get_password">Enter password</string>
 
     <string name="manage_funds">Manage funds status</string>

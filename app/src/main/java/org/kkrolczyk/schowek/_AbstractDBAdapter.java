@@ -25,9 +25,13 @@ public abstract class _AbstractDBAdapter<T> {
         }
 
         @Override
+        public void onOpen(SQLiteDatabase db){ // TODO: this is kind of redundant - I need this only ONCE
+            db_path = db.getPath();
+        }
+
+        @Override
         public void onCreate(SQLiteDatabase db){
             tables_creator(db);
-            db_path = db.getPath();
         }
 
         @Override

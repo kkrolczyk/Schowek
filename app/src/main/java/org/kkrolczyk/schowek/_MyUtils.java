@@ -3,20 +3,16 @@ package org.kkrolczyk.schowek;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.widget.ArrayAdapter;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 
 public class _MyUtils {
@@ -100,5 +96,30 @@ public class _MyUtils {
     interface SortOrderCallback{
         void callback();
     }
+    public static boolean copy_files(File src, File dst){
+        try {
+            FileChannel source = new FileInputStream(src).getChannel();
+            FileChannel destination = new FileOutputStream(dst).getChannel();
+            destination.transferFrom(source, 0, source.size());
+            source.close();
+            destination.close();
+            return true;
+        } catch (IOException e) {
+            Log.e(TAG, "copy: " + src.toString() + " to " + dst.toString() + "\nfailed with:" + e.toString());
+            return false;
+        }
+    }
 
+    public static void copy_files_in_dirs(File src_dir, File dst_dir){
+;
+        if (! dst_dir.exists() )
+            dst_dir.mkdir();
+        File file[] = src_dir.listFiles();
+        for (int i=0; i < file.length; i++)
+        {
+            if(!copy_files(new File(src_dir, file[i].getName()), new File(dst_dir, file[i].getName())))
+//                Log.e(TAG, Resources.getSystem().getString(R.string.failed));
+                  Log.e(TAG, "COPY DIRs FAILED!");
+        }
+    }
 }

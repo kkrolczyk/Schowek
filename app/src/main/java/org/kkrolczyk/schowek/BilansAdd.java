@@ -29,11 +29,13 @@ import android.widget.Toast;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class BilansAdd extends Activity {
 
@@ -77,7 +79,7 @@ public class BilansAdd extends Activity {
 
     public void bilans_finalize_this_shopping_list(View v){
 
-        if (current_shopping_list != null) {
+        if (current_shopping_list != null && current_shopping_list_adapter.getSumOfElements() > 0) {
             Intent intent = this.getIntent();
             intent.putExtra("date", data_field.getText().toString());
             intent.putExtra("time", time_field.getText().toString());
@@ -93,7 +95,13 @@ public class BilansAdd extends Activity {
 
             RadioGroup temporary = (RadioGroup) findViewById(R.id.bilans_selected_method);
             intent.putExtra("parametry", temporary.indexOfChild(temporary.findViewById(temporary.getCheckedRadioButtonId())));
+            try {
+                intent.putExtra("konto_nazwa", ((RadioButton) (temporary.findViewById(temporary.getCheckedRadioButtonId()))).getText().toString());
+            } catch (NullPointerException e) {
 
+                Toast.makeText(getBaseContext(), "FORGOT to select type..assumed CASH", Toast.LENGTH_SHORT).show();
+                intent.putExtra("konto_nazwa", "gotowka");
+            }
             this.setResult(RESULT_OK, intent);
             finish();
         }
@@ -160,7 +168,16 @@ public class BilansAdd extends Activity {
         RadioGroup temporary = (RadioGroup) findViewById(R.id.bilans_selected_method);
         SharedPreferences prefs = getSharedPreferences("Account_Status_Prefs", 0);
 
-        for(String name: prefs.getStringSet("account_fields", new HashSet<String>()))
+        Set<String> str = prefs.getStringSet("account_fields", new HashSet<String>());
+
+        // force order for backwards compatibility
+        String el[] = {"gotowka", "karta konto 1", "karta lunchowa", "bankomat"}; //bankomat should NOT be even here...
+        List<String> temp;
+        if(str.containsAll(Arrays.asList(el)))
+            temp = new ArrayList<String>(Arrays.asList(el));
+        else
+            temp = new ArrayList<String>(str);
+        for(String name: temp)
         {
             RadioButton rb = (RadioButton) LayoutInflater.from(this).inflate(R.layout.activity_bilans_add_radiobutton, null);
             rb.setText(name);

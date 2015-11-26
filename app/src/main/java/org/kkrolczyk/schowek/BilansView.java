@@ -30,6 +30,7 @@ public class BilansView extends Activity
     final String TAG = "S_BilansView";
     BilansDBAdapter db = new BilansDBAdapter(this);
     SimpleCursorAdapter dataAdapter;
+    BilansSharedPrefsHandler status_disp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,17 +42,12 @@ public class BilansView extends Activity
     protected void onStart() {
         super.onStart();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
+        status_disp = BilansSharedPrefsHandler.getInstance(this);
+
         showAll();
         refreshWealthStatus();
         refreshDebtStatus();
     }
-
-//    @Override
-//    protected void onRestart() {
-//        super.onRestart();
-//        Log.i(TAG,"DB on RE start"); //after pause and after activity for result has returned...
-//    }
-
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////   MENU   ///////////////////////////////////////////////////////
@@ -78,17 +74,10 @@ public class BilansView extends Activity
             case R.id.manage_funds:
                 startActivityForResult(new Intent(BilansView.this, BilansStatusSetting.class), 1);
                 break;
-
-
-/*
-	TODO: check for possibility to chain/join/combine xml menus
-    TODO: manage recurring funds (ie set monthly incomes/payments)
-
-			bilans_status_wallet_value: displays current cash in wallet
-			bilans_status_account1_value: displays current cash in account1         
-	        Log.e(TAG, "not implemented yet");
-                break;
-*/
+                                                /*
+                                                    TODO: check for possibility to chain/join/combine xml menus
+                                                    TODO: manage recurring funds (ie set monthly incomes/payments)
+                                                */
             default:
                 Log.e (TAG, "MENU = WTF?");
         }
@@ -143,19 +132,19 @@ public class BilansView extends Activity
                 case 0: // activity responsible for adding/editing bilans entry
                     String timestamp = intent.getStringExtra("date") + " " + intent.getStringExtra("time");
                     int parametry = intent.getIntExtra("parametry", 0);
-                    String kwota = String.valueOf(intent.getDoubleExtra("shopping_sum", 0.0));
+                    double kwota = intent.getDoubleExtra("shopping_sum", 0.0);
+                    String kwota_s = String.valueOf(kwota);
                     String tytul = intent.getStringExtra("category");
                     String szczegoly = intent.getStringExtra("items_serialized");
-                    PutItem(timestamp, kwota, parametry, tytul, szczegoly);
-
+                    PutItem(timestamp, kwota_s, parametry, tytul, szczegoly);
+                    updateSingleAccount(kwota, intent.getStringExtra("konto_nazwa"));
                     break;
                 case 1:
                     // activity responsible for setting current status of wallet/account etc has returned. No action needed.
                     break;
                 case 2:
                     // activity responsible for setting debt/loans used in view's status
-                    Toast.makeText(getApplicationContext(),
-                            "Activity debt manager returned successfully. Remove this", Toast.LENGTH_LONG).show();
+                    Log.d(TAG, "TODO: Probably should handle 'failed' exit status."); //TODO
                     break;
                 default:
                     Log.e(TAG, "WRONG REQUEST CODE TO START ACTIVITY FOR RESULT ?");
@@ -164,21 +153,31 @@ public class BilansView extends Activity
             Toast.makeText(getApplicationContext(),
                     getString(R.string.empty_or_cancelled), Toast.LENGTH_LONG).show();
         }
-
         refreshWealthStatus(); // always
         refreshDebtStatus();
     }
 
+    private void updateSingleAccount(double amount, String account_name) {
+        // ok nasty hack here. Currently account have no idea which direction money flows.
+        // so for now - hardcoded for backwards compatiblility
+        if (account_name.equals("bankomat")){
+            status_disp.transfer_resources("karta konto 1", "gotowka", (float) amount); // TODO: remove hardcoded account names...crashes if names dont match
+        }
+        else {
+            status_disp.reduce_wealth(account_name, (float) amount);
+        }
+    }
+
     private void refreshWealthStatus(){
 
+        // TODO: use BilansStatusSetting class to reduce duplication.
+        SharedPreferences prefs = getSharedPreferences("Account_Status_Prefs", 0);
         // todo, push to class item
-        Set<String> account_fields = getSharedPreferences("Account_Status_Prefs", 0).getStringSet("account_fields", new HashSet<String>());
+        Set<String> account_fields = prefs.getStringSet("account_fields", new HashSet<String>());
         // to remember :
         // - getSharedPreferences("Account_Status_Prefs", 0) => "named" prefs
         // - getPreferences(0) => preferences per Activity
 
-        // TODO: use BilansStatusSetting class to reduce duplication.
-        SharedPreferences prefs = getSharedPreferences("Account_Status_Prefs", 0);
         TableLayout table = (TableLayout) findViewById(R.id.bilans_view_statuses_table);
         table.removeAllViews(); // TODO: For now this empties table, and generates rows from start. Optimize.
         for(String name: account_fields)
