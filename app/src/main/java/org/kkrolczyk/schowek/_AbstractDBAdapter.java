@@ -69,8 +69,8 @@ public abstract class _AbstractDBAdapter<T> {
         tables_creator(db);
     }
 
-    protected void Backup(){
-        Intent intent = new Intent(context, _BackupActivityView.class);
+    public void Backup(){
+        Intent intent = new Intent(context, BackupActivityView.class);
         intent.putExtra("dbname", (configs.get(0)).DBASE_NAME);
         intent.putExtra("dbpath", db_path);
         context.startActivity(intent);

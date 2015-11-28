@@ -1,6 +1,9 @@
-package org.kkrolczyk.schowek;
+package org.kkrolczyk.schowek.Bilans;
 
 import android.util.Pair;
+
+import org.kkrolczyk.schowek._AbstractConfig;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;

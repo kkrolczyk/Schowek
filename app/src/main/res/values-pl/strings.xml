@@ -12,7 +12,6 @@
     <string name="bilans_status_account_txt_2">Lunchcard / inne zasoby</string>
     <string name="bilans_status_account_txt_1">Stan konta (1)</string>
     <string name="bilans_status_wallet_txt">Stan portfela</string>
-    <!--<string name="bilans_status_account_1_value">0.0</string>-->
     <string name="bilans_status_value">0.0</string>
     <string name="bilans_status_wallet_value">0.0</string>
     <string name="bilans_info_add_new_or_select">Dodaj nowy element powyżej bądź wybierz z listy poniżej</string>
@@ -23,12 +22,14 @@
     <string name="bilans_view_filter_displayed_category_hint">pokaż tylko kategorię&#8230;</string>
     <string name="bilans_status_debts_plus">Do odbioru</string>
     <string name="bilans_status_debts_minus">Do zwrotu</string>
+    <string name="bilans_income_any">wpływy</string>
     <string name="backup">Kopia zapasowa</string>
     <string name="backup_load">Załaduj kopię zapasową</string>
     <string name="backup_store">Utwórz kopię zapasową</string>
     <string name="backup_target_internal">Korzystaj z wbud. pamięci urządzenia</string>
     <string name="backup_target_external">Korzystaj z zew. karty pamięci</string>
     <string name="backup_not_set">Nie ustawiono kierunku operacji kopii zapasowej</string>
+    <string name="backup_db_not_found">Nie znaleziono bazy danych aplikacji!</string>
     <string name="cancel">Anuluj</string>
     <string name="clean_all">Wyczyść tabele (!)</string>
     <string name="content_encrypted">Tresc zaszyfrowana\n</string>
@@ -37,16 +38,24 @@
     <string name="delete_failed">Usuwanie się nie powiodło.</string>
     <string name="delete_successful">Usuwanie się powiodło.</string>
     <string name="debts_button_txt">Pożyczki</string>
+    <string name="debts_borrow_in">pożycz (+)</string>
+    <string name="debts_lend_out">pożycz (-)</string>
+    <string name="debts_who">osoba</string>
+    <string name="debts_amount">kwota</string>
+    <string name="debts_description">opis</string>
     <string name="discarded_new_entry">Zrezygnowano z dodawania.</string>
     <string name="empty_or_cancelled">Brak treści lub wciśnięto anuluj.</string>
     <string name="empty_input">Wypełnij wymagane pola</string>
+    <string name="failed">Operacja się nie powiodła</string>
     <string name="get_password">Podaj hasło</string>
     <string name="login">Zaloguj</string>
     <string name="language">Język</string>
     <string name="language_pl">Polski</string>
     <string name="language_en">Angielski</string>
+    <string name="manage_funds">Zarządzaj statusami funduszy</string>
     <string name="not_found">Element nie znaleziony</string>
     <string name="not_logged">Nie zalogowano.</string>
+    <string name="show_completed">pokaż zakończone</string>
     <string name="sort_order">Porządek sortowania</string>
     <string name="ok">OK</string>
     <string name="pass_too_short">hasło jest zbyt krótkie, podaj przynajmniej 3 cyfry&#8230;</string>
@@ -65,6 +74,8 @@
     <string name="title_activity_todo">Do zrobienia (To-Do)</string>
     <string name="title_activity_backup_activity_view">Menadżer kopii zapasowej</string>
     <string name="title_activity_todo_add">Do zrobienia (To-Do) - dodaj pozycję</string>
+    <string name="title_activity_bilans_debts">Zarządzanie pożyczkami</string>
+    <string name="title_activity_bilans_status_setting">Ustawianie stanu kont</string>
 
     <string name="filter_hint">zawęź wyniki</string>
     <string name="todo_add_assigned_tags_header">Obecnie przypisane</string>
@@ -81,9 +92,5 @@
     <string name="creation_desc">Data utworzenia: malejąco</string>
     <string name="modification_asc">Data modyfikacji: rosnąco</string>
     <string name="modification_desc">Data modyfikacji: malejąco</string>
-    <string name="bilans_income_any">wpływy</string>
-    <string name="manage_funds">Zarządzaj statusami funduszy</string>
-    <string name="show_completed">pokaż zakończone</string>
-    <string name="backup_db_not_found">Nie znaleziono bazy danych aplikacji!</string>
 
 </resources>

@@ -8,8 +8,8 @@ public abstract class _AbstractConfig {
 
     public String TABLE_DROP;
     public String TABLE_CREATE;
+    public String TABLE_NAME;            // virtual - filled by subclasses
     protected String tb_preconfiguration;   // virtual - filled by subclasses
-    protected String TABLE_NAME;            // virtual - filled by subclasses
     protected String DBASE_NAME;            // virtual - filled by subclasses
     public String [] DATABASE_KEYS;         // Sqlite api requires String[]
 

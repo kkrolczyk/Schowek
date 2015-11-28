@@ -93,7 +93,7 @@ public class _MyUtils {
         builder.show();
     }
 
-    interface SortOrderCallback{
+    public interface SortOrderCallback{
         void callback();
     }
     public static boolean copy_files(File src, File dst){

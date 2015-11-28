@@ -24,40 +24,40 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".NoteView"
+            android:name=".Notes.NoteView"
             android:label="@string/title_activity_notes_view" >
         </activity>
         <activity
-            android:name=".NoteAdd"
+            android:name=".Notes.NoteAdd"
             android:label="@string/title_activity_notes_add" >
         </activity>
         <activity
-            android:name=".BilansView"
+            android:name=".Bilans.BilansView"
             android:label="@string/title_activity_bilans_view" >
         </activity>
         <activity
-            android:name=".BilansAdd"
+            android:name=".Bilans.BilansAdd"
             android:label="@string/title_activity_bilans_add" >
         </activity>
         <activity
-            android:name=".TodoView"
+            android:name=".Todos.TodoView"
             android:label="@string/title_activity_todo" >
         </activity>
         <activity
-            android:name=".TodoAdd"
+            android:name=".Todos.TodoAdd"
             android:label="@string/title_activity_todo_add" >
         </activity>
         <activity
-            android:name="._BackupActivityView"
+            android:name=".BackupActivityView"
             android:label="@string/title_activity_backup_activity_view" >
         </activity>
         <activity
-            android:name=".BilansStatusSetting"
-            android:label="HARDCODED TITLE 1" >
+            android:name=".Bilans.BilansStatusSetting"
+            android:label="@string/title_activity_bilans_status_setting" >
         </activity>
         <activity
-            android:name=".BilansDebtMgr"
-            android:label="HARDCODED TITLE 2" >
+            android:name=".Bilans.BilansDebtMgr"
+            android:label="@string/title_activity_bilans_debts" >
         </activity>
     </application>
 

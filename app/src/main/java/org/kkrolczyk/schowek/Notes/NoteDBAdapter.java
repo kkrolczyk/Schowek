@@ -1,9 +1,12 @@
-package org.kkrolczyk.schowek;
+package org.kkrolczyk.schowek.Notes;
 
 import android.content.Context;
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.SQLException;
+
+import org.kkrolczyk.schowek._AbstractDBAdapter;
+import org.kkrolczyk.schowek._MyUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;

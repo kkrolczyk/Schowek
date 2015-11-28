@@ -35,7 +35,9 @@
 
     <string name="bilans_status_wallet_value">0.0</string>
     <string name="bilans_status_value">0.0</string>
-    <!--<string name="bilans_status_account_1_value">0.0</string>-->
+    <string name="bilans_new_cash_container">0.0</string>
+
+
     <string name="bilans_info_add_new_or_select">Add new item name above OR select from drop down menu below</string>
 
 
@@ -45,6 +47,11 @@
 
 
     <string name="debts_button_txt">Debts:borrowed/lend</string>
+    <string name="debts_borrow_in">borrow</string>
+    <string name="debts_lend_out">lend</string>
+    <string name="debts_who">who</string>
+    <string name="debts_amount">amount</string>
+    <string name="debts_description">description</string>
     <string name="delete_question">Delete?</string>
     <string name="delete_confirm">Are you sure you want to delete:</string>
     <string name="delete_successful">Delete successful.</string>
@@ -81,6 +88,10 @@
     <string name="title_activity_notes_view">Notes View</string>
     <string name="title_activity_notes_add">Add/Edit note</string>
     <string name="title_activity_backup_activity_view">BackupActivityView</string>
+    <string name="title_activity_bilans_debts">Debts mgr</string>
+    <string name="title_activity_bilans_status_setting">Setting accounts</string>
+
+
 
     <string name="todo_add_assigned_tags_header">Currently assigned</string>
     <string name="todo_add_available_tags_header">Available</string>

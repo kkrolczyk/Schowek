@@ -1,4 +1,4 @@
-package org.kkrolczyk.schowek;
+package org.kkrolczyk.schowek.Bilans;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -20,6 +20,9 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.kkrolczyk.schowek.R;
+import org.kkrolczyk.schowek._MyUtils;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -165,6 +168,7 @@ public class BilansView extends Activity
         }
         else {
             status_disp.reduce_wealth(account_name, (float) amount);
+            Log.e(TAG, account_name + " " + amount);
         }
     }
 
@@ -285,8 +289,8 @@ public class BilansView extends Activity
     }
 
 
-    public void UpdateItem(long id, String timestamp, String kasa, 
-                           int parametry, String tytul, String szczegoly) 
+    public void UpdateItem(long id, String timestamp, String kasa,
+                           int parametry, String tytul, String szczegoly)
     {
         db.open();
 

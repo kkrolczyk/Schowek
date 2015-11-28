@@ -31,6 +31,10 @@ Thumbs.db
 .gradle
 build/
 
+# gradle and android studio iml files
+gradle*
+*.iml
+
 /*/out
 /*/*/build
 /*/*/production

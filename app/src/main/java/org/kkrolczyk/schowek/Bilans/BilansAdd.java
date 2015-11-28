@@ -1,4 +1,4 @@
-package org.kkrolczyk.schowek;
+package org.kkrolczyk.schowek.Bilans;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,8 +10,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -25,6 +23,8 @@ import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import org.kkrolczyk.schowek.R;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
@@ -152,7 +152,6 @@ public class BilansAdd extends Activity {
             shopping_items_for_category_lv.setAdapter(current_shopping_list_adapter);
 
             // TODO: click - long click delete/edit item ? In case of temporary price change?
-            
             // TODO: check - this is probably code that never runs
             shopping_items_for_category_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 public void onItemClick(AdapterView<?> parent, View view,

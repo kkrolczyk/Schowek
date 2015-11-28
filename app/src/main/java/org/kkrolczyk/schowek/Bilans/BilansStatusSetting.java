@@ -1,4 +1,4 @@
-package org.kkrolczyk.schowek;
+package org.kkrolczyk.schowek.Bilans;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import org.kkrolczyk.schowek.R;
 
 import java.util.HashSet;
 import java.util.Set;

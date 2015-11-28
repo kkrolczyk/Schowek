@@ -1,10 +1,9 @@
-package org.kkrolczyk.schowek;
+package org.kkrolczyk.schowek.Bilans;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +14,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.io.File;
+import org.kkrolczyk.schowek.R;
+import org.kkrolczyk.schowek._MyUtils;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;

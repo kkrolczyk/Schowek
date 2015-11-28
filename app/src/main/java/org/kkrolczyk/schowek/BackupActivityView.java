@@ -17,7 +17,7 @@ import java.io.FileOutputStream;
 import java.nio.channels.FileChannel;
 import java.util.Arrays;
 
-public class _BackupActivityView extends Activity {
+public class BackupActivityView extends Activity {
 
     private String dbname;
     private String dbpath;

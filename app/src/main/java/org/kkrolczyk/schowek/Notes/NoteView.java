@@ -1,4 +1,4 @@
-package org.kkrolczyk.schowek;
+package org.kkrolczyk.schowek.Notes;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -22,6 +22,9 @@ import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import org.kkrolczyk.schowek.R;
+import org.kkrolczyk.schowek._MyUtils;
 
 public class NoteView extends Activity {
 

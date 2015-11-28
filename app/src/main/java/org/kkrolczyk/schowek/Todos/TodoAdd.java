@@ -1,4 +1,4 @@
-package org.kkrolczyk.schowek;
+package org.kkrolczyk.schowek.Todos;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -11,6 +11,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+
+import org.kkrolczyk.schowek.R;
 
 import java.util.ArrayList;
 

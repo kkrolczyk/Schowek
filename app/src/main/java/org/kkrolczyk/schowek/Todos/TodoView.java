@@ -1,4 +1,4 @@
-package org.kkrolczyk.schowek;
+package org.kkrolczyk.schowek.Todos;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import org.kkrolczyk.schowek.R;
 
 import java.util.ArrayList;
 
@@ -74,7 +76,7 @@ public class TodoView extends Activity
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
     public void prepare_intent(int request_code, long invoking_id)
-    {    
+    {
         Intent intent = new Intent(TodoView.this, TodoAdd.class);
         if (invoking_id > 0) {
             intent.putExtra("item_id", invoking_id);

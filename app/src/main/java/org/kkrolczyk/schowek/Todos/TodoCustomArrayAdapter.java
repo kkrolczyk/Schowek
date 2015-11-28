@@ -1,4 +1,4 @@
-package org.kkrolczyk.schowek;
+package org.kkrolczyk.schowek.Todos;
 
 import android.content.Context;
 import android.util.Pair;
@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
+
+import org.kkrolczyk.schowek.R;
 
 import java.util.List;
 

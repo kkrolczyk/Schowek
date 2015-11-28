@@ -9,6 +9,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 
+import org.kkrolczyk.schowek.Bilans.BilansView;
+import org.kkrolczyk.schowek.Notes.NoteView;
+import org.kkrolczyk.schowek.Todos.TodoView;
+
 import java.util.Locale;
 
 public class _MainActivity extends Activity {

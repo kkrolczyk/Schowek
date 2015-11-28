@@ -1,10 +1,12 @@
-package org.kkrolczyk.schowek;
+package org.kkrolczyk.schowek.Todos;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.util.Log;
+
+import org.kkrolczyk.schowek._AbstractDBAdapter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -185,8 +187,8 @@ public class TodoDBAdapter extends _AbstractDBAdapter {
 
     public boolean removeRelation(long item_id, long tag_id)
     {
-        return db.delete(configs.get(2).TABLE_NAME, "mtag_id = " 
-                                                    + tag_id + " AND mitem_id = " 
+        return db.delete(configs.get(2).TABLE_NAME, "mtag_id = "
+                                                    + tag_id + " AND mitem_id = "
                                                     + item_id, null
                         ) > 0;
     }
