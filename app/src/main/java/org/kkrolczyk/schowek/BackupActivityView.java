@@ -7,14 +7,10 @@ import android.os.Environment;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.nio.channels.FileChannel;
 import java.util.Arrays;
 
 public class BackupActivityView extends Activity {
@@ -78,7 +74,7 @@ public class BackupActivityView extends Activity {
                 String curDBlocations[] = { dbpath,
                                             dbpath + "//" + dbname,
                                             getBaseContext().getDatabasePath(dbname).getPath(),
-                                            "//data//"+_MyUtils.class.getPackage().getName()+"//databases//" };
+                                            "//data//"+Utils.class.getPackage().getName()+"//databases//" };
 
                 String backupDir;
                 if (backup_target == db_copy_location.EXTERNAL.ordinal()){ // TODO: NO!
@@ -106,7 +102,7 @@ public class BackupActivityView extends Activity {
                     source_fp = new File(appDBpath);
                     target_fp = new File(backupDir);
                 }
-                if(_MyUtils.copy_files(source_fp, target_fp))
+                if(Utils.copy_files(source_fp, target_fp))
                     Toast.makeText(getBaseContext(), getString(R.string.ok), Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(getBaseContext(), getString(R.string.failed), Toast.LENGTH_SHORT).show();

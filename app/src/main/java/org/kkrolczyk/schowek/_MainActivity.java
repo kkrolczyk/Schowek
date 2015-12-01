@@ -9,9 +9,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
 
-import org.kkrolczyk.schowek.Bilans.BilansView;
-import org.kkrolczyk.schowek.Notes.NoteView;
-import org.kkrolczyk.schowek.Todos.TodoView;
+import org.kkrolczyk.schowek.modules.Bilans.BilansView;
+import org.kkrolczyk.schowek.modules.Notes.NoteView;
+import org.kkrolczyk.schowek.modules.Todos.TodoView;
 
 import java.util.Locale;
 
